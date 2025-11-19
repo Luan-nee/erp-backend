@@ -1,40 +1,102 @@
-INSERT INTO productos (nombre, descripcion, precio, stock, categoria, imagen_url, activo) VALUES
-('Laptop Dell XPS 13', 'Laptop ultraportátil con procesador Intel Core i7, 16GB RAM, 512GB SSD', 1299.99, 15, 'Electrónica', 'https://example.com/img/laptop-dell.jpg', TRUE),
+USE `erp_app`;
 
-('iPhone 14 Pro', 'Smartphone Apple con pantalla Super Retina XDR de 6.1 pulgadas, chip A16 Bionic', 999.00, 25, 'Electrónica', 'https://example.com/img/iphone14.jpg', TRUE),
+-- tipos_tax
+INSERT INTO tipos_tax (nombre, codigo_sunat, porcentaje_tax) VALUES
+('Gravado - Operación Onerosa', '10', 0.18),
+('Exonerado - Operación Onerosa', '20', 0),
+('Exonerado - Transferencia gratuita', '21', 0),
+('Inafecto - Operación Onerosa', '30', 0),
+('Exportación de Bienes o Servicios', '40', 0);
 
-('Auriculares Sony WH-1000XM5', 'Auriculares inalámbricos con cancelación de ruido líder en la industria', 349.99, 40, 'Audio', 'https://example.com/img/sony-headphones.jpg', TRUE),
+-- estados_doc_facturacion
+INSERT INTO estados_doc_facturacion (codigo, nombre) VALUES
+('01', 'Registrado en servidor factpro (Se puede editar el comprobante)'),
+('03', 'Enviado pero sin respuesta de la sunat'),
+('05', 'Aceptado ante la sunat'),
+('09', 'Rechazado ante la sunat'),
+('11', 'Anulado ante la sunat'),
+('13', 'Por anular'),
+('19', 'Sin respuesta de la sunat');
 
-('Smart TV Samsung 55"', 'Televisor 4K UHD con tecnología QLED y sistema operativo Tizen', 799.00, 12, 'Electrónica', 'https://example.com/img/tv-samsung.jpg', TRUE),
+-- tipos_doc_facturacion
+INSERT INTO `tipos_doc_facturacion` (`nombre`) VALUES 
+('boleta'), 
+('factura');
 
-('PlayStation 5', 'Consola de videojuegos de última generación con soporte 4K y 120fps', 499.99, 8, 'Gaming', 'https://example.com/img/ps5.jpg', TRUE),
+-- metodos_pago
+INSERT INTO `metodos_pago` (`nombre`, `estaActivado`) VALUES 
+('Yape', FALSE),
+('Plin', FALSE);
 
-('Teclado Mecánico Logitech G915', 'Teclado gaming inalámbrico con switches mecánicos GL y RGB', 229.99, 30, 'Accesorios', 'https://example.com/img/teclado-logitech.jpg', TRUE),
+-- colores
+INSERT INTO colores (nombre, hex) VALUES
+('Rojo', '#FF0000'),
+('Azul', '#0000FF'),
+('Verde', '#008000'),
+('Amarillo', '#FFFF00');
 
-('Mouse Razer DeathAdder V3', 'Mouse gaming ergonómico con sensor óptico de 30000 DPI', 69.99, 50, 'Accesorios', 'https://example.com/img/mouse-razer.jpg', TRUE),
+-- categorias 
+INSERT INTO categorias (nombre, descripcion) VALUES
+('Electrónica', 'Dispositivos y accesorios tecnológicos como laptops, móviles y audífonos.'),
+('Ropa y Moda', 'Artículos de vestimenta, calzado y accesorios personales.'),
+('Hogar y Jardín', 'Muebles, decoración, herramientas y artículos para el cuidado del hogar y exteriores.'),
+('Libros y Medios', 'Ficción, no ficción, revistas y contenido multimedia digital o físico.');
 
-('Monitor LG UltraWide 34"', 'Monitor curvo ultrawide con resolución 3440x1440 y frecuencia 144Hz', 599.00, 10, 'Monitores', 'https://example.com/img/monitor-lg.jpg', TRUE),
+-- marcas
+INSERT INTO marcas (nombre, descripcion) VALUES
+('TechNova', 'Líder en innovación de hardware y software para el mercado global.'),
+('FashionTrend', 'Marca especializada en ropa urbana, calzado y accesorios de alta calidad.'),
+('HomeBliss', 'Ofrece soluciones prácticas y estéticas para la decoración y organización del hogar.'),
+('GourmetDelight', 'Empresa de alimentos premium, especializada en productos orgánicos y delicatessen.');
 
-('Tablet iPad Air', 'Tablet Apple con chip M1, pantalla Liquid Retina de 10.9 pulgadas', 599.00, 20, 'Electrónica', 'https://example.com/img/ipad-air.jpg', TRUE),
+-- estados_transferencias_inventarios
+INSERT INTO `estados_transferencias_inventarios` (`nombre`) VALUES 
+('Solicitando'),
+('Finalizada'),
+('Rechazado');
 
-('Cámara Canon EOS R6', 'Cámara mirrorless full frame de 20.1 MP con estabilización de imagen', 2499.00, 5, 'Fotografía', 'https://example.com/img/canon-r6.jpg', TRUE),
+-- 
+INSERT INTO permisos (codigo, nombre) VALUES
+('VIEW_DASH', 'Ver Dashboard'),
+('MANAGE_USERS', 'Gestionar Usuarios'),
+('EDIT_PRODUCTS', 'Editar Productos'),
+('VIEW_REPORTS', 'Ver Reportes Financieros'),
+('CREATE_INVOICE', 'Crear Facturas'),
+('ANULAR_DOC', 'Anular Documentos');
 
-('Impresora HP LaserJet Pro', 'Impresora láser monocromática con impresión dúplex automática', 199.99, 18, 'Oficina', 'https://example.com/img/impresora-hp.jpg', TRUE),
+-- 
+INSERT INTO roles (codigo, nombre) VALUES
+('ADMIN', 'Administrador del Sistema'),
+('EMPLOYEE', 'Empleado de Ventas'),
+('MANAGER', 'Gerente de Sucursal'),
+('ACCOUNTANT', 'Contador');
 
-('Disco Duro Externo Seagate 2TB', 'Disco duro portátil USB 3.0 de 2TB para almacenamiento de datos', 79.99, 60, 'Almacenamiento', 'https://example.com/img/disco-seagate.jpg', TRUE),
 
-('Router WiFi 6 TP-Link', 'Router mesh de doble banda con tecnología WiFi 6 y velocidad hasta 3 Gbps', 149.99, 35, 'Redes', 'https://example.com/img/router-tplink.jpg', TRUE),
 
-('Webcam Logitech C920', 'Cámara web Full HD 1080p con micrófono estéreo incorporado', 79.99, 45, 'Accesorios', 'https://example.com/img/webcam-logitech.jpg', TRUE),
+--- NECESITAMOS REVISAR DETALLADAMENTE ESTOS INSERTS YA QUE DEBEN COINCIDIR CON LOS IDS CREADOS PREVIAMENTE EN LA TABLA ROLES Y PERMISOS
+-- 
+INSERT INTO roles_permisos (rol_id, permiso_id) VALUES
+-- Permisos para Administrador (rol_id = 1)
+(1, (SELECT id FROM permisos WHERE codigo = 'VIEW_DASH')),
+(1, (SELECT id FROM permisos WHERE codigo = 'MANAGE_USERS')),
+(1, (SELECT id FROM permisos WHERE codigo = 'EDIT_PRODUCTS')),
+(1, (SELECT id FROM permisos WHERE codigo = 'VIEW_REPORTS')),
+(1, (SELECT id FROM permisos WHERE codigo = 'CREATE_INVOICE')),
+(1, (SELECT id FROM permisos WHERE codigo = 'ANULAR_DOC')),
 
-('Smartwatch Apple Watch Series 8', 'Reloj inteligente con sensor de temperatura y detección de accidentes', 399.00, 22, 'Wearables', 'https://example.com/img/apple-watch.jpg', TRUE),
+-- Permisos para Empleado de Ventas (rol_id = 2)
+(2, (SELECT id FROM permisos WHERE codigo = 'VIEW_DASH')),
+(2, (SELECT id FROM permisos WHERE codigo = 'CREATE_INVOICE')),
+(2, (SELECT id FROM permisos WHERE codigo = 'ANULAR_DOC')),
 
-('Bocina Bluetooth JBL Flip 6', 'Altavoz portátil resistente al agua con 12 horas de reproducción', 129.99, 55, 'Audio', 'https://example.com/img/jbl-flip6.jpg', TRUE),
+-- Permisos para Gerente de Sucursal (rol_id = 3)
+(3, (SELECT id FROM permisos WHERE codigo = 'VIEW_DASH')),
+(3, (SELECT id FROM permisos WHERE codigo = 'MANAGE_USERS')),
+(3, (SELECT id FROM permisos WHERE codigo = 'VIEW_REPORTS')),
 
-('Silla Gamer Secretlab Titan', 'Silla ergonómica para gaming con soporte lumbar ajustable', 449.00, 14, 'Muebles', 'https://example.com/img/silla-secretlab.jpg', TRUE),
+-- Permisos para Contador (rol_id = 4)
+(4, (SELECT id FROM permisos WHERE codigo = 'VIEW_DASH')),
+(4, (SELECT id FROM permisos WHERE codigo = 'VIEW_REPORTS'));
 
-('Micrófono Blue Yeti', 'Micrófono USB profesional para streaming y podcasting', 129.99, 28, 'Audio', 'https://example.com/img/micro-blue-yeti.jpg', TRUE),
 
-('SSD Samsung 970 EVO Plus 1TB', 'Unidad de estado sólido NVMe M.2 con velocidades de hasta 3500 MB/s', 139.99, 42, 'Almacenamiento', 'https://example.com/img/ssd-samsung.jpg', TRUE),
 
-('Teclado Inalámbrico Apple Magic', 'Teclado compacto con diseño minimalista y batería recargable', 99.00, 33, 'Accesorios', 'https://example.com/img/teclado-apple.jpg', TRUE);
