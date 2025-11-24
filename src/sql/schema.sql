@@ -42,22 +42,12 @@ COMMENT = "
   * `FOREIGN KEY (tipo_documento_id)` se refiere a la columna **id** de la tabla de tipos de documento (`t_tipo_documento_identificacion` u otra tabla de catálogo).
 ";
 
--- CREATE TABLE `clientes` (
---   `id` INT PRIMARY KEY AUTO_INCREMENT,
---   `tipo_documento_id` INT NOT NULL,
---   `numero_documento` VARCHAR(20),
---   `denominacion` VARCHAR(255) NOT NULL,
---   `direccion` VARCHAR(255),
---   `correo` VARCHAR(100),
---   `telefono` VARCHAR(20),
---   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP)
--- );
-
 CREATE TABLE `colores` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `nombre` VARCHAR(100) NOT NULL,
-  `hex` VARCHAR(7)
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único del color. Clave primaria.',
+  `nombre` VARCHAR(100) NOT NULL COMMENT 'Nombre legible del color (ej. Rojo, Azul Zafiro).',
+  `hex` VARCHAR(7) COMMENT 'Código hexadecimal del color (ej. #FF0000 para rojo).'
+) 
+COMMENT = 'Almacena una lista de colores disponibles para ser usados en productos o interfaces.';
 
 CREATE TABLE `cuentas_usuario` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
