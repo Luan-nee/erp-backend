@@ -12,14 +12,6 @@ CREATE TABLE `categorias` (
 COMMENT = "
   **Propósito:** Almacena las categorías principales bajo las cuales se clasificarán los productos en el sistema.
 
-  | Columna | Tipo de Dato | Restricciones | Comentario / Descripción |
-  | :--- | :--- | :--- | :--- |
-  | **id** | `INT` | `PRIMARY KEY`, `AUTO_INCREMENT` | Identificador único de la categoría. Es la clave primaria. |
-  | **nombre** | `VARCHAR(255)` | `NOT NULL` | Nombre descriptivo y corto de la categoría (ej. Electrónica). |
-  | **descripcion** | `TEXT` | `NULL` | Descripción detallada sobre el tipo de productos que abarca esta categoría. |
-
-  ---
-
   ### Valores Insertados
 
   A continuación, se listan las categorías iniciales que se han insertado en la tabla:
