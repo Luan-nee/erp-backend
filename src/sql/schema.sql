@@ -47,7 +47,20 @@ CREATE TABLE `colores` (
   `nombre` VARCHAR(100) NOT NULL COMMENT 'Nombre legible del color (ej. Rojo, Azul Zafiro).',
   `hex` VARCHAR(7) COMMENT 'Código hexadecimal del color (ej. #FF0000 para rojo).'
 ) 
-COMMENT = 'Almacena una lista de colores disponibles para ser usados en productos o interfaces.';
+COMMENT = "
+  **Propósito:** Almacena una lista de colores disponibles para ser usados en productos o interfaces.
+
+  ### Valores Insertados
+
+  A continuación, se listan los colores iniciales que se han insertado en la tabla:
+
+  | id | nombre | hex |
+  | :---: | :--- | :---: |
+  | 1 | Rojo | #FF0000 |
+  | 2 | Azul | #0000FF |
+  | 3 | Verde | #008000 |
+  | 4 | Amarillo | #FFFF00 |
+";
 
 CREATE TABLE `cuentas_usuario` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
