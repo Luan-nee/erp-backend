@@ -130,21 +130,28 @@ COMMENT = "
 ";
 
 CREATE TABLE `docs_ventas` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `exito` BOOLEAN NOT NULL COMMENT 'Indica si la operación fue exitosa (true/false)',
-  `mensaje` TEXT COMMENT 'Mensaje de error o informativo, si aplica',
-  `numero_documento` VARCHAR(20) UNIQUE NOT NULL COMMENT 'Ej: B001-1',
-  `archivo_nombre` VARCHAR(50) NOT NULL COMMENT 'Nombre del archivo generado',
-  `monto_letras` VARCHAR(100) NOT NULL COMMENT 'Monto total en letras',
-  `hash_firma` VARCHAR(50) NOT NULL COMMENT 'Hash de firma digital del documento',
-  `qr_data` TEXT COMMENT 'Cadena de datos de la imagen QR (Base64)',
-  `estado_id` INT,
-  `descripcion_estado` VARCHAR(50) NOT NULL COMMENT 'Descripción del estado (Ej: REGISTRADO)',
-  `url_pdf` VARCHAR(255),
-  `url_xml` VARCHAR(255),
-  `url_cdr` VARCHAR(255),
-  `venta_id` INT NOT NULL
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único del registro de documento electrónico. Clave primaria.',
+  `exito` BOOLEAN NOT NULL COMMENT 'Indica si la operación de generación/envío del documento fue exitosa (TRUE/FALSE).',
+  `mensaje` TEXT COMMENT 'Mensaje de error, si la operación falló, o mensaje informativo de éxito.',
+  `numero_documento` VARCHAR(20) UNIQUE NOT NULL COMMENT 'Número único del documento de venta (Ej: F001-123 o B001-45).',
+  `archivo_nombre` VARCHAR(50) NOT NULL COMMENT 'Nombre del archivo generado (Ej: 20541234567-01-F001-123.xml).',
+  `monto_letras` VARCHAR(100) NOT NULL COMMENT 'Monto total de la venta expresado en letras.',
+  `hash_firma` VARCHAR(50) NOT NULL COMMENT 'Código Hash de la firma digital del documento electrónico.',
+  `qr_data` TEXT COMMENT 'Cadena de datos codificada (Base64) para generar la imagen del código QR.',
+  `estado_id` INT COMMENT 'ID numérico del estado del documento según la autoridad fiscal.',
+  `descripcion_estado` VARCHAR(50) NOT NULL COMMENT 'Descripción legible del estado del documento (Ej: ACEPTADO, RECHAZADO, REGISTRADO).',
+  `url_pdf` VARCHAR(255) COMMENT 'URL donde se almacena la representación impresa del documento (PDF).',
+  `url_xml` VARCHAR(255) COMMENT 'URL donde se almacena el archivo XML del documento electrónico.',
+  `url_cdr` VARCHAR(255) COMMENT 'URL donde se almacena el CDR (Constancia de Recepción) si aplica.',
+  `venta_id` INT NOT NULL COMMENT 'ID que referencia a la transacción maestra de venta a la que corresponde este documento.'
+) 
+COMMENT = "
+**Propósito:** Almacena los metadatos y el estado de la generación de documentos electrónicos de venta (e.g., Facturas, Boletas).
+
+### Restricciones Adicionales (Foreign Keys)
+
+* `FOREIGN KEY (venta_id)` se refiere a la columna **id** de la tabla de ventas (asumida: `ventas` o `t_ventas`).
+";
 
 CREATE TABLE `usuarios` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
