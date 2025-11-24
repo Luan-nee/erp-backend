@@ -234,11 +234,19 @@ COMMENT = "
 ";
 
 CREATE TABLE `items_transferencia_inventario` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `cantidad` INT NOT NULL DEFAULT 1,
-  `producto_id` INT NOT NULL,
-  `transferencia_inventario_id` INT NOT NULL
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único de la línea de detalle de la transferencia. Clave primaria.',
+  `cantidad` INT NOT NULL DEFAULT 1 COMMENT 'Número de unidades del producto solicitadas para transferir.',
+  `producto_id` INT NOT NULL COMMENT 'ID que referencia al producto específico que se está transfiriendo.',
+  `transferencia_inventario_id` INT NOT NULL COMMENT 'ID que referencia al registro maestro de la transferencia de inventario a la que pertenece este ítem.'
+) 
+COMMENT = "
+**Propósito:** Almacena el detalle de los productos y sus cantidades que forman parte de una transferencia de stock entre sucursales.
+
+### Restricciones Adicionales (Foreign Keys)
+
+* `FOREIGN KEY (producto_id)` se refiere a la columna **id** de la tabla de productos (asumida: `t_productos` o similar).
+* `FOREIGN KEY (transferencia_inventario_id)` se refiere a la columna **id** de la tabla de transferencias (asumida: `transferencias_inventario`).
+";
 
 CREATE TABLE `marcas` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
