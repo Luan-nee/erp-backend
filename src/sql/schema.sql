@@ -216,9 +216,22 @@ COMMENT = "
 ";
 
 CREATE TABLE `estados_transferencias_inventarios` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `nombre` VARCHAR(100) NOT NULL
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único del estado de la transferencia. Clave primaria.',
+  `nombre` VARCHAR(100) NOT NULL COMMENT 'Nombre legible y descriptivo del estado (Ej: Pendiente, En Tránsito, Recibida, Cancelada).'
+) 
+COMMENT = "
+  **Propósito:** Define los diferentes estados por los que pasa una transferencia de stock de inventario entre sucursales.
+
+  ### Valores Insertados
+
+  A continuación, se listan los estados iniciales que se han insertado en la tabla:
+
+  | id | nombre |
+  | :---: | :--- |
+  | 1 | Solicitando |
+  | 2 | Finalizada |
+  | 3 | Rechazado |
+";
 
 CREATE TABLE `items_transferencia_inventario` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
