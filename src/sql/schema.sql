@@ -190,12 +190,6 @@ COMMENT = "
 
 * `FOREIGN KEY (producto_id)` se refiere a la columna **id** de la tabla de productos (asumida: `t_productos` o similar).
 * `FOREIGN KEY (sucursal_id)` se refiere a la columna **id** de la tabla de sucursales (asumida: `t_sucursales` o similar).
-
----
-
-### Valores Insertados
-
-*No se proporcionaron sentencias INSERT para esta tabla.*
 ";
 
 CREATE TABLE `estados_doc_facturacion` (
