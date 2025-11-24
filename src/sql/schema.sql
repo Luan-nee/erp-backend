@@ -249,10 +249,24 @@ COMMENT = "
 ";
 
 CREATE TABLE `marcas` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `nombre` VARCHAR(100) NOT NULL,
-  `descripcion` TEXT
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único de la marca. Clave primaria.',
+  `nombre` VARCHAR(100) NOT NULL COMMENT 'Nombre oficial o comercial de la marca (Ej: Sony, Samsung, Nike).',
+  `descripcion` TEXT COMMENT 'Descripción opcional sobre la historia, filosofía o sector de la marca.'
+) 
+COMMENT = "
+**Propósito:** Almacena un catálogo de las diferentes marcas asociadas a los productos vendidos en el sistema.
+
+### Valores Insertados
+
+A continuación, se listan las marcas iniciales que se han insertado en la tabla:
+
+| id | nombre | descripcion |
+| :---: | :--- | :--- |
+| 1 | TechNova | Líder en innovación de hardware y software para el mercado global. |
+| 2 | FashionTrend | Marca especializada en ropa urbana, calzado y accesorios de alta calidad. |
+| 3 | HomeBliss | Ofrece soluciones prácticas y estéticas para la decoración y organización del hogar. |
+| 4 | GourmetDelight | Empresa de alimentos premium, especializada en productos orgánicos y delicatessen. |
+";
 
 CREATE TABLE `metodos_pago` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
