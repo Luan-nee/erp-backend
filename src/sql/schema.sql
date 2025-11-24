@@ -63,15 +63,30 @@ COMMENT = "
 ";
 
 CREATE TABLE `cuentas_usuario` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `usuario` VARCHAR(100) NOT NULL,
-  `clave` VARCHAR(255) NOT NULL,
-  `eliminable` BOOLEAN NOT NULL DEFAULT true,
-  `rol_id` INT NOT NULL,
-  `empleado_id` INT NOT NULL,
-  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  `fecha_actualizacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP)
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único de la cuenta de usuario. Clave primaria.',
+  `usuario` VARCHAR(100) NOT NULL COMMENT 'Nombre de usuario único para el acceso al sistema.',
+  `clave` VARCHAR(255) NOT NULL COMMENT 'Contraseña hasheada (cifrada) del usuario.',
+  `eliminable` BOOLEAN NOT NULL DEFAULT true COMMENT 'Indica si la cuenta puede ser eliminada (TRUE) o es esencial (FALSE).',
+  `rol_id` INT NOT NULL COMMENT 'ID que referencia a los roles o permisos del usuario.',
+  `empleado_id` INT NOT NULL COMMENT 'ID que referencia al empleado asociado a esta cuenta de acceso.',
+  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP) COMMENT 'Fecha y hora en que se creó la cuenta.',
+  `fecha_actualizacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP) COMMENT 'Fecha y hora de la última modificación del registro.'
+) 
+COMMENT = "
+
+  **Propósito:** Almacena las credenciales de acceso y la información de la cuenta de los empleados que acceden al sistema.
+
+  ### Restricciones Adicionales (Foreign Keys)
+
+  * `FOREIGN KEY (rol_id)` se refiere a la columna **id** de la tabla de roles (asumida: `t_roles`).
+  * `FOREIGN KEY (empleado_id)` se refiere a la columna **id** de la tabla de empleados (asumida: `empleados`).
+
+  ---
+
+  ### Valores Insertados
+
+  *No se proporcionaron sentencias INSERT para esta tabla.*
+";
 
 CREATE TABLE `detalles_producto` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
