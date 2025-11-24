@@ -109,17 +109,25 @@ COMMENT = "
 ";
 
 CREATE TABLE `detalles_venta` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `tipo_unidad` VARCHAR(5) NOT NULL DEFAULT 'NIU',
-  `codigo` VARCHAR(50),
-  `descripcion` VARCHAR(255) NOT NULL,
-  `cantidad` INT NOT NULL DEFAULT 1,
-  `precio` DECIMAL(12,2) NOT NULL,
-  `tipo_tax_id` INT NOT NULL,
-  `descuento` DECIMAL(12,2) NOT NULL,
-  `producto` JSON NOT NULL,
-  `venta_id` INT NOT NULL
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único de la línea de detalle de la venta. Clave primaria.',
+  `tipo_unidad` VARCHAR(5) NOT NULL DEFAULT 'NIU' COMMENT 'Código de la unidad de factpro.la.',
+  `codigo` VARCHAR(50) COMMENT 'Código de producto del ítem vendido, cuyo valor es el SKU por ejemplo: P000001.',
+  `descripcion` VARCHAR(255) NOT NULL COMMENT 'Descripción del producto o servicio vendido.',
+  `cantidad` INT NOT NULL DEFAULT 1 COMMENT 'Cantidad de unidades vendidas de este ítem.',
+  `precio` DECIMAL(12,2) NOT NULL COMMENT 'Precio unitario del producto o servicio en el momento de la venta (sin incluir impuestos/descuentos).',
+  `tipo_tax_id` INT NOT NULL COMMENT 'ID que referencia el tipo de impuesto aplicado a este ítem (ej. IGV, ISC).',
+  `descuento` DECIMAL(12,2) NOT NULL COMMENT 'Monto del descuento aplicado solo a esta línea de detalle.',
+  `producto` JSON NOT NULL COMMENT 'Copia de seguridad o snapshot de la información clave del producto al momento de la venta (nombre, atributos, etc.).',
+  `venta_id` INT NOT NULL COMMENT 'ID que referencia a la venta o factura a la que pertenece este detalle.'
+) 
+COMMENT = "
+  **Propósito:** Almacena cada uno de los ítems (productos o servicios) incluidos en una transacción de venta específica.
+
+  ### Restricciones Adicionales (Foreign Keys)
+
+  * `FOREIGN KEY (tipo_tax_id)` se refiere a la columna **id** de la tabla de tipos de impuestos (asumida: `t_tipos_impuestos` o similar).
+  * `FOREIGN KEY (venta_id)` se refiere a la columna **id** de la tabla de ventas (asumida: `ventas` o `facturas`).
+";
 
 CREATE TABLE `docs_ventas` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
