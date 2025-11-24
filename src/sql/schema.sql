@@ -176,13 +176,27 @@ COMMENT = "
 ";
 
 CREATE TABLE `entradas_inventarios` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `cantidad` INT NOT NULL DEFAULT 1,
-  `producto_id` INT NOT NULL,
-  `sucursal_id` INT NOT NULL,
-  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  `fecha_actualizacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP)
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único del registro de entrada al inventario. Clave primaria.',
+  `cantidad` INT NOT NULL DEFAULT 1 COMMENT 'Número de unidades del producto que ingresan al inventario.',
+  `producto_id` INT NOT NULL COMMENT 'ID que referencia al producto específico que está ingresando.',
+  `sucursal_id` INT NOT NULL COMMENT 'ID que referencia a la sucursal donde se registra el ingreso del stock.',
+  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP) COMMENT 'Fecha y hora en que se registró la entrada de inventario.',
+  `fecha_actualizacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP) COMMENT 'Fecha y hora de la última modificación del registro de entrada.'
+) 
+COMMENT = "
+**Propósito:** Registra los movimientos de aumento de stock (ingresos) de productos en una sucursal específica.
+
+### Restricciones Adicionales (Foreign Keys)
+
+* `FOREIGN KEY (producto_id)` se refiere a la columna **id** de la tabla de productos (asumida: `t_productos` o similar).
+* `FOREIGN KEY (sucursal_id)` se refiere a la columna **id** de la tabla de sucursales (asumida: `t_sucursales` o similar).
+
+---
+
+### Valores Insertados
+
+*No se proporcionaron sentencias INSERT para esta tabla.*
+";
 
 CREATE TABLE `estados_doc_facturacion` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
