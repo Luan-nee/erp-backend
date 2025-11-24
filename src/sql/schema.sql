@@ -5,10 +5,32 @@ CREATE SCHEMA `erp_app`;
 USE `erp_app`;
 
 CREATE TABLE `categorias` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `nombre` VARCHAR(255) NOT NULL,
-  `descripcion` TEXT
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único de la categoría. Es la clave primaria.',
+  `nombre` VARCHAR(255) NOT NULL COMMENT 'Nombre descriptivo y corto de la categoría (ej. Electrónica).',
+  `descripcion` TEXT COMMENT 'Descripción detallada sobre el tipo de productos que abarca esta categoría.'
+) 
+COMMENT = "
+  **Propósito:** Almacena las categorías principales bajo las cuales se clasificarán los productos en el sistema.
+
+  | Columna | Tipo de Dato | Restricciones | Comentario / Descripción |
+  | :--- | :--- | :--- | :--- |
+  | **id** | `INT` | `PRIMARY KEY`, `AUTO_INCREMENT` | Identificador único de la categoría. Es la clave primaria. |
+  | **nombre** | `VARCHAR(255)` | `NOT NULL` | Nombre descriptivo y corto de la categoría (ej. Electrónica). |
+  | **descripcion** | `TEXT` | `NULL` | Descripción detallada sobre el tipo de productos que abarca esta categoría. |
+
+  ---
+
+  ### Valores Insertados
+
+  A continuación, se listan las categorías iniciales que se han insertado en la tabla:
+
+  | id | nombre | descripcion |
+  | :---: | :--- | :--- |
+  | 1 | Electrónica | Dispositivos y accesorios tecnológicos como laptops, móviles y audífonos. |
+  | 2 | Ropa y Moda | Artículos de vestimenta, calzado y accesorios personales. |
+  | 3 | Hogar y Jardín | Muebles, decoración, herramientas y artículos para el cuidado del hogar y exteriores. |
+  | 4 | Libros y Medios | Ficción, no ficción, revistas y contenido multimedia digital o físico. |
+";
 
 CREATE TABLE `clientes` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
