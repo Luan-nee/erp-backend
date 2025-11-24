@@ -193,10 +193,27 @@ COMMENT = "
 ";
 
 CREATE TABLE `estados_doc_facturacion` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `nombre` VARCHAR(100) NOT NULL,
-  `codigo` VARCHAR(10) NOT NULL
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único del estado. Clave primaria.',
+  `nombre` VARCHAR(100) NOT NULL COMMENT 'Nombre legible y descriptivo del estado (Ej: Aceptado, Rechazado, Enviado).',
+  `codigo` VARCHAR(10) NOT NULL COMMENT 'Código corto o clave del estado, a menudo un código oficial de la autoridad fiscal (Ej: 01, 02, C001).'
+) 
+COMMENT = "
+  **Propósito:** Define y almacena los diferentes estados por los que puede pasar un documento de venta electrónico (Factura, Boleta, etc.).
+
+  ### Valores Insertados
+
+  A continuación, se listan los estados iniciales que se han insertado en la tabla:
+
+  | id | codigo | nombre |
+  | :---: | :---: | :--- |
+  | 1 | 01 | Registrado en servidor factpro (Se puede editar el comprobante) |
+  | 2 | 03 | Enviado pero sin respuesta de la sunat |
+  | 3 | 05 | Aceptado ante la sunat |
+  | 4 | 09 | Rechazado ante la sunat |
+  | 5 | 11 | Anulado ante la sunat |
+  | 6 | 13 | Por anular |
+  | 7 | 19 | Sin respuesta de la sunat |
+";
 
 CREATE TABLE `estados_transferencias_inventarios` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
