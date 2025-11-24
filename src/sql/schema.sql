@@ -154,19 +154,26 @@ COMMENT = "
 ";
 
 CREATE TABLE `usuarios` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `nombres` VARCHAR(100) NOT NULL,
-  `apellidos` VARCHAR(100) NOT NULL,
-  `dni` VARCHAR(15),
-  `estaActivo` BOOLEAN NOT NULL DEFAULT true,
-  `celular` VARCHAR(15),
-  `hora_inicio_jornada` TIME,
-  `hora_fin_jornada` TIME,
-  `sueldo` DECIMAL(12,2),
-  `sucursal_id` INT NOT NULL,
-  `fecha_contratacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  `fecha_actualizacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP)
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único del usuario/empleado. Clave primaria.',
+  `nombres` VARCHAR(100) NOT NULL COMMENT 'Nombres propios del empleado.',
+  `apellidos` VARCHAR(100) NOT NULL COMMENT 'Apellidos del empleado.',
+  `dni` VARCHAR(15) COMMENT 'Número de Documento Nacional de Identidad o identificación similar.',
+  `estaActivo` BOOLEAN NOT NULL DEFAULT true COMMENT 'Estado de la relación laboral o activación de la cuenta (TRUE: activo, FALSE: inactivo).',
+  `celular` VARCHAR(15) COMMENT 'Número de teléfono celular o móvil de contacto.',
+  `hora_inicio_jornada` TIME COMMENT 'Hora de inicio programada para el turno o jornada laboral.',
+  `hora_fin_jornada` TIME COMMENT 'Hora de finalización programada para el turno o jornada laboral.',
+  `sueldo` DECIMAL(12,2) COMMENT 'Monto del sueldo o salario mensual bruto del empleado.',
+  `sucursal_id` INT NOT NULL COMMENT 'ID que referencia a la sucursal o ubicación de trabajo principal del empleado.',
+  `fecha_contratacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP) COMMENT 'Fecha y hora en que se registró la contratación del empleado.',
+  `fecha_actualizacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP) COMMENT 'Fecha y hora de la última modificación del registro.'
+) 
+COMMENT = "
+**Propósito:** Almacena la información de contacto, laboral y personal de los empleados o personal del sistema.
+
+### Restricciones Adicionales (Foreign Keys)
+
+* `FOREIGN KEY (sucursal_id)` se refiere a la columna **id** de la tabla de sucursales (asumida: `t_sucursales` o similar).
+";
 
 CREATE TABLE `entradas_inventarios` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
