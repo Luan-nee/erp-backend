@@ -89,16 +89,24 @@ COMMENT = "
 ";
 
 CREATE TABLE `detalles_producto` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `porcentaje_ganancia` VARCHAR(10),
-  `stock` INT NOT NULL DEFAULT 0,
-  `stock_minimo` INT NOT NULL DEFAULT 0,
-  `esta_inhabilitado` BOOLEAN NOT NULL DEFAULT false,
-  `producto_id` INT NOT NULL,
-  `sucursal_id` INT NOT NULL,
-  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  `fecha_actualizacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP)
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único del registro de detalle de producto. Clave primaria.',
+  `porcentaje_ganancia` VARCHAR(10) COMMENT 'Margen de ganancia deseado aplicado al costo del producto (ej. "30%", "0.35").',
+  `stock` INT NOT NULL DEFAULT 0 COMMENT 'Cantidad actual de unidades de este producto disponibles en la sucursal.',
+  `stock_minimo` INT NOT NULL DEFAULT 0 COMMENT 'Nivel mínimo de inventario para este producto en la sucursal antes de generar una alerta de reposición.',
+  `esta_inhabilitado` BOOLEAN NOT NULL DEFAULT false COMMENT 'Indica si este producto está inhabilitado/descontinuado en esta sucursal (TRUE) o no (FALSE).',
+  `producto_id` INT NOT NULL COMMENT 'ID que referencia al producto genérico (nombre, descripción, etc.).',
+  `sucursal_id` INT NOT NULL COMMENT 'ID que referencia a la sucursal específica donde se encuentra este stock.',
+  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP) COMMENT 'Fecha y hora en que se creó el registro de detalle.',
+  `fecha_actualizacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP) COMMENT 'Fecha y hora de la última modificación del registro.'
+) 
+COMMENT = "
+  **Propósito:** Almacena información variable (stock, ganancia) de un producto específico para cada sucursal.
+
+  ### Restricciones Adicionales (Foreign Keys)
+
+  * `FOREIGN KEY (producto_id)` se refiere a la columna **id** de la tabla de productos (asumida: `t_productos` o similar).
+  * `FOREIGN KEY (sucursal_id)` se refiere a la columna **id** de la tabla de sucursales (asumida: `t_sucursales` o similar).
+";
 
 CREATE TABLE `detalles_venta` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
