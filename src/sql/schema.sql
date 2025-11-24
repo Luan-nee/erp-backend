@@ -33,15 +33,33 @@ COMMENT = "
 ";
 
 CREATE TABLE `clientes` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `tipo_documento_id` INT NOT NULL,
-  `numero_documento` VARCHAR(20),
-  `denominacion` VARCHAR(255) NOT NULL,
-  `direccion` VARCHAR(255),
-  `correo` VARCHAR(100),
-  `telefono` VARCHAR(20),
-  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP)
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único del cliente. Clave primaria.',
+  `tipo_documento_id` INT NOT NULL COMMENT 'ID que referencia a la tabla de tipos de documento (ej. DNI, RUC).',
+  `numero_documento` VARCHAR(20) NOT NULL COMMENT 'Número del documento de identificación del cliente (ej. 12345678, 20123456789).',
+  `denominacion` VARCHAR(255) NOT NULL COMMENT 'Nombre o Razón Social del cliente. Es el resultado que se obtienen después de realizar la busqueda haciendo uso del tipo y número de documento.',
+  `direccion` VARCHAR(255) NULL COMMENT 'Dirección física completa del cliente.',
+  `correo` VARCHAR(100) NOT NULL COMMENT 'Correo electrónico de contacto del cliente.',
+  `telefono` VARCHAR(20) NOT NULL COMMENT 'Número de teléfono de contacto del cliente.',
+  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP) COMMENT 'Fecha y hora en que se creó el registro del cliente.'
+) 
+COMMENT = "
+  **Propósito:** Almacena la información de todos los clientes de la empresa, sean personas naturales o jurídicas.
+
+  ### Restricciones Adicionales (Foreign Keys)
+
+  * `FOREIGN KEY (tipo_documento_id)` se refiere a la columna **id** de la tabla de tipos de documento (`t_tipo_documento_identificacion` u otra tabla de catálogo).
+";
+
+-- CREATE TABLE `clientes` (
+--   `id` INT PRIMARY KEY AUTO_INCREMENT,
+--   `tipo_documento_id` INT NOT NULL,
+--   `numero_documento` VARCHAR(20),
+--   `denominacion` VARCHAR(255) NOT NULL,
+--   `direccion` VARCHAR(255),
+--   `correo` VARCHAR(100),
+--   `telefono` VARCHAR(20),
+--   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP)
+-- );
 
 CREATE TABLE `colores` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
