@@ -343,10 +343,39 @@ CREATE TABLE `reservas_productos` (
 );
 
 CREATE TABLE `roles_permisos` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `rol_id` INT NOT NULL,
-  `permiso_id` INT NOT NULL
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único del registro de asignación. Clave primaria.',
+  `rol_id` INT NOT NULL COMMENT 'ID que referencia al rol específico al que se le asigna el permiso.',
+  `permiso_id` INT NOT NULL COMMENT 'ID que referencia al permiso que se está otorgando a dicho rol.'
+) 
+COMMENT = "
+**Propósito:** Tabla de unión (muchos a muchos) que establece la relación entre los roles de usuario y los permisos, definiendo las capacidades de cada rol.
+
+### Restricciones Adicionales (Foreign Keys)
+
+* `FOREIGN KEY (rol_id)` se refiere a la columna **id** de la tabla `roles`.
+* `FOREIGN KEY (permiso_id)` se refiere a la columna **id** de la tabla `permisos`.
+
+### Valores Insertados
+
+Los siguientes valores representan la asignación inicial de permisos a cada rol (asumiendo que los `id` de `roles` y `permisos` son secuenciales):
+
+| Rol (ID) | Permiso (Código) | Permiso (Nombre) |
+| :---: | :--- | :--- |
+| **1 (Administrador)** | VIEW\_DASH | Ver Dashboard |
+| 1 | MANAGE\_USERS | Gestionar Usuarios |
+| 1 | EDIT\_PRODUCTS | Editar Productos |
+| 1 | VIEW\_REPORTS | Ver Reportes Financieros |
+| 1 | CREATE\_INVOICE | Crear Facturas |
+| 1 | ANULAR\_DOC | Anular Documentos |
+| **2 (Empleado)** | VIEW\_DASH | Ver Dashboard |
+| 2 | CREATE\_INVOICE | Crear Facturas |
+| 2 | ANULAR\_DOC | Anular Documentos |
+| **3 (Gerente)** | VIEW\_DASH | Ver Dashboard |
+| 3 | MANAGE\_USERS | Gestionar Usuarios |
+| 3 | VIEW\_REPORTS | Ver Reportes Financieros |
+| **4 (Contador)** | VIEW\_DASH | Ver Dashboard |
+| 4 | VIEW\_REPORTS | Ver Reportes Financieros |
+";
 
 CREATE TABLE `roles` (
   `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único del rol. Clave primaria.',
