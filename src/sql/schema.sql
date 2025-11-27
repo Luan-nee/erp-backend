@@ -309,17 +309,26 @@ A continuación, se listan los permisos iniciales que se han insertado en la tab
 ";
 
 CREATE TABLE `productos` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `sku` VARCHAR(7) NOT NULL,
-  `nombre` VARCHAR(255) NOT NULL,
-  `descripcion` TEXT,
-  `path_foto` VARCHAR(255),
-  `precio_compra` DECIMAL(12,2) NOT NULL,
-  `color_id` INT NOT NULL,
-  `categoria_id` INT NOT NULL,
-  `marca_id` INT NOT NULL,
-  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP)
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único del producto maestro. Clave primaria.',
+  `sku` VARCHAR(7) NOT NULL COMMENT 'Stock Keeping Unit: Código único de inventario del producto.',
+  `nombre` VARCHAR(255) NOT NULL COMMENT 'Nombre comercial completo y descriptivo del producto.',
+  `descripcion` TEXT COMMENT 'Descripción detallada de las características y especificaciones del producto.',
+  `path_foto` VARCHAR(255) COMMENT 'Ruta o URL donde se almacena la imagen principal del producto.',
+  `precio_compra` DECIMAL(12,2) NOT NULL COMMENT 'Costo unitario de adquisición del producto al proveedor.',
+  `color_id` INT NOT NULL COMMENT 'ID que referencia al color del producto (clave foránea a la tabla colores).',
+  `categoria_id` INT NOT NULL COMMENT 'ID que referencia a la categoría principal del producto (clave foránea a la tabla categorias).',
+  `marca_id` INT NOT NULL COMMENT 'ID que referencia a la marca del producto (clave foránea a la tabla marcas).',
+  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP) COMMENT 'Fecha y hora en que se creó el registro del producto.'
+) 
+COMMENT = "
+**Propósito:** Almacena la información maestra y genérica de todos los productos disponibles en el sistema.
+
+### Restricciones Adicionales (Foreign Keys)
+
+* `FOREIGN KEY (color_id)` se refiere a la columna **id** de la tabla `colores`.
+* `FOREIGN KEY (categoria_id)` se refiere a la columna **id** de la tabla `categorias`.
+* `FOREIGN KEY (marca_id)` se refiere a la columna **id** de la tabla `marcas`.
+";
 
 CREATE TABLE `proformas_venta` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
