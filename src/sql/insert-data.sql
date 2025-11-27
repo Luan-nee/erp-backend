@@ -61,6 +61,12 @@ INSERT INTO `estados_transferencias_inventarios` (`nombre`) VALUES
 ('Finalizada'),
 ('Rechazado');
 
+-- sucursales
+INSERT INTO sucursales (nombre, direccion, serie_factura, numero_factura_inicial, serie_boleta, numero_boleta_inicial, codigo_anexo) VALUES
+('Sucursal Central', 'Av. Principal #123, Ciudad A', 'F001', 1, 'B001', 1, 'SCENT'),
+('Sucursal Norte', 'Calle del Sol #45, Zona Norte', 'F002', 1, 'B002', 1, 'SNORT'),
+('Sucursal Sur', 'Blvd. Las Flores #67, Colonia Sur', 'F003', 1, 'B003', 1, 'SSUR');
+
 -- 
 INSERT INTO `permisos` (codigo, nombre) VALUES
 ('VIEW_DASH', 'Ver Dashboard'),
@@ -76,8 +82,6 @@ INSERT INTO `roles` (codigo, nombre) VALUES
 ('EMPLOYEE', 'Empleado de Ventas'),
 ('MANAGER', 'Gerente de Sucursal'),
 ('ACCOUNTANT', 'Contador');
-
-
 
 --- NECESITAMOS REVISAR DETALLADAMENTE ESTOS INSERTS YA QUE DEBEN COINCIDIR CON LOS IDS CREADOS PREVIAMENTE EN LA TABLA ROLES Y PERMISOS
 -- 
