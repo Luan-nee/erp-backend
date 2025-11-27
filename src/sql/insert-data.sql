@@ -33,7 +33,13 @@ INSERT INTO `colores` (nombre, hex) VALUES
 ('Rojo', '#FF0000'),
 ('Azul', '#0000FF'),
 ('Verde', '#008000'),
-('Amarillo', '#FFFF00');
+('Amarillo', '#FFFF00'),
+('Naranja', '#FFA500'),
+('Morado', '#800080'),
+('Rosa', '#FFC0CB'),
+('Negro', '#000000'),
+('Blanco', '#FFFFFF'),
+('Celeste', '#00FFFF');
 
 -- categorias 
 INSERT INTO `categorias` (nombre, descripcion) VALUES
