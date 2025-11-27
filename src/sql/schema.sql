@@ -60,6 +60,12 @@ COMMENT = "
   | 2 | Azul | #0000FF |
   | 3 | Verde | #008000 |
   | 4 | Amarillo | #FFFF00 |
+  | 5 | Naranja | #FFA500 |
+  | 6 | Morado | #800080 |
+  | 7 | Rosa | #FFC0CB |
+  | 8 | Negro | #000000 |
+  | 9 | Blanco | #FFFFFF |
+  | 10 | Celeste | #00FFFF |
 ";
 
 CREATE TABLE `cuentas_usuario` (
