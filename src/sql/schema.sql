@@ -74,7 +74,7 @@ CREATE TABLE `cuentas_usuario` (
   `clave` VARCHAR(255) NOT NULL COMMENT 'Contraseña hasheada (cifrada) del usuario.',
   `eliminable` BOOLEAN NOT NULL DEFAULT true COMMENT 'Indica si la cuenta puede ser eliminada (TRUE) o es esencial (FALSE).',
   `rol_id` INT NOT NULL COMMENT 'ID que referencia a los roles o permisos del usuario.',
-  `empleado_id` INT NOT NULL COMMENT 'ID que referencia al empleado asociado a esta cuenta de acceso.',
+  `usuario_id` INT NOT NULL COMMENT 'ID que referencia al empleado asociado a esta cuenta de acceso.',
   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP) COMMENT 'Fecha y hora en que se creó la cuenta.',
   `fecha_actualizacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP) COMMENT 'Fecha y hora de la última modificación del registro.'
 ) 
@@ -605,7 +605,7 @@ ALTER TABLE `clientes` ADD CONSTRAINT `fk_clientes_tipo_documento_id` FOREIGN KE
 
 ALTER TABLE `cuentas_usuario` ADD CONSTRAINT `fk_cuentas_empleados_rol_id` FOREIGN KEY (`rol_id`) REFERENCES `roles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-ALTER TABLE `cuentas_usuario` ADD CONSTRAINT `fk_cuentas_empleados_empleado_id` FOREIGN KEY (`empleado_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `cuentas_usuario` ADD CONSTRAINT `fk_cuentas_empleados_empleado_id` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE `detalles_producto` ADD CONSTRAINT `fk_detalles_producto_producto_id` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
