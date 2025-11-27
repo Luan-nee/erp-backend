@@ -423,57 +423,131 @@ A continuación, se listan los roles iniciales que se han insertado en la tabla:
 ";
 
 CREATE TABLE `sucursales` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `nombre` VARCHAR(100) NOT NULL,
-  `direccion` VARCHAR(255),
-  `serie_factura` VARCHAR(10),
-  `numero_factura_inicial` INT DEFAULT 1,
-  `serie_boleta` VARCHAR(10),
-  `numero_boleta_inicial` INT DEFAULT 1,
-  `codigo_anexo` VARCHAR(10),
-  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP)
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único de la sucursal o punto de venta. Clave primaria.',
+  `nombre` VARCHAR(100) NOT NULL COMMENT 'Nombre comercial o identificador de la sucursal (Ej: Sede Central, Tienda Lima Norte).',
+  `direccion` VARCHAR(255) COMMENT 'Dirección física completa de la sucursal.',
+  `serie_factura` VARCHAR(10) COMMENT 'Serie alfanumérica utilizada para emitir Facturas desde esta sucursal (Ej: F001).',
+  `numero_factura_inicial` INT DEFAULT 1 COMMENT 'Próximo número correlativo inicial a usar para la Factura en esta serie.',
+  `serie_boleta` VARCHAR(10) COMMENT 'Serie alfanumérica utilizada para emitir Boletas de Venta desde esta sucursal (Ej: B001).',
+  `numero_boleta_inicial` INT DEFAULT 1 COMMENT 'Próximo número correlativo inicial a usar para la Boleta en esta serie.',
+  `codigo_anexo` VARCHAR(10) COMMENT 'Código anexo o identificador único de la sucursal en el sistema de facturación electrónica.',
+  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP) COMMENT 'Fecha y hora en que se creó el registro de la sucursal.'
+)
+COMMENT = "
+**Propósito:** Almacena la información de las diferentes sucursales o puntos de venta de la empresa, incluyendo detalles para la emisión de documentos electrónicos.
+
+### Valores Insertados
+
+A continuación, se listan las sucursales iniciales que se han insertado en la tabla:
+
+| id | nombre | direccion | serie\_factura | num\_factura\_inicial | serie\_boleta | num\_boleta\_inicial | codigo\_anexo |
+| :---: | :--- | :--- | :---: | :---: | :---: | :---: | :---: |
+| 1 | Sucursal Central | Av. Principal #123, Ciudad A | F001 | 1 | B001 | 1 | SCENT |
+| 2 | Sucursal Norte | Calle del Sol #45, Zona Norte | F002 | 1 | B002 | 1 | SNORT |
+| 3 | Sucursal Sur | Blvd. Las Flores #67, Colonia Sur | F003 | 1 | B003 | 1 | SSUR |
+";
 
 CREATE TABLE `tipos_doc_facturacion` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `nombre` VARCHAR(100) NOT NULL
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único del tipo de documento de facturación. Clave primaria.',
+  `nombre` VARCHAR(100) NOT NULL COMMENT 'Nombre del tipo de documento (Ej: Factura Electrónica, Boleta de Venta, Nota de Crédito).'
+) 
+COMMENT = "
+**Propósito:** Define y almacena los tipos de comprobantes o documentos de venta utilizados en la facturación.
+
+### Valores Insertados
+
+A continuación, se listan los tipos de documentos iniciales que se han insertado en la tabla:
+
+| id | nombre |
+| :---: | :--- |
+| 1 | boleta |
+| 2 | factura |
+";
 
 CREATE TABLE `tipos_documento_cliente` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `codigo_sunat` VARCHAR(2) NOT NULL,
-  `descripction` VARCHAR(100) NOT NULL
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único del tipo de documento. Clave primaria.',
+  `codigo_sunat` VARCHAR(2) NOT NULL COMMENT 'Código estándar de dos dígitos (según SUNAT u otra entidad fiscal) para identificar el tipo de documento (Ej: 1 para DNI, 6 para RUC).',
+  `descripction` VARCHAR(100) NOT NULL COMMENT 'Descripción legible del tipo de documento (Ej: Documento Nacional de Identidad, Registro Único de Contribuyente).'
+) 
+COMMENT = "
+**Propósito:** Catálogo de los tipos de documentos de identidad o fiscales aceptados para la identificación de los clientes.
+
+### Valores Insertados
+
+A continuación, se listan los tipos de documentos de identificación iniciales que se han insertado en la tabla:
+
+| id | codigo\_sunat | descripction |
+| :---: | :---: | :--- |
+| 1 | 1 | Otros |
+| 2 | 2 | DNI |
+| 3 | 3 | CE |
+| 4 | 4 | RUC |
+| 5 | 5 | Pasaporte |
+";
 
 CREATE TABLE `tipos_tax` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `nombre` VARCHAR(100) NOT NULL,
-  `codigo_sunat` VARCHAR(10) NOT NULL,
-  `porcentaje_tax` TINYINT NOT NULL
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único del tipo de impuesto. Clave primaria.',
+  `nombre` VARCHAR(100) NOT NULL COMMENT 'Nombre legible del impuesto (Ej: IGV, ISC).',
+  `codigo_sunat` VARCHAR(10) NOT NULL COMMENT 'Código oficial o técnico del impuesto (Ej: 10, 20) según la autoridad fiscal.',
+  `porcentaje_tax` DECIMAL(5,4) NOT NULL COMMENT 'Tasa porcentual del impuesto. Almacena el valor decimal completo (Ej: 0.1800 para 18%, 0.1500 para 15%).'
+) 
+COMMENT = "
+**Propósito:** Define los diferentes tipos de impuestos (tributos) aplicables a los productos y servicios, almacenando su tasa con alta precisión decimal.
+
+### Valores Insertados
+
+A continuación, se listan los tipos de impuestos iniciales que se han insertado en la tabla:
+
+| id | nombre | codigo\_sunat | porcentaje\_tax |
+| :---: | :--- | :---: | :---: |
+| 1 | Gravado - Operación Onerosa | 10 | $0.18$ |
+| 2 | Exonerado - Operación Onerosa | 20 | $0.00$ |
+| 3 | Exonerado - Transferencia gratuita | 21 | $0.00$ |
+| 4 | Inafecto - Operación Onerosa | 30 | $0.00$ |
+| 5 | Exportación de Bienes o Servicios | 40 | $0.00$ |
+";
 
 CREATE TABLE `transferencias_inventarios` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `estado_transferencia_id` INT NOT NULL,
-  `sucursal_origen_id` INT,
-  `sucursal_destino_id` INT NOT NULL,
-  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  `fecha_actualizacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP)
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único de la transferencia de inventario. Clave primaria.',
+  `estado_transferencia_id` INT NOT NULL COMMENT 'ID que referencia al estado actual del movimiento (Ej: Pendiente, En Tránsito, Recibida).',
+  `sucursal_origen_id` INT COMMENT 'ID que referencia a la sucursal desde donde se envía el inventario.',
+  `sucursal_destino_id` INT NOT NULL COMMENT 'ID que referencia a la sucursal que recibirá el inventario.',
+  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP) COMMENT 'Fecha y hora en que se registró la solicitud de transferencia.',
+  `fecha_actualizacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP) COMMENT 'Fecha y hora de la última actualización de estado o información de la transferencia.'
+) 
+COMMENT = "
+**Propósito:** Almacena el registro maestro de las solicitudes y movimientos de stock entre diferentes sucursales.
+
+### Restricciones Adicionales (Foreign Keys)
+
+* `FOREIGN KEY (estado_transferencia_id)` se refiere a la columna **id** de la tabla de estados (asumida: `estados_transferencias_inventarios`).
+* `FOREIGN KEY (sucursal_origen_id)` se refiere a la columna **id** de la tabla `sucursales`.
+* `FOREIGN KEY (sucursal_destino_id)` se refiere a la columna **id** de la tabla `sucursales`.
+";
 
 CREATE TABLE `ventas` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `serie_documento` VARCHAR(5) NOT NULL,
-  `numero_documento` VARCHAR(10) NOT NULL,
-  `tipo_operacion` VARCHAR(10) NOT NULL DEFAULT '0101',
-  `enviar_automaticamente_al_cliente` BOOLEAN NOT NULL DEFAULT false,
-  `tipo_documento_id` INT NOT NULL,
-  `metodo_pago_id` INT NOT NULL,
-  `sucursal_id` INT NOT NULL,
-  `cliente_id` INT NOT NULL,
-  `observaciones` TEXT,
-  `fecha_emision` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP)
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único de la transacción de venta. Clave primaria.',
+  `serie_documento` VARCHAR(5) NOT NULL COMMENT 'Serie del documento de venta (Ej: F001 para Factura, B001 para Boleta).',
+  `numero_documento` VARCHAR(10) NOT NULL COMMENT 'Número correlativo del documento de venta (Ej: 1, 1234).',
+  `tipo_operacion` VARCHAR(10) NOT NULL DEFAULT '0101' COMMENT 'Código que identifica el tipo de operación de venta (Ej: 0101 para Venta Interna).',
+  `enviar_automaticamente_al_cliente` BOOLEAN NOT NULL DEFAULT false COMMENT 'Indica si el comprobante electrónico debe ser enviado automáticamente por correo al cliente (TRUE/FALSE).',
+  `tipo_documento_id` INT NOT NULL COMMENT 'ID que referencia el tipo de documento emitido (Factura, Boleta, etc.).',
+  `metodo_pago_id` INT NOT NULL COMMENT 'ID que referencia la forma en que se liquidó la venta (Efectivo, Tarjeta, etc.).',
+  `sucursal_id` INT NOT NULL COMMENT 'ID que referencia a la sucursal donde se realizó la venta.',
+  `cliente_id` INT NOT NULL COMMENT 'ID que referencia al cliente al que se realizó la venta.',
+  `observaciones` TEXT COMMENT 'Notas o comentarios adicionales sobre la transacción de venta.',
+  `fecha_emision` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP) COMMENT 'Fecha y hora en que se emitió o registró la venta.'
+)
+COMMENT = "
+**Propósito:** Almacena la cabecera de todas las transacciones de venta o facturación realizadas.
+
+### Restricciones Adicionales (Foreign Keys)
+
+* `FOREIGN KEY (tipo_documento_id)` se refiere a la columna **id** de la tabla de tipos de documento de facturación (asumida: `tipos_doc_facturacion`).
+* `FOREIGN KEY (metodo_pago_id)` se refiere a la columna **id** de la tabla `metodos_pago`.
+* `FOREIGN KEY (sucursal_id)` se refiere a la columna **id** de la tabla `sucursales`.
+* `FOREIGN KEY (cliente_id)` se refiere a la columna **id** de la tabla `clientes`.
+";
 
 CREATE UNIQUE INDEX `categorias_nombre_unique` ON `categorias` (`nombre`);
 
