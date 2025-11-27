@@ -269,16 +269,44 @@ A continuación, se listan las marcas iniciales que se han insertado en la tabla
 ";
 
 CREATE TABLE `metodos_pago` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `nombre` VARCHAR(50) NOT NULL,
-  `estaActivado` BOOLEAN NOT NULL DEFAULT true
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único del método de pago. Clave primaria.',
+  `nombre` VARCHAR(50) NOT NULL COMMENT 'Nombre del método de pago (Ej: Efectivo, Tarjeta de Crédito, Transferencia Bancaria).',
+  `estaActivado` BOOLEAN NOT NULL DEFAULT true COMMENT 'Indica si el método de pago está disponible o activo para su uso (TRUE/FALSE).'
+) 
+COMMENT = "
+**Propósito:** Almacena un catálogo de las diferentes formas o métodos de pago aceptados en las transacciones de venta.
+
+### Valores Insertados
+
+A continuación, se listan los métodos de pago iniciales que se han insertado en la tabla:
+
+| id | nombre | estaActivado |
+| :---: | :--- | :---: |
+| 1 | Yape | FALSE |
+| 2 | Plin | FALSE |
+";
 
 CREATE TABLE `permisos` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `codigo` VARCHAR(50) NOT NULL,
-  `nombre` VARCHAR(100) NOT NULL
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único del permiso. Clave primaria.',
+  `codigo` VARCHAR(50) NOT NULL COMMENT 'Código único y técnico del permiso (Ej: view_productos, edit_ventas, delete_usuarios).',
+  `nombre` VARCHAR(100) NOT NULL COMMENT 'Nombre legible y descriptivo del permiso para la interfaz de usuario (Ej: Ver Productos, Editar Ventas).'
+) 
+COMMENT = "
+**Propósito:** Define las acciones o funcionalidades específicas que un usuario puede realizar en el sistema, utilizadas en el control de acceso basado en roles (RBAC).
+
+### Valores Insertados
+
+A continuación, se listan los permisos iniciales que se han insertado en la tabla:
+
+| id | codigo | nombre |
+| :---: | :--- | :--- |
+| 1 | VIEW\_DASH | Ver Dashboard |
+| 2 | MANAGE\_USERS | Gestionar Usuarios |
+| 3 | EDIT\_PRODUCTS | Editar Productos |
+| 4 | VIEW\_REPORTS | Ver Reportes Financieros |
+| 5 | CREATE\_INVOICE | Crear Facturas |
+| 6 | ANULAR\_DOC | Anular Documentos |
+";
 
 CREATE TABLE `productos` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
@@ -321,10 +349,24 @@ CREATE TABLE `roles_permisos` (
 );
 
 CREATE TABLE `roles` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `codigo` VARCHAR(20) NOT NULL,
-  `nombre` VARCHAR(100) NOT NULL
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único del rol. Clave primaria.',
+  `codigo` VARCHAR(20) NOT NULL COMMENT 'Código técnico y único para identificar el rol (Ej: ADMIN, VENTAS, ALMACEN).',
+  `nombre` VARCHAR(100) NOT NULL COMMENT 'Nombre legible del rol que se muestra al usuario (Ej: Administrador, Vendedor, Jefe de Almacén).'
+) 
+COMMENT = "
+**Propósito:** Define los diferentes roles o perfiles de acceso que pueden asignarse a las cuentas de usuario, determinando sus permisos y funcionalidades.
+
+### Valores Insertados
+
+A continuación, se listan los roles iniciales que se han insertado en la tabla:
+
+| id | codigo | nombre |
+| :---: | :--- | :--- |
+| 1 | ADMIN | Administrador del Sistema |
+| 2 | EMPLOYEE | Empleado de Ventas |
+| 3 | MANAGER | Gerente de Sucursal |
+| 4 | ACCOUNTANT | Contador |
+";
 
 CREATE TABLE `sucursales` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
