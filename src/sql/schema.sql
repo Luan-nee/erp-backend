@@ -348,16 +348,24 @@ COMMENT = "
 ";
 
 CREATE TABLE `reservas_productos` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `descripcion` TEXT,
-  `productos` JSON NOT NULL,
-  `monto_adelantado` DECIMAL(12,2) NOT NULL,
-  `monto_total` DECIMAL(12,2) NOT NULL,
-  `sucursal_id` INT,
-  `cliente_id` INT NOT NULL,
-  `fecha_recojo` DATE,
-  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP)
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único de la reserva o separación de productos. Clave primaria.',
+  `descripcion` TEXT COMMENT 'Notas o detalles adicionales sobre las condiciones de la reserva o el cliente.',
+  `productos` JSON NOT NULL COMMENT 'Detalle de los ítems reservados, incluyendo producto_id, cantidad, y precio de reserva, almacenado como un snapshot JSON.',
+  `monto_adelantado` DECIMAL(12,2) NOT NULL COMMENT 'Cantidad de dinero entregada por el cliente como adelanto o señal.',
+  `monto_total` DECIMAL(12,2) NOT NULL COMMENT 'Monto total de la reserva de los productos.',
+  `sucursal_id` INT COMMENT 'ID que referencia a la sucursal donde se realizó la reserva y donde se recogerán los productos.',
+  `cliente_id` INT NOT NULL COMMENT 'ID que referencia al cliente que realizó la reserva.',
+  `fecha_recojo` DATE COMMENT 'Fecha esperada en que el cliente recogerá los productos y liquidará el pago restante.',
+  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP) COMMENT 'Fecha y hora en que se creó el registro de la reserva.'
+) 
+COMMENT = "
+**Propósito:** Almacena las transacciones de **separación o reserva de productos** por parte de los clientes, generalmente con un adelanto.
+
+### Restricciones Adicionales (Foreign Keys)
+
+* `FOREIGN KEY (sucursal_id)` se refiere a la columna **id** de la tabla de sucursales (asumida: `t_sucursales` o similar).
+* `FOREIGN KEY (cliente_id)` se refiere a la columna **id** de la tabla `clientes`.
+";
 
 CREATE TABLE `roles_permisos` (
   `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único del registro de asignación. Clave primaria.',
