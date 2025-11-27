@@ -331,13 +331,21 @@ COMMENT = "
 ";
 
 CREATE TABLE `proformas_venta` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `total` DECIMAL(12,2) NOT NULL,
-  `productos` JSON NOT NULL,
-  `sucursal_id` INT NOT NULL,
-  `cliente_id` INT NOT NULL,
-  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP)
-);
+  `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único de la proforma o cotización. Clave primaria.',
+  `total` DECIMAL(12,2) NOT NULL COMMENT 'Monto total calculado de la proforma, incluyendo impuestos y descuentos.',
+  `productos` JSON NOT NULL COMMENT 'Detalle completo de los productos incluidos en la proforma (código, cantidad, precio, etc.) almacenado como un snapshot JSON.',
+  `sucursal_id` INT NOT NULL COMMENT 'ID que referencia a la sucursal que emitió la proforma.',
+  `cliente_id` INT NOT NULL COMMENT 'ID que referencia al cliente al que se le emitió la proforma.',
+  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP) COMMENT 'Fecha y hora en que se creó la proforma.'
+) 
+COMMENT = "
+**Propósito:** Almacena registros de cotizaciones o proformas de venta emitidas a los clientes.
+
+### Restricciones Adicionales (Foreign Keys)
+
+* `FOREIGN KEY (sucursal_id)` se refiere a la columna **id** de la tabla de sucursales (asumida: `t_sucursales` o similar).
+* `FOREIGN KEY (cliente_id)` se refiere a la columna **id** de la tabla `clientes`.
+";
 
 CREATE TABLE `reservas_productos` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
