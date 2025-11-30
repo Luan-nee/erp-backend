@@ -29,17 +29,17 @@ INSERT INTO `metodos_pago` (`nombre`, `estaActivado`) VALUES
 ('Plin', FALSE);
 
 -- colores
-INSERT INTO `colores` (nombre, hex) VALUES
-('Rojo', '#FF0000'),
-('Azul', '#0000FF'),
-('Verde', '#008000'),
-('Amarillo', '#FFFF00'),
-('Naranja', '#FFA500'),
-('Morado', '#800080'),
-('Rosa', '#FFC0CB'),
-('Negro', '#000000'),
-('Blanco', '#FFFFFF'),
-('Celeste', '#00FFFF');
+INSERT INTO `colores` (nombre, valor) VALUES
+('Rojo', 'bg-red-600'),
+('Azul', 'bg-blue-600'),
+('Verde', 'bg-green-600');
+('Amarillo', 'bg-yellow-600'),
+('Naranja', 'bg-orange-600'),
+('Morado', 'bg-purple-600'),
+('Rosa', 'bg-pink-400'),
+('Negro', 'bg-black'),
+('Blanco', 'bg-white'),
+('Celeste', 'bg-cyan-400');
 
 -- categorias 
 INSERT INTO `categorias` (nombre, descripcion) VALUES
@@ -83,7 +83,6 @@ INSERT INTO `roles` (codigo, nombre) VALUES
 ('MANAGER', 'Gerente de Sucursal'),
 ('ACCOUNTANT', 'Contador');
 
---- NECESITAMOS REVISAR DETALLADAMENTE ESTOS INSERTS YA QUE DEBEN COINCIDIR CON LOS IDS CREADOS PREVIAMENTE EN LA TABLA ROLES Y PERMISOS
 -- 
 INSERT INTO `roles_permisos` (rol_id, permiso_id) VALUES
 -- Permisos para Administrador (rol_id = 1)

@@ -45,7 +45,7 @@ COMMENT = "
 CREATE TABLE `colores` (
   `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único del color. Clave primaria.',
   `nombre` VARCHAR(100) NOT NULL COMMENT 'Nombre legible del color (ej. Rojo, Azul Zafiro).',
-  `hex` VARCHAR(7) COMMENT 'Código hexadecimal del color (ej. #FF0000 para rojo).'
+  `valor` VARCHAR(50) COMMENT 'Código hexadecimal del color (ej. #FF0000 para rojo).'
 ) 
 COMMENT = "
   **Propósito:** Almacena una lista de colores disponibles para ser usados en productos o interfaces.

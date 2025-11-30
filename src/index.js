@@ -18,8 +18,8 @@ app.use(express.urlencoded({ extended: true })); // para parsear cuerpos URL-enc
 const dbConfig = {
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'mi_base_datos',
+  password: process.env.DB_PASSWORD || 'luan123',
+  database: process.env.DB_NAME || 'erp_app',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
@@ -44,13 +44,29 @@ app.use(async (req, res, next) => {
 });
 
 app.get('/productos', async (req, res) => {
-  query = 'SELECT * FROM productos;';
-  const [rows] = await req.db.query(query);
-  res.json(rows);
+  try {
+    const query = 'SELECT * FROM productos;';
+    const [rows] = await req.db.query(query);
+    res.json(rows);
+  } catch (error) {
+    console.error('Error al obtener productos:', error);
+    res.status(500).json({ error: 'Error al obtener productos' });
+  }
+});
+
+// Endpoint para obtener la lista completa de colores
+app.get('/colores', async (req, res) => {
+  try {
+    const query = 'SELECT * FROM colores;';
+    const [rows] = await req.db.query(query);
+    res.json(rows);
+  } catch (error) {
+    console.error('Error al obtener colores:', error);
+    res.status(500).json({ error: 'Error al obtener colores' });
+  }
 });
 
 // Iniciar el servidor
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
-  console.log(`API REST disponible en http://localhost:${PORT}/api`);
 });
