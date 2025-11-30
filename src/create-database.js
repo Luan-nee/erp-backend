@@ -15,8 +15,8 @@ const connectionConfig = {
 const DB_NAME = process.env.DB_NAME || "mi_base_datos";
 
 // Rutas a los archivos SQL (ubicados en `src/sql/`)
-const SQL_SCHEMA_FILE = path.resolve(__dirname, "sql", "schema.sql");
-const SQL_DATA_FILE = path.resolve(__dirname, "sql", "insert-data.sql");
+const SQL_SCHEMA_FILE = "sql/schema.sql";
+const SQL_DATA_FILE = "sql/insert-data.sql";
 
 function fileExists(filePath) {
   try {
@@ -27,22 +27,23 @@ function fileExists(filePath) {
 }
 
 if (!fileExists(SQL_SCHEMA_FILE)) {
-  console.error(`No se encontró el archivo de esquema: ${SQL_SCHEMA_FILE}`);
+  console.error(`❌ No se encontró el archivo de esquema: ${SQL_SCHEMA_FILE}`);
   process.exit(1);
 }
+
 if (!fileExists(SQL_DATA_FILE)) {
-  console.warn(`No se encontró el archivo de datos: ${SQL_DATA_FILE} (se continuará sin insertar datos)`);
+  console.warn(`⚠️ No se encontró el archivo de datos: ${SQL_DATA_FILE} (se continuará sin insertar datos)`);
 }
 
 const connection = mysql.createConnection(connectionConfig);
 
 connection.connect((err) => {
   if (err) {
-    console.error("Error al conectar al servidor MySQL:", err.message);
+    console.error("❌ Error al conectar al servidor MySQL:", err.message);
     process.exit(1);
   }
 
-  console.log("Conexión exitosa al servidor MySQL.");
+  console.log("✅ Conexión exitosa al servidor MySQL.");
 
   connection.query(
     `CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\``,
@@ -53,7 +54,7 @@ connection.connect((err) => {
         process.exit(1);
       }
 
-      console.log(`Base de datos "${DB_NAME}" creada o ya existe.`);
+      console.log(` ✅ Base de datos "${DB_NAME}" creada o ya existe.`);
 
       // Leer los scripts SQL
       let sqlScriptSchema;
@@ -61,7 +62,7 @@ connection.connect((err) => {
       try {
         sqlScriptSchema = fs.readFileSync(SQL_SCHEMA_FILE, "utf8");
       } catch (readErr) {
-        console.error("Error al leer el archivo de esquema:", readErr.message);
+        console.error("❌ Error al leer el archivo de esquema:", readErr.message);
         connection.end();
         process.exit(1);
       }
@@ -69,7 +70,7 @@ connection.connect((err) => {
         try {
           sqlScriptData = fs.readFileSync(SQL_DATA_FILE, "utf8");
         } catch (readErr) {
-          console.error("Error al leer el archivo de datos:", readErr.message);
+          console.error(" ⚠️ Error al leer el archivo de datos:", readErr.message);
           // No salimos, puede que sólo no haya datos para insertar
         }
       }
@@ -82,7 +83,7 @@ connection.connect((err) => {
 
       dbConnection.connect((dbErr) => {
         if (dbErr) {
-          console.error("Error al conectar a la base de datos recién creada:", dbErr.message);
+          console.error("❌ Error al conectar a la base de datos recién creada:", dbErr.message);
           connection.end();
           process.exit(1);
         }
@@ -90,7 +91,7 @@ connection.connect((err) => {
         // Ejecutar esquema
         dbConnection.query(sqlScriptSchema, (err) => {
           if (err) {
-            console.error("Error al crear las tablas:", err.message);
+            console.error(" ❌ Error al crear las tablas:", err.message);
             dbConnection.end();
             connection.end();
             process.exit(1);
@@ -101,7 +102,7 @@ connection.connect((err) => {
           if (sqlScriptData && sqlScriptData.trim().length > 0) {
             dbConnection.query(sqlScriptData, (err) => {
               if (err) {
-                console.error("Error al insertar datos:", err.message);
+                console.error(" ❌ Error al insertar datos:", err.message);
                 dbConnection.end();
                 connection.end();
                 process.exit(1);
