@@ -15,8 +15,8 @@ const connectionConfig = {
 const DB_NAME = process.env.DB_NAME || "mi_base_datos";
 
 // Rutas a los archivos SQL (ubicados en `src/sql/`)
-const SQL_SCHEMA_FILE = "sql/schema.sql";
-const SQL_DATA_FILE = "sql/insert-data.sql";
+const SQL_SCHEMA_FILE = path.resolve(__dirname, "sql", "schema.sql");
+const SQL_DATA_FILE = path.resolve(__dirname, "sql", "insert-data.sql");
 
 function fileExists(filePath) {
   try {

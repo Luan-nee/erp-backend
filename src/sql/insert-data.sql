@@ -32,7 +32,7 @@ INSERT INTO `metodos_pago` (`nombre`, `estaActivado`) VALUES
 INSERT INTO `colores` (nombre, valor) VALUES
 ('Rojo', 'bg-red-600'),
 ('Azul', 'bg-blue-600'),
-('Verde', 'bg-green-600');
+('Verde', 'bg-green-600'),
 ('Amarillo', 'bg-yellow-600'),
 ('Naranja', 'bg-orange-600'),
 ('Morado', 'bg-purple-600'),
