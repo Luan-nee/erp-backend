@@ -24,6 +24,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const sqlFilePath = path.join(__dirname, "..", "sql", "schema.sql");
+const insertDataPath = path.join(__dirname, "..", "sql", "insert-data.sql");
 
 // Comprobación mínima de variables de entorno necesarias
 if (!process.env.DB_NAME) {
@@ -36,6 +37,7 @@ async function createDatabaseAndTables() {
   try {
     // Leemos el contenido del archivo SQL
     const sqlSchema = fs.readFileSync(sqlFilePath, "utf-8");
+    const insertDataSQL = fs.readFileSync(insertDataPath, "utf-8");
 
     console.log("📝 Archivo SQL leído correctamente.");
 
@@ -51,30 +53,62 @@ async function createDatabaseAndTables() {
       throw error; // Re-lanzar el error para que sea capturado en el bloque externo
     }
 
-    // **PASO 2: Ejecutar los comandos SQL**
-    // Separamos los comandos por punto y coma (;) y los filtramos
-    const statements = sqlSchema
-      .split(";")
-      .map((stmt) => stmt.trim())
-      .filter((stmt) => stmt.length > 0);
-
-    // Ejecutar todo el script como una sola consulta (mysql2 con multipleStatements)
     try {
-      await connection.query(sqlSchema);
-    } catch (err) {
-      // Fallback: si por alguna razón falla, ejecutar cada sentencia con query (no prepared)
-      for (const statement of statements) {
-        if (statement.length === 0) continue;
-        await connection.query(statement);
+      // **PASO 2: Ejecutar los comandos SQL**
+      // Separamos los comandos por punto y coma (;) y los filtramos
+      const statements = sqlSchema
+        .split(";")
+        .map((stmt) => stmt.trim())
+        .filter((stmt) => stmt.length > 0);
+
+      // Ejecutar todo el script como una sola consulta (mysql2 con multipleStatements
+      try {
+        await connection.query(sqlSchema);
+      } catch (err) {
+        // Fallback: si por alguna razón falla, ejecutar cada sentencia con query (no prepared)
+        for (const statement of statements) {
+          if (statement.length === 0) continue;
+          await connection.query(statement);
+        }
       }
+      console.log(
+        `✅ Base de datos '${config.database}' y tablas creadas exitosamente.`
+      );
+    } catch (error) {
+      console.log(
+        `❌ Error al crear la base de datos o las tablas.`,
+      )
+    }
+    
+
+    try {
+      // **PASO 2: Ejecutar los comandos SQL**
+      // Separamos los comandos por punto y coma (;) y los filtramos
+      const statements = insertDataSQL
+        .split(";")
+        .map((stmt) => stmt.trim())
+        .filter((stmt) => stmt.length > 0);
+
+      // Ejecutar todo el script como una sola consulta (mysql2 con multipleStatements
+      try {
+        await connection.query(insertDataSQL);
+      } catch (err) {
+        // Fallback: si por alguna razón falla, ejecutar cada sentencia con query (no prepared)
+        for (const statement of statements) {
+          if (statement.length === 0) continue;
+          await connection.query(statement);
+        }
+      }
+      console.log(
+        `✅ Insertando datos en la base de datos '${config.database}' exitosamente.`
+      );
+    } catch (error) {
+      console.log(
+        `❌ Error al insertar los datos en la base de datos.`,
+      )
     }
 
-    console.log(
-      `✅ Base de datos '${config.database}' y tablas creadas exitosamente.`
-    );
   } catch (error) {
-    console.error("\n❌ ERROR al crear la base de datos:", error);
-
     // Muestra el error de MySQL de forma más legible
     if (error instanceof Error && "sqlMessage" in error) {
       console.error(`\nDetalle del Error SQL: ${error.sqlMessage}`);
