@@ -3,9 +3,7 @@ import type { Request, Response } from "express";
 import type { Connection } from "mysql2/promise"
 import { createConnection } from "mysql2/promise";
 import dotenv from "dotenv";
-import cors from 'cors'; // 1. Importa 'cors'
-import type { PropResponse } from "./types/response";
-import type { PropColor } from "./types/color";
+import cors from 'cors';
 import { getColores } from "./api/getColores";
 import { getMarcas } from "./api/getMarcas";
 import { getCategorias } from "./api/getCategorias";
