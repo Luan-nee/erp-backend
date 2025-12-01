@@ -8,9 +8,9 @@
     "forceConsistentCasingInFileNames": true,
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "NodeNext",
+    "module": "CommonJS",
     "target": "ES2020",
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "node",
     "types": [],
     // For nodejs:
     // "lib": ["esnext"],
