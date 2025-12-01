@@ -1,27 +1,60 @@
-import express from 'express';
-import type { Request, Response } from 'express';
+import express from "express";
+import type { Request, Response } from "express";
+import type { Connection } from "mysql2/promise";
+import { createConnection } from "mysql2/promise";
+import dotenv from "dotenv";
+import type { PropResponse } from "./types/response.js";
+import type { PropColor } from "./types/color.js";
+
+dotenv.config();
 
 const PORT = 3000;
-
 const app = express();
-
 app.use(express.json());
+let connection: Connection;
 
-app.get('/', (req: Request, res: Response) => {
-    // TypeScript nos ayuda con los tipos de 'req' y 'res'
-    res.send('¡Hola, mundo! Esta es mi primera API con TypeScript y Express.');
+try {
+  connection = await createConnection({
+    host: process.env.DB_HOST || "localhost",
+    user: process.env.DB_USER || "root",
+    // Aseguramos que password y database sean strings (mysql2 TS exige string)
+    password: process.env.DB_PASSWORD || "",
+    database: process.env.DB_NAME || "erp_app", // Usamos la DB por defecto si no está en .env
+    port: parseInt(process.env.DB_PORT || "3306", 10),
+  });
+} catch (error) {
+  console.error("❌ Error al conectar con la base de datos:", error);
+  // Re-lanzar el error original para depuración
+  throw error as Error;
+}
+
+app.get("/", (req: Request, res: Response) => {
+  // TypeScript nos ayuda con los tipos de 'req' y 'res'
+  res.send("¡Hola, mundo! Esta es mi primera API con TypeScript y Express.");
 });
 
-// Ruta de ejemplo con un recurso (API RESTful)
-app.get('/api/usuarios', (req: Request, res: Response) => {
-    const usuarios = [
-        { id: 1, nombre: 'Alice' },
-        { id: 2, nombre: 'Bob' }
-    ];
-    res.json(usuarios);
+app.get("/api/colores", async (req: Request, res: Response) => {
+  try {
+    const [results] = await connection.execute("SELECT * FROM colores;");
+    const response: PropResponse = {
+      status: 200,
+      message: "Colores obtenidos con éxito.",
+      info: results as PropColor[],
+    };
+    res.status(200).json(response);
+    console.log("✅ Consulta de colores ejecutada con éxito.");
+
+  } catch (error) {
+    const response: PropResponse = {
+      status: 500,
+      message: "Error interno del servidor al obtener colores.",
+      info: null,
+    };
+    res.status(500).json(response);
+    console.log("❌ Error al ejecutar la consulta:", error);
+  }
 });
 
-// Inicia el servidor
 app.listen(PORT, () => {
-    console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });
