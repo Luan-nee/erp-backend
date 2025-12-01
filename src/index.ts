@@ -3,13 +3,20 @@ import type { Request, Response } from "express";
 import type { Connection } from "mysql2/promise";
 import { createConnection } from "mysql2/promise";
 import dotenv from "dotenv";
+import cors from 'cors'; // 1. Importa 'cors'
 import type { PropResponse } from "./types/response.js";
 import type { PropColor } from "./types/color.js";
 
 dotenv.config();
 
+const corsOptions = {
+    origin: 'http://localhost:5173' // Reemplaza con el origen de tu frontend
+};
+
 const PORT = 3000;
 const app = express();
+
+app.use(cors(corsOptions)); // 2. Usa el middleware de CORS con las opciones definidas
 app.use(express.json());
 let connection: Connection;
 
