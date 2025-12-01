@@ -100,14 +100,6 @@ readSqlFile(
   `❌ Error al insertar los datos de permisos en la base de datos.`
 );
 
-const insertData_ProductosPath = path.join(__dirname, "..", "sql/data", "productos.sql");
-const insertData_ProductsSQL = fs.readFileSync(insertData_ProductosPath, "utf-8");
-readSqlFile( //#3
-  insertData_ProductsSQL, connection,
-  `✅ Insertando productos en la tabla '${config.database}'.'productos' exitosamente.`, 
-  `❌ Error al insertar los datos de productos en la base de datos.`
-);
-
 const insertData_rolesPath = path.join(__dirname, "..", "sql/data", "roles.sql");
 const insertData_RolesSQL = fs.readFileSync(insertData_rolesPath, "utf-8");
 readSqlFile( 
@@ -154,6 +146,14 @@ readSqlFile(
   insertData_RolesPermisosSQL, connection,
   `✅ Insertando roles y permisos en la tabla '${config.database}'.'roles_permisos' exitosamente.`, 
   `❌ Error al insertar los datos de roles y permisos en la base de datos.`
+);
+
+const insertData_ProductosPath = path.join(__dirname, "..", "sql/data", "productos.sql");
+const insertData_ProductsSQL = fs.readFileSync(insertData_ProductosPath, "utf-8");
+readSqlFile( //#3
+  insertData_ProductsSQL, connection,
+  `✅ Insertando productos en la tabla '${config.database}'.'productos' exitosamente.`, 
+  `❌ Error al insertar los datos de productos en la base de datos.`
 );
 
 
