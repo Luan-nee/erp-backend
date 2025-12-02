@@ -6,7 +6,7 @@ import type { Connection } from "mysql2/promise";
 
 export async function getCategorias(req: Request, res: Response, connection: Connection): Promise<void>{
   try {
-    const [results] = await connection.execute("SELECT * FROM categorias;");
+    const [results] = await connection.execute("SELECT * FROM `vw_categorias`;");
     const response: PropResponse = {
       status: 200,
       message: "Categorías obtenidas con éxito.",
