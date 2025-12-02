@@ -8,6 +8,16 @@ import { getColores } from "./api/getColores";
 import { getMarcas } from "./api/getMarcas";
 import { getCategorias } from "./api/getCategorias";
 import { getSucursales } from "./api/getSucursales";
+import { getEstadosDocFacturacion } from "./api/getEstadosDocFacturacion";
+import { getEstadosTransferenciasInventarios } from "./api/getEstadosTransferenciasInventarios";
+import { getPermisos } from "./api/getPermisos";
+import { getMetodosPago } from "./api/getMetodosPago";
+import { getProductos } from "./api/getProductos";
+import { getRolesPermisos } from "./api/getRolesPermisos";
+import { getRoles } from "./api/getRoles";
+import { getTipoDocFacturacion } from "./api/getTipoDocFacturacion";
+import { getTiposDocumentosCliente } from "./api/getTiposDocumentosCliente";
+import { getTiposTax } from "./api/getTiposTax";
 
 dotenv.config();
 
@@ -43,13 +53,33 @@ app.get("/", (req: Request, res: Response) => {
   res.send("¡Hola, mundo! Esta es mi primera API con TypeScript y Express.");
 });
 
+app.get("/api/categorias", async (req: Request, res: Response) => getCategorias(req, res, connection));
+
 app.get("/api/colores", async (req: Request, res: Response) => getColores(req, res, connection));
+
+app.get("/api/estados-doc-facturacion", async (req: Request, res: Response) => getEstadosDocFacturacion(req, res, connection));
+
+app.get("/api/estados-transferencias-inventarios", async (req: Request, res: Response) => getEstadosTransferenciasInventarios(req, res, connection));
 
 app.get("/api/marcas", async (req: Request, res: Response) => getMarcas(req, res, connection));
 
-app.get("/api/categorias", async (req: Request, res: Response) => getCategorias(req, res, connection));
+app.get("/api/metodos-pago", async (req: Request, res: Response) => getMetodosPago(req, res, connection));
+
+app.get("/api/permisos", async (req: Request, res: Response) => getPermisos(req, res, connection));
+
+app.get("/api/productos", async (req: Request, res: Response) => getProductos(req, res, connection));
+
+app.get("/api/roles-permisos", async (req: Request, res: Response) => getRolesPermisos(req, res, connection)); 
+
+app.get("/api/roles", async (req: Request, res: Response) => getRoles(req, res, connection));
 
 app.get("/api/sucursales", async (req: Request, res: Response) => getSucursales(req, res, connection));
+
+app.get("/api/tipos-doc-facturacion", async (req: Request, res: Response) => getTipoDocFacturacion(req, res, connection));
+
+app.get("/api/tipos-documentos-cliente", async (req: Request, res: Response) => getTiposDocumentosCliente(req, res, connection));
+
+app.get("/api/tipos-tax", async (req: Request, res: Response) => getTiposTax(req, res, connection));
 
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
