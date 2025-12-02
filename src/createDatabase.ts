@@ -50,6 +50,36 @@ let connection: mysql.Connection | null = null;
       `❌ Error al crear la base de datos o las tablas.`
     );
 
+    // const createFunctionsPath = path.join(projectRoot, "sql", "functions.sql");
+    // const sqlFunctions = fs.readFileSync(createFunctionsPath, "utf-8");
+    // readSqlFile(
+    //   //#1
+    //   sqlFunctions,
+    //   connection,
+    //   `✅ Funciones en '${config.database}' creadas exitosamente.`,
+    //   `❌ Error al crear las funciones.`
+    // );
+
+    // const createProceduresPath = path.join(projectRoot, "sql", "procedures.sql");
+    // const sqlProcedures = fs.readFileSync(createProceduresPath, "utf-8");
+    // readSqlFile(
+    //   //#1
+    //   sqlProcedures,
+    //   connection,
+    //   `✅ Procedimientos almacenados en '${config.database}' creados exitosamente.`,
+    //   `❌ Error al crear los procedimientos almacenados.`
+    // );
+
+    const createViewPath = path.join(projectRoot, "sql", "views.sql");
+    const sqlView = fs.readFileSync(createViewPath, "utf-8");
+    readSqlFile(
+      //#1
+      sqlView,
+      connection,
+      `✅ Vistas en '${config.database}' creadas exitosamente.`,
+      `❌ Error al crear las vistas.`
+    );
+
     const insertData_categoriasPath = path.join(
       projectRoot,
       "sql",
