@@ -13,7 +13,6 @@ export async function getMetodosPago(req: Request, res: Response, connection: Co
     };
     res.status(200).json(response);
     console.log("✅ Consulta de métodos de pago ejecutada con éxito.");
-
   } catch (error) {
     const response: PropResponse = {
       status: 500,
