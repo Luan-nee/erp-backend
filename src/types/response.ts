@@ -1,6 +1,6 @@
 import type { PropColor } from "./color.js";
 import type { PropMarca } from "./marca.js";
-import type { PropCategoria } from "./categoria.js";
+import type { PropCategoria, PropResumen } from "./categoria.js";
 import type { PropSucursal } from "./sucursal.js";
 import type { PropEstadosDocFacturacion } from "./estadosDocFacturacion.js";
 import type { PropEstadosTransferenciasInventarios } from "./estadosTransferenciasInventarios.js";
@@ -32,4 +32,22 @@ export type PropResponse = {
     | PropTipoDocumentoCliente[]
     | PropTipoTax[]
     | null;
+  resumen?: PropResumen[] | null;
 };
+
+/*
+
+type PropCategoria = {
+  id: number;
+  nombre: string;
+  descripcion: string;
+  cantidad_productos: number;
+}
+
+export type PropResponse = {
+  status: number;
+  message: string;
+  info: PropCategoria[]
+};
+
+*/
