@@ -18,6 +18,7 @@ import { getRoles } from "./api/getRoles";
 import { getTipoDocFacturacion } from "./api/getTipoDocFacturacion";
 import { getTiposDocumentosCliente } from "./api/getTiposDocumentosCliente";
 import { getTiposTax } from "./api/getTiposTax";
+import { getResumenCategorias } from "./api/getResumenCategorias";
 
 dotenv.config();
 
@@ -54,6 +55,8 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.get("/api/categorias", async (req: Request, res: Response) => getCategorias(req, res, connection));
+
+app.get("/api/resumen-categorias", async (req: Request, res: Response) => getResumenCategorias(req, res, connection));
 
 app.get("/api/colores", async (req: Request, res: Response) => getColores(req, res, connection));
 

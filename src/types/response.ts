@@ -20,6 +20,7 @@ export type PropResponse = {
     | PropColor[]
     | PropMarca[]
     | PropCategoria[]
+    | PropResumenCategoria[]
     | PropSucursal[]
     | PropEstadosDocFacturacion[]
     | PropEstadosTransferenciasInventarios[]
@@ -32,7 +33,6 @@ export type PropResponse = {
     | PropTipoDocumentoCliente[]
     | PropTipoTax[]
     | null;
-  resumen?: PropResumenCategoria[] | null;
 };
 
 /*
