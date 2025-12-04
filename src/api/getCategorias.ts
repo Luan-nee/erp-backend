@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import type { PropResponse } from "../types/response.js";
-import type { PropCategoria, PropResumen } from "../types/categoria.js";
+import type { PropCategoria, PropResumenCategoria } from "../types/categoria.js";
 import type { Connection } from "mysql2/promise";
 
 
@@ -12,7 +12,7 @@ export async function getCategorias(req: Request, res: Response, connection: Con
       status: 200,
       message: "Categorías obtenidas con éxito.",
       info: results as PropCategoria[],
-      resumen: resumenResults as PropResumen[],
+      resumen: resumenResults as PropResumenCategoria[],
     };
     res.status(200).json(response);
     console.log("✅ Consulta de categorías ejecutada con éxito.");

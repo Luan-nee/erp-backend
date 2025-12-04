@@ -5,7 +5,7 @@ export type PropCategoria = {
   cantidad_productos: number;
 }
 
-export type PropResumen = {
+export type PropResumenCategoria = {
   total_categorias: number;
   total_productos: number;
   promedio_categoria: number; 
