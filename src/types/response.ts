@@ -34,20 +34,3 @@ export type PropResponse = {
     | PropTipoTax[]
     | null;
 };
-
-/*
-
-type PropCategoria = {
-  id: number;
-  nombre: string;
-  descripcion: string;
-  cantidad_productos: number;
-}
-
-export type PropResponse = {
-  status: number;
-  message: string;
-  info: PropCategoria[]
-};
-
-*/
