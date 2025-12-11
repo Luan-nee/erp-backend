@@ -41,7 +41,7 @@ export type PropResponse = {
   info: Result | null;
 };
 
-export default async function GET(
+export default async function get(
   req: Request,
   res: Response,
   connection: Connection,

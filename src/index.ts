@@ -4,7 +4,7 @@ import type { Connection } from "mysql2/promise";
 import { createConnection } from "mysql2/promise";
 import dotenv from "dotenv";
 import cors from "cors";
-import GET from "./test/get";
+import get from "./api/get"; // Importa la función GET desde el archivo test/get.ts
 
 type getActionType = {
   endpoint: string;
@@ -50,7 +50,7 @@ app.get("/", (req: Request, res: Response) => {
 const getAction: getActionType[] = [
   {
     endpoint: "/api/categorias",
-    sql: "SELECT * FROM categorias;",
+    sql: "SELECT * FROM `vw_categorias`;",
     name: "categorias",
   },
   {
@@ -127,7 +127,7 @@ const getAction: getActionType[] = [
 
 getAction.map(({sql, endpoint, name})=>{
   app.get(endpoint, async (req: Request, res: Response) =>
-    GET(req, res, connection, sql, name)
+    get(req, res, connection, sql, name)
   );
 });
 
