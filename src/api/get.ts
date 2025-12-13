@@ -2,7 +2,7 @@ import type { Request, Response } from "express";
 import type { Connection } from "mysql2/promise";
 import type { PropProducto } from "../types/producto";
 import type { PropColor } from "../types/color";
-import type { PropMarca } from "../types/marca";
+import type { PropMarca, PropResumenMarca } from "../types/marca";
 import type {
   PropCategoria,
   PropResumenCategoria,
@@ -24,6 +24,7 @@ type Result =
   | PropMarca[]
   | PropCategoria[]
   | PropResumenCategoria[]
+  | PropResumenMarca[]
   | PropSucursal[]
   | PropEstadosDocFacturacion[]
   | PropEstadosTransferenciasInventarios[]
