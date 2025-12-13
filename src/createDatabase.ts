@@ -318,6 +318,25 @@ let connection: mysql.Connection | null = null;
       `✅ Insertando productos en la tabla '${config.database}'.'productos' exitosamente.`,
       `❌ Error al insertar los datos de productos en la base de datos.`
     );
+
+    const insertData_DetallesProductoPath = path.join(
+      projectRoot,
+      "sql",
+      "data",
+      "detalles_producto.sql"
+    );
+    const insertData_DetallesProductoSQL = fs.readFileSync(
+      insertData_DetallesProductoPath,
+      "utf-8"
+    );
+    readSqlFile(
+      //#3
+      insertData_DetallesProductoSQL,
+      connection,
+      `✅ Insertando detalles de productos en la tabla '${config.database}'.'detalles_producto' exitosamente.`,
+      `❌ Error al insertar los datos de detalles de productos en la base de datos.`
+    );
+
   } catch (error) {
     // Muestra el error de MySQL de forma más legible
     if (error instanceof Error && "sqlMessage" in error) {

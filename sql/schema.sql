@@ -96,7 +96,7 @@ COMMENT = "
 
 CREATE TABLE `detalles_producto` (
   `id` INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único del registro de detalle de producto. Clave primaria.',
-  `porcentaje_ganancia` VARCHAR(10) COMMENT 'Margen de ganancia deseado aplicado al costo del producto (ej. "30%", "0.35").',
+  `porcentaje_ganancia` DECIMAL(5,4) COMMENT 'Margen de ganancia deseado aplicado al costo del producto (ej. "0.30", "0.25").',
   `stock` INT NOT NULL DEFAULT 0 COMMENT 'Cantidad actual de unidades de este producto disponibles en la sucursal.',
   `stock_minimo` INT NOT NULL DEFAULT 0 COMMENT 'Nivel mínimo de inventario para este producto en la sucursal antes de generar una alerta de reposición.',
   `esta_inhabilitado` BOOLEAN NOT NULL DEFAULT false COMMENT 'Indica si este producto está inhabilitado/descontinuado en esta sucursal (TRUE) o no (FALSE).',
