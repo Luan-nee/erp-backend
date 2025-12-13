@@ -70,7 +70,7 @@ const getAction: getActionType[] = [
   },
   {
     endpoint: "/api/marca",
-    sql: "SELECT * FROM marcas;",
+    sql: "SELECT * FROM `vw_marcas`;",
     name: "marcas",
   },
   {
@@ -87,6 +87,11 @@ const getAction: getActionType[] = [
     endpoint: "/api/productos",
     sql: "SELECT * FROM productos;",
     name: "productos",
+  },
+  {
+    endpoint: "/api/resumen-marcas",
+    sql: "SELECT COUNT(*) AS total_marcas, CAST(SUM(cantidad_productos) AS UNSIGNED) AS total_productos, CAST(AVG(cantidad_productos) AS DECIMAL(10, 2)) AS promedio_marca FROM `vw_marcas`;",
+    name: "resumen de categorias",
   },
   {
     endpoint: "/api/resumen-categorias",
