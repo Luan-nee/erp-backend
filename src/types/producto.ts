@@ -1,3 +1,14 @@
+export type PropProductoResumen = {
+  id: number;
+  sku: string;
+  nombre: string;
+  descripcion: string;
+  stock: number;
+  stock_minimo: number;
+  porcentaje_ganancia: number;
+  esta_habilitado: boolean;
+}
+
 export type PropProducto = {
   id: number;
   sku: string;
