@@ -437,6 +437,7 @@ CREATE TABLE `sucursales` (
   `serie_boleta` VARCHAR(10) COMMENT 'Serie alfanumérica utilizada para emitir Boletas de Venta desde esta sucursal (Ej: B001).',
   `numero_boleta_inicial` INT DEFAULT 1 COMMENT 'Próximo número correlativo inicial a usar para la Boleta en esta serie.',
   `codigo_anexo` VARCHAR(10) COMMENT 'Código anexo o identificador único de la sucursal en el sistema de facturación electrónica.',
+  `tipo_sucursal` ENUM('central', 'sucursal') NOT NULL COMMENT 'Define si es la sucursal principal o una secundaria (central/sucursal).',
   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP) COMMENT 'Fecha y hora en que se creó el registro de la sucursal.'
 )
 COMMENT = "
