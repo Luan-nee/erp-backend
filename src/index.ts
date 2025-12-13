@@ -110,7 +110,7 @@ const getAction: getActionType[] = [
   },
   {
     endpoint: "/api/sucursales",
-    sql: "SELECT id as `id`, nombre as `nombre`, direccion as `direccion` FROM erp_app.sucursales;",
+    sql: "SELECT id as `id`, nombre as `nombre`, direccion as `direccion`, tipo_sucursal as `tipo_sucursal` FROM erp_app.sucursales;",
     name: "sucursales",
   },
   {
