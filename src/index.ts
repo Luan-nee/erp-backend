@@ -5,6 +5,7 @@ import { createConnection } from "mysql2/promise";
 import dotenv from "dotenv";
 import cors from "cors";
 import get from "./api/get"; // Importa la función GET desde el archivo test/get.ts
+import type { PropResponse, Result } from "./api/get"; // Importa el tipo PropResponse desde el archivo test/get.ts
 
 type getActionType = {
   endpoint: string;
@@ -83,11 +84,11 @@ const getAction: getActionType[] = [
     sql: "SELECT * FROM permisos;",
     name: "permisos",
   },
-  {
-    endpoint: "/api/productos",
-    sql: "SELECT * FROM productos;",
-    name: "productos",
-  },
+  // {
+  //   endpoint: "/api/productos",
+  //   sql: "SELECT * FROM productos;",
+  //   name: "productos",
+  // },
   {
     endpoint: "/api/resumen-marcas",
     sql: "SELECT COUNT(*) AS total_marcas, CAST(SUM(cantidad_productos) AS UNSIGNED) AS total_productos, CAST(AVG(cantidad_productos) AS DECIMAL(10, 2)) AS promedio_marca FROM `vw_marcas`;",
@@ -135,6 +136,53 @@ getAction.map(({sql, endpoint, name})=>{
     get(req, res, connection, sql, name)
   );
 });
+
+app.get("/api/productos", async (req: Request, res: Response) => {
+  const idSucursal = req.query.id_sucursal as string;
+  console.log("ID Sucursal recibida:", idSucursal);
+  try {
+    let resultsData;
+      if (!idSucursal) {
+        let results = await connection.execute(`SELECT * FROM erp_app.detalles_producto;`);
+        resultsData = results[0];
+      } else {
+        let results = await connection.execute(`
+        SELECT
+              p.id,
+              p.sku,
+              p.nombre,
+              p.descripcion,
+              dp.stock,
+              dp.stock_minimo,
+              dp.porcentaje_ganancia,
+              NOT dp.esta_inhabilitado AS esta_habilitado
+          FROM
+              productos AS p
+          JOIN
+              detalles_producto AS dp ON p.id = dp.producto_id
+          WHERE
+              dp.sucursal_id = ${idSucursal};
+        `);
+        resultsData = results[0];
+      }
+      const response: PropResponse = {
+        status: 200,
+        message: ` productos obtenidos con éxito.`,
+        info: resultsData as Result,
+      };
+      res.status(200).json(response);
+      console.log(`✅ (GET: productos) - ejecutada con éxito.`);
+    } catch (error) {
+      const response: PropResponse = {
+        status: 500,
+        message: `Error interno del servidor al obtener productos.`,
+        info: null,
+      };
+      res.status(500).json(response);
+      console.log(`❌ (Error: productos) - error en la consulta`, error);
+    }
+  }
+);
 
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);

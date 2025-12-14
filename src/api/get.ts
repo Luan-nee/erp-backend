@@ -18,7 +18,7 @@ import type { PropTipoDocFacturacion } from "../types/tipoDocFacturacion.js";
 import type { PropTipoDocumentoCliente } from "../types/tipo_documento_cliente.js";
 import type { PropTipoTax } from "../types/tipo_tax.js";
 
-type Result =
+export type Result =
   | PropProducto[]
   | PropColor[]
   | PropMarca[]
