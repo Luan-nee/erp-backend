@@ -1,6 +1,6 @@
 // src/services/product.service.ts
 import { Product } from '../models/product.model';
-import { ProductRepository } from '../repositories/product.repository';
+import { ProductRepository } from '../repositories/productos.repository';
 
 // Instanciamos el repositorio para usarlo
 const productRepository = new ProductRepository();

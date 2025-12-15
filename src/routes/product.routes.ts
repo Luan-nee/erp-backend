@@ -6,8 +6,8 @@ const router = Router();
 const productController = new ProductController();
 
 // Usamos bind para mantener el contexto 'this' en el controlador
-router.get('/', productController.getProducts.bind(productController));
-router.get('/:id', productController.getProductById.bind(productController));
-router.post('/', productController.createProduct.bind(productController));
+router.get('/', productController.getProducts);
+router.get('/:id', productController.getProductById);
+router.post('/', productController.createProduct);
 
 export default router;
