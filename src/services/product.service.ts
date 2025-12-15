@@ -1,5 +1,5 @@
 // src/services/product.service.ts
-import { Product } from '../models/product.model';
+import { Product } from '../models/producto.model';
 import { ProductRepository } from '../repositories/productos.repository';
 
 // Instanciamos el repositorio para usarlo

@@ -1,7 +1,7 @@
 // src/controllers/product.controller.ts
 import { Request, Response, NextFunction } from "express";
 import { ProductService } from "../services/product.service";
-import { Product } from "../models/product.model";
+import { Product } from "../models/producto.model";
 import { ApiResponse } from "../models/api-response.model";
 
 const productService = new ProductService();
