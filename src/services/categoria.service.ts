@@ -39,7 +39,7 @@ export class CategoriaService {
   async create(categoria: CategoriaCreate): Promise<number> {
     const id = await categoriaRepository.create(categoria);
     if (!categoria) {
-      const error: any = new Error(`La categoría con ID ${id} no existe.`);
+      const error: any = new Error(`Erro al crear la categoría con ID ${id}.`);
       error.status = 500;
       throw error;
     }
@@ -49,7 +49,7 @@ export class CategoriaService {
   async update(id: number, newCategoria: CategoriaUpdate): Promise<void> {
     const exists = await categoriaRepository.categoriaExists(id);
     if (!exists) {
-      const error: any = new Error(`La categoría con ID ${id} no existe.`);
+      const error: any = new Error(`No se puede actualizar la categoría con ID ${id} porque no existe.`);
       error.status = 404;
       throw error;
     }
@@ -59,7 +59,7 @@ export class CategoriaService {
   async delete(id: number): Promise<void> {
     const exists = await categoriaRepository.categoriaExists(id);
     if (!exists) {
-      const error: any = new Error(`La categoría con ID ${id} no existe.`);
+      const error: any = new Error(`No se puede eliminar la categoría con ID ${id} porque no existe.`);
       error.status = 404;
       throw error;
     }
