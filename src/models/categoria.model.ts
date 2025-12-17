@@ -4,4 +4,20 @@ export type Categoria = {
   descripcion: string;
 }
 
+export type CategoriaCreate = {
+  nombre: string;
+  descripcion: string;
+};
+
+export type CategoriaUpdate = {
+  newNombre: string;
+  newDescripcion: string;
+};
+
 export type CategoriaSelect = Categoria & { cantidad_productos: number };
+
+export type ResumenCategoria = {
+  total_categorias: number;
+  total_productos: number;
+  promedio_categoria: number; 
+}

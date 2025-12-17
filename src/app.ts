@@ -1,6 +1,7 @@
 // src/app.ts
 import express, { NextFunction } from "express";
 import productRoutes from "./routes/product.routes";
+import categoriaRoutes from "./routes/categoria.routes";
 import cors from "cors";
 import { ApiResponse } from "./models/api-response.model";
 import { Request, Response } from "express";
@@ -19,6 +20,7 @@ app.use(express.json()); // Permite a Express parsear cuerpos JSON
 
 // Rutas API
 app.use("/api/products", productRoutes);
+app.use("/api/categorias", categoriaRoutes);
 
 // Inicializar el servidor
 app.listen(PORT, () => {
@@ -42,6 +44,8 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
         message: err.message || "Ocurrió un error inesperado en el servidor",
         info: [] // Como es un error, retornamos el array vacío como pides
     };
+
+    console.log('❌ Error manejado por el middleware global:', err.message);
 
     // 3. Enviamos la respuesta
     res.status(statusCode).json(responseBody);
