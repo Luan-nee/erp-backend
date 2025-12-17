@@ -7,7 +7,7 @@
 export interface ApiResponse<T> {
   status: number; // Código HTTP (ej. 200, 201)
   message: string;
-  info: T; // Puede ser un objeto, un array de objetos, o null/undefined.
+  info: T | null; // Puede ser un objeto, un array de objetos, o null/undefined.
 }
 
 /**

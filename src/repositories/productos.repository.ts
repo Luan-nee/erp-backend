@@ -1,9 +1,17 @@
 // src/repositories/product.repository.ts
 import { db } from "../config/db.config";
-import { ProductoSelect, DetallesProductoCreate, ProductoCreate } from "../models/producto.model";
+import { ProductoSelect, DetallesProductoCreate, ProductoCreate, ProductoSelectById } from "../models/producto.model";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 
 export class ProductosRepository {
+  async SucursalExists(idSucursal: number): Promise<boolean> {
+    const [rows] = await db.query<RowDataPacket[]>(
+      `SELECT id FROM sucursales WHERE id = ? LIMIT 1;`,
+      [idSucursal]
+    );
+    return rows.length > 0;
+  }
+
   async findAll(idSucursal: number): Promise<ProductoSelect[] | null> {
     const [rows] = await db.query<RowDataPacket[]>(
       `
@@ -29,39 +37,46 @@ export class ProductosRepository {
     if (rows.length === 0) {
       return null;
     }
+
     // El casting es necesario porque 'rows' es un array genérico de RowDataPacket
     return rows as ProductoSelect[];
   }
 
-  async findById(id: number, idSucursal: number): Promise<ProductoSelect | null> {
+  async findById(idProduct: number, idSucursal: number): Promise<ProductoSelectById | null> {
     // El "id" hace referencia al ID del producto que está almacenado dentro de la tabla "productos"
     // y el "idSucursal" hace referencia al ID de la sucursal dentro de la tabla "detalles_producto"
 
     const [rows] = await db.query<RowDataPacket[]>(
       `
         SELECT
-            p.id,
-            p.sku,
-            p.nombre,
-            p.descripcion,
-            dp.stock,
-            dp.stock_minimo,
-            dp.porcentaje_ganancia,
-            dp.esta_inhabilitado
+          p.id,
+          p.sku,
+          p.nombre,
+          p.descripcion,
+          p.precio_compra,
+          p.categoria_id,
+          p.color_id,
+          p.marca_id,
+          p.fecha_creacion,
+          dp.stock,
+          dp.stock_minimo,
+          dp.porcentaje_ganancia,
+          dp.esta_inhabilitado,
+          dp.fecha_actualizacion
         FROM
-            productos AS p
+          productos AS p
         JOIN
-            detalles_producto AS dp ON p.id = dp.producto_id
-        WHERE dp.sucursal_id = ? AND p.id = ?; 
+          detalles_producto AS dp ON p.id = dp.producto_id
+        WHERE dp.sucursal_id = ? AND p.id = ?;  
       `,
-      [idSucursal, id]
+      [idSucursal, idProduct]
     );
 
     if (rows.length === 0) {
       return null;
     }
     // El casting es necesario porque 'rows' es un array genérico de RowDataPacket
-    return rows[0] as ProductoSelect;
+    return rows[0] as ProductoSelectById;
   }
 
   async createDetalleProducto(detallesProducto: DetallesProductoCreate): Promise<number> {

@@ -9,6 +9,23 @@ export type ProductoSelect = {
   esta_inhabilitado: boolean;
 }
 
+export type ProductoSelectById = {
+  id: number;
+  sku: string;
+  nombre: string;
+  descripcion: string;
+  precio_compra: number;
+  categoria_id: number;
+  color_id: number;
+  marca_id: number;
+  fecha_creacion: Date;
+  stock: number;
+  stock_minimo: number;
+  porcentaje_ganancia: number;
+  esta_inhabilitado: boolean;
+  fecha_actualizacion: Date;
+}
+
 export type ProductoCreate = {
   id: number;
   sku: string;
