@@ -1,4 +1,3 @@
-// src/controllers/product.controller.ts
 import { Request, Response, NextFunction } from "express";
 import { ProductService } from "../services/product.service";
 import { ProductoSelect, ProductoSelectById } from "../models/producto.model";
