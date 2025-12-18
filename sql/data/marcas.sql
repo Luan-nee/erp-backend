@@ -1,4 +1,5 @@
 INSERT INTO `marcas` (nombre, descripcion) VALUES
+('sin marca', 'Marca por defecto para productos sin una marca asignada.');
 ('TechNova', 'Líder en innovación de hardware y software para el mercado global.'),
 ('FashionTrend', 'Marca especializada en ropa urbana, calzado y accesorios de alta calidad.'),
 ('HomeBliss', 'Ofrece soluciones prácticas y estéticas para la decoración y organización del hogar.'),
