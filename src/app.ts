@@ -2,6 +2,7 @@
 import express, { NextFunction } from "express";
 import productRoutes from "./routes/product.routes";
 import categoriaRoutes from "./routes/categoria.routes";
+import marcaRoutes from "./routes/marca.routes";
 import cors from "cors";
 import { ApiResponse } from "./models/api-response.model";
 import { Request, Response } from "express";
@@ -21,6 +22,7 @@ app.use(express.json()); // Permite a Express parsear cuerpos JSON
 // Rutas API
 app.use("/api/products", productRoutes);
 app.use("/api/categorias", categoriaRoutes);
+app.use("/api/marcas", marcaRoutes);
 
 // Inicializar el servidor
 app.listen(PORT, () => {

@@ -19,7 +19,7 @@ const corsOptions = {
   origin: "http://localhost:5173", // Reemplaza con el origen de tu frontend
 };
 
-const PORT = process.env.BACKEND_PORT || 3000;
+const PORT = 3001;
 const app = express();
 
 app.use(cors(corsOptions)); // 2. Usa el middleware de CORS con las opciones definidas
