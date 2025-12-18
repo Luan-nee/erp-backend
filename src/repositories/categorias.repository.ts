@@ -69,9 +69,11 @@ export class CategoriasRepository {
   }
 
   async delete(id: number): Promise<void> {
-    await db.execute(
-      "CALL sp_eliminar_categoria (?);",
-      [id]
-    );
+    if (id !== 1){
+      await db.execute(
+        "CALL sp_eliminar_categoria (?);",
+        [id]
+      );
+    }
   }
 }
