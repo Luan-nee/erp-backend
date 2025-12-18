@@ -17,5 +17,5 @@ SELECT
     COUNT(marcas.id) AS `cantidad_productos`
 FROM
     (`erp_app`.`marcas`
-JOIN `erp_app`.`productos` ON ((`erp_app`.`marcas`.`id` = `erp_app`.`productos`.`marca_id`)))
+LEFT JOIN `erp_app`.`productos` ON ((`erp_app`.`marcas`.`id` = `erp_app`.`productos`.`marca_id`)))
 GROUP BY `erp_app`.`marcas`.`id` , `erp_app`.`marcas`.`nombre` , `erp_app`.`marcas`.`descripcion`
