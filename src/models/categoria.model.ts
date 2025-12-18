@@ -10,8 +10,8 @@ export type CategoriaCreate = {
 };
 
 export type CategoriaUpdate = {
-  newNombre: string;
-  newDescripcion: string;
+  nombre: string;
+  descripcion: string;
 };
 
 export type CategoriaSelect = Categoria & { cantidad_productos: number };

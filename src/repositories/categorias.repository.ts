@@ -56,7 +56,7 @@ export class CategoriasRepository {
   async update(id: number, newCategoria: CategoriaUpdate): Promise<void> {
     await db.execute(
       "UPDATE categorias SET nombre = ?, descripcion = ? WHERE id = ?",
-      [newCategoria.newNombre, newCategoria.newDescripcion, id]
+      [newCategoria.nombre, newCategoria.descripcion, id]
     );
   }
 
