@@ -60,7 +60,11 @@ let connection: mysql.Connection | null = null;
     //   `❌ Error al crear las funciones.`
     // );
 
-    // const createProceduresPath = path.join(projectRoot, "sql", "procedures.sql");
+    /* 
+      TAREA: ADAPTAR EL SCRIP PARA CREAR AUTOMATICAMENTE LOS PROCEDIMIENTOS ALMACENADOS 
+        Actualmente hay un error y la se sospecha que la causa del error se debe a los delimitadores
+    */
+    // const createProceduresPath = path.join(projectRoot, "sql", "StoreProcedures.sql");
     // const sqlProcedures = fs.readFileSync(createProceduresPath, "utf-8");
     // readSqlFile(
     //   //#1
