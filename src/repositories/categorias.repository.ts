@@ -70,7 +70,7 @@ export class CategoriasRepository {
 
   async delete(id: number): Promise<void> {
     await db.execute(
-      "DELETE FROM categorias WHERE id = ?",
+      "CALL sp_eliminar_categoria (?);",
       [id]
     );
   }
