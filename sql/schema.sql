@@ -322,19 +322,19 @@ CREATE TABLE `productos` (
   `descripcion` TEXT COMMENT 'Descripción detallada de las características y especificaciones del producto.',
   `path_foto` VARCHAR(255) COMMENT 'Ruta o URL donde se almacena la imagen principal del producto.',
   `precio_compra` DECIMAL(12,2) NOT NULL COMMENT 'Costo unitario de adquisición del producto al proveedor.',
-  `color_id` INT NOT NULL COMMENT 'ID que referencia al color del producto (clave foránea a la tabla colores).',
-  `categoria_id` INT NOT NULL COMMENT 'ID que referencia a la categoría principal del producto (clave foránea a la tabla categorias).',
-  `marca_id` INT NOT NULL COMMENT 'ID que referencia a la marca del producto (clave foránea a la tabla marcas).',
-  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP) COMMENT 'Fecha y hora en que se creó el registro del producto.'
+  `color_id` INT NOT NULL COMMENT 'Referencia al color (FK). Indica el acabado cromático del producto.',
+  `categoria_id` INT NOT NULL COMMENT 'Referencia a la categoría (FK). Define la clasificación taxonómica del producto.',
+  `marca_id` INT NOT NULL COMMENT 'Referencia a la marca (FK). Fabricante o marca comercial del producto.',
+  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP) COMMENT 'Marca de tiempo de registro automático en el sistema.',
+  `estado` BOOLEAN NOT NULL DEFAULT TRUE COMMENT 'Estado lógico del registro. TRUE (1) para activo, FALSE (0) para inactivo o descontinuado.'
 ) 
 COMMENT = "
 **Propósito:** Almacena la información maestra y genérica de todos los productos disponibles en el sistema.
 
-### Restricciones Adicionales (Foreign Keys)
-
-* `FOREIGN KEY (color_id)` se refiere a la columna **id** de la tabla `colores`.
-* `FOREIGN KEY (categoria_id)` se refiere a la columna **id** de la tabla `categorias`.
-* `FOREIGN KEY (marca_id)` se refiere a la columna **id** de la tabla `marcas`.
+### Restricciones de Integridad (Foreign Keys)
+* `color_id` -> colores(id)
+* `categoria_id` -> categorias(id)
+* `marca_id` -> marcas(id)
 ";
 
 CREATE TABLE `proformas_venta` (

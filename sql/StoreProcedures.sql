@@ -25,3 +25,11 @@ DELIMITER //
 			END IF;
 	END //
 DELIMITER ;
+
+DELIMITER //
+	CREATE PROCEDURE sp_eliminar_producto(IN p_id_producto INT)
+	BEGIN
+		UPDATE productos SET estado = FALSE WHERE productos.id = p_id_producto;
+		UPDATE detalles_producto SET esta_inhabilitado = TRUE WHERE detalles_producto.producto_id = p_id_producto;
+	END //
+DELIMITER ;
