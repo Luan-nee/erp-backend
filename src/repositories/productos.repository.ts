@@ -122,4 +122,13 @@ export class ProductosRepository {
     );
     return result.affectedRows;
   }
+
+  // Inhabilitar el detalle del producto en una sucursal específica se puede entender como eliminar.
+  async inhabilitarDetalleProducto(idDetalleProducto: number, idSucursal: number): Promise<number> {
+    const [result] = await db.execute<ResultSetHeader>(
+      `UPDATE detalles_producto SET esta_inhabilitado = true WHERE producto_id = ? AND sucursal_id = ?;`,
+      [idDetalleProducto, idSucursal]
+    );
+    return result.affectedRows;
+  }
 }
