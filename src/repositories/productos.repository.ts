@@ -2,8 +2,6 @@
 import { db } from "../config/db.config";
 import { ProductoSelect, DetallesProductoCreate, ProductoCreate, ProductoSelectById, ProductoUpdate, DetalleProductoUpdate } from "../models/producto.model";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
-import SucursalesRepository from "./sucursales.repository";
-
 
 export class ProductosRepository {
   static async ProductoExists(idProducto: number): Promise<boolean> {

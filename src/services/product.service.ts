@@ -15,6 +15,8 @@ import { MarcasRepository } from "../repositories/marcas.repository";
 const productRepository = new ProductosRepository();
 
 export class ProductService {
+
+  // obtienen datos de los productos según la sucursal.
   async getDetallesProductos(idSucursal: number): Promise<ProductoSelect[] | null> {
     // Podríamos añadir lógica de negocio aquí, ej: aplicar descuentos
     const sucursalExists = await SucursalesRepository.SucursalExists(idSucursal);
@@ -28,7 +30,7 @@ export class ProductService {
     const products = await productRepository.findAll(idSucursal);
 
     if (!products){
-      const error: any = new Error(`No se encontró una sucursal con ID=${idSucursal} o no tiene productos.`);
+      const error: any = new Error(`la sucursal con ID=${idSucursal} o no tiene productos.`);
       error.status = 404;
       throw error;
     }
