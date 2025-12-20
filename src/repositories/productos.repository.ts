@@ -117,7 +117,7 @@ export class ProductosRepository {
 
   async deleteProducto(idProducto: number): Promise<number> {
     const [result] = await db.execute<ResultSetHeader>(
-      `UPDATE productos SET estado = FALSE WHERE id = ?;`,
+      `CALL sp_eliminar_producto(?);`,
       [idProducto]
     );
     return result.affectedRows;
