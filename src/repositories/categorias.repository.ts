@@ -76,4 +76,12 @@ export class CategoriasRepository {
       );
     }
   }
+
+  static async CategoriaExists(idCategoria: number): Promise<boolean> {
+    const [rows] = await db.query<RowDataPacket[]>(
+      `SELECT id FROM categorias WHERE id = ? LIMIT 1;`,
+      [idCategoria]
+    );
+    return rows.length > 0;
+  }
 }

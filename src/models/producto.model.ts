@@ -31,7 +31,6 @@ export type ProductoCreate = {
   sku: string;
   nombre: string;
   descripcion: string;
-  path_foto: string;
   precio_compra: number;
   color_id: number;
   categoria_id: number;
@@ -46,4 +45,21 @@ export type DetallesProductoCreate = {
   esta_inhabilitado: boolean;
   producto_id: number;
   sucursal_id: number;
+}
+
+export type ProductoUpdate = {
+  nombre: string;
+  descripcion: string;
+  precio_compra: number;
+  categoria_id: number;
+  color_id: number;
+  marca_id: number;
+}
+
+export type DetalleProductoUpdate = {
+  porcentaje_ganancia: number;
+  stock: number;
+  stock_minimo: number;
+  esta_inhabilitado: boolean;
+  // fecha_actualizacion: Date; // Esto se actualizará automáticamente en la base de datos
 }

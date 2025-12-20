@@ -29,4 +29,12 @@ export class ColoresRepository {
     // Retorna el ID del producto insertado
     return result.insertId;
   }
+
+  static async ColorExists(idColor: number): Promise<boolean> {
+    const [rows] = await db.query<RowDataPacket[]>(
+      `SELECT id FROM colores WHERE id = ? LIMIT 1;`,
+      [idColor]
+    );
+    return rows.length > 0;
+  }
 }

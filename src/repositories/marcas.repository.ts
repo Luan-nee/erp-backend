@@ -74,4 +74,12 @@ export class MarcasRepository {
       );
     }
   }
+
+  static async MarcaExists(idMarca: number): Promise<boolean> {
+    const [rows] = await db.query<RowDataPacket[]>(
+      `SELECT id FROM marcas WHERE id = ? LIMIT 1;`,
+      [idMarca]
+    );
+    return rows.length > 0;
+  }
 }

@@ -1,13 +1,15 @@
 // src/repositories/product.repository.ts
 import { db } from "../config/db.config";
-import { ProductoSelect, DetallesProductoCreate, ProductoCreate, ProductoSelectById } from "../models/producto.model";
+import { ProductoSelect, DetallesProductoCreate, ProductoCreate, ProductoSelectById, ProductoUpdate, DetalleProductoUpdate } from "../models/producto.model";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
+import SucursalesRepository from "./sucursales.repository";
+
 
 export class ProductosRepository {
-  async SucursalExists(idSucursal: number): Promise<boolean> {
+  static async ProductoExists(idProducto: number): Promise<boolean> {
     const [rows] = await db.query<RowDataPacket[]>(
-      `SELECT id FROM sucursales WHERE id = ? LIMIT 1;`,
-      [idSucursal]
+      `SELECT id FROM productos WHERE id = ? LIMIT 1;`,
+      [idProducto]
     );
     return rows.length > 0;
   }
@@ -90,10 +92,34 @@ export class ProductosRepository {
 
   async createProducto(producto: ProductoCreate): Promise<number> {
     const [result] = await db.execute<ResultSetHeader>(
-      `INSERT INTO productos (sku, nombre, descripcion, path_foto, precio_compra, color_id, categoria_id, marca_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
-      [producto.sku, producto.nombre, producto.descripcion, producto.path_foto, producto.precio_compra, producto.color_id, producto.categoria_id, producto.marca_id]
+      `INSERT INTO productos (sku, nombre, descripcion, path_foto, precio_compra, color_id, categoria_id, marca_id) VALUES (?, ?, ?, 'sin foto', ?, ?, ?, ?);`,
+      [producto.sku, producto.nombre, producto.descripcion, producto.precio_compra, producto.color_id, producto.categoria_id, producto.marca_id]
     );
     // Retorna el ID del producto insertado
     return result.insertId;
+  }
+
+  async updateProducto(idProducto: number, producto: ProductoUpdate): Promise<number> {
+    const [result] = await db.execute<ResultSetHeader>(
+      `UPDATE productos SET nombre = ?, descripcion = ?, precio_compra = ?, categoria_id = ?, color_id = ?, marca_id = ? WHERE id = ?;`,
+      [producto.nombre, producto.descripcion, producto.precio_compra, producto.categoria_id, producto.color_id, producto.marca_id, idProducto]
+    );
+    return result.affectedRows;
+  }
+
+  async updateDetalleProducto(idDetalleProducto: number, idSucursal: number, detalleProducto: DetalleProductoUpdate): Promise<number> {
+    const [result] = await db.execute<ResultSetHeader>(
+      `UPDATE detalles_producto SET porcentaje_ganancia = ?, stock = ?, stock_minimo = ?, esta_inhabilitado = ? WHERE producto_id = ? AND sucursal_id = ?;`,
+      [detalleProducto.porcentaje_ganancia, detalleProducto.stock, detalleProducto.stock_minimo, detalleProducto.esta_inhabilitado, idDetalleProducto, idSucursal]
+    );
+    return result.affectedRows;
+  }
+
+  async deleteProducto(idProducto: number): Promise<number> {
+    const [result] = await db.execute<ResultSetHeader>(
+      `UPDATE productos SET estado = FALSE WHERE id = ?;`,
+      [idProducto]
+    );
+    return result.affectedRows;
   }
 }
