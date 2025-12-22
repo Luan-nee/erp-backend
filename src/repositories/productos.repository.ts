@@ -1,6 +1,6 @@
 // src/repositories/product.repository.ts
 import { db } from "../config/db.config";
-import { ResumenProductos, ProductoSelect, DetallesProductoCreate, ProductoCreate, ProductoSelectById, ProductoUpdate, DetalleProductoUpdate } from "../models/producto.model";
+import { ProductCreateMain, ResumenProductos, ProductoSelect, DetallesProductoCreate, ProductoCreate, ProductoSelectById, ProductoUpdate, DetalleProductoUpdate } from "../models/producto.model";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 
 export class ProductosRepository {
@@ -96,19 +96,10 @@ export class ProductosRepository {
     return rows[0] as ResumenProductos;
   }
 
-  async createDetalleProducto(detallesProducto: DetallesProductoCreate): Promise<number> {
+  async createProducto(producto: ProductCreateMain): Promise<number> {
     const [result] = await db.execute<ResultSetHeader>(
-      `INSERT INTO detalles_producto (porcentaje_ganancia, stock, stock_minimo, producto_id, sucursal_id) VALUES (?, ?, ?, ?, ?);`,
-      [detallesProducto.porcentaje_ganancia, detallesProducto.stock, detallesProducto.stock_minimo, detallesProducto.producto_id, detallesProducto.sucursal_id]
-    );
-    // Retorna el ID del producto insertado
-    return result.insertId;
-  }
-
-  async createProducto(producto: ProductoCreate): Promise<number> {
-    const [result] = await db.execute<ResultSetHeader>(
-      `INSERT INTO productos (sku, nombre, descripcion, path_foto, precio_compra, color_id, categoria_id, marca_id) VALUES (?, ?, ?, 'sin foto', ?, ?, ?, ?);`,
-      [producto.sku, producto.nombre, producto.descripcion, producto.precio_compra, producto.color_id, producto.categoria_id, producto.marca_id]
+      `CALL sp_registrar_producto_global(?,?,?,?,?,?,?,?,?);`,
+      [producto.nombre, producto.descripcion, producto.precio_compra, producto.color_id, producto.categoria_id, producto.marca_id, producto.porcentaje_ganancia, producto.stock, producto.stock_minimo]
     );
     // Retorna el ID del producto insertado
     return result.insertId;

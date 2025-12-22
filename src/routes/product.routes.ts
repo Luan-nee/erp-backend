@@ -13,6 +13,6 @@ router.get('/:id_sucursal', productController.getProducts);
 router.get('/:id_sucursal/:id_producto', productController.getProductById);
 
 // 3. Otros métodos
-router.post('/', productController.createProduct);
+router.post('/', productController.crearProducto);
 
 export default router;

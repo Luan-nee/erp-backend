@@ -33,7 +33,6 @@ export type ResumenProductos = {
 }
 
 export type ProductoCreate = {
-  sku: string;
   nombre: string;
   descripcion: string;
   precio_compra: number;
@@ -46,9 +45,9 @@ export type DetallesProductoCreate = {
   porcentaje_ganancia: number;
   stock: number;
   stock_minimo: number;
-  producto_id: number;
-  sucursal_id: number;
 }
+
+export type ProductCreateMain = ProductoCreate & DetallesProductoCreate;
 
 export type ProductoUpdate = {
   nombre: string;

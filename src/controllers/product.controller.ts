@@ -81,15 +81,21 @@ export class ProductController {
     }
   }
 
-  // POST /api/products
-  async createProduct(
+  // POST /api/productos
+  async crearProducto(
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> {
     try {
-      // **IMPORTANTE**: Aquí iría el middleware de validación (ej. con Joi/Zod)
-      const newId = await productService.createDetalleProducto(parseInt(req.params.id_sucursal ?? "0"), req.body);
+      const newId: number = await productService.createProducto(req.body);
+
+      const responseBody: ApiResponse<number> = {
+        status: 200,
+        message: "Producto Creado exitosamente.",
+        info: newId,
+      };
+
       res.status(201).json({
         message: "Product created successfully",
         id: newId,
