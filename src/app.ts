@@ -7,6 +7,7 @@ import productRoutes from "./routes/product.routes";
 import categoriaRoutes from "./routes/categoria.routes";
 import marcaRoutes from "./routes/marca.routes";
 import colorRoutes from "./routes/color.routes";
+import sucursalRoutes from "./routes/sucursal.routes";
 
 // Crea la aplicación Express
 const app = express();
@@ -25,6 +26,7 @@ app.use("/api/productos", productRoutes);
 app.use("/api/categorias", categoriaRoutes);
 app.use("/api/marcas", marcaRoutes);
 app.use("/api/colores", colorRoutes);
+app.use("/api/sucursales", sucursalRoutes);
 
 // Inicializar el servidor
 app.listen(PORT, () => {

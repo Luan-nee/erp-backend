@@ -2,6 +2,7 @@ export type SucursalSelect = {
   id: number;
   nombre: string;
   direccion: string;
+  tipo_sucursal: string;
 }
 
 export type Sucursal = {

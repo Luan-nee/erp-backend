@@ -16,12 +16,12 @@ export default class SucursalesRepository {
   // Obtener datos escenciales de cada sucursal
   async findAll(): Promise<SucursalSelect[] | null> {
     const [rows] = await db.query<RowDataPacket[]>(
-      `SELECT id, nombre, direccion FROM sucursales;`
+      `SELECT id, nombre, direccion, tipo_sucursal FROM sucursales;`
     );
     if (rows.length === 0) {
       return null;
     }
-    return rows as Sucursal[];
+    return rows as SucursalSelect[];
   }
 
   // Obtiene todos los datos de la sucursal por su ID
