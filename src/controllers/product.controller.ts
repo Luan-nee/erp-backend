@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { ProductService } from "../services/product.service";
-import { ProductoSelect, ProductoSelectById } from "../models/producto.model";
+import { ProductoSelect, ProductoSelectById, ResumenProductos } from "../models/producto.model";
 import { ApiResponse } from "../models/api-response.model";
 
 const productService = new ProductService();
@@ -28,6 +28,36 @@ export class ProductController {
       next(error);
     }
   }
+
+  async getResumenProductos(
+  req: Request,
+  res: Response<ApiResponse<ResumenProductos>>,
+  next: NextFunction
+): Promise<void> {
+  try {
+    // 1. Capturar el valor
+    const rawId = req.params.id_sucursal;
+    const idSucursal = parseInt(rawId ?? "0");
+
+    // 2. VALIDACIÓN CRÍTICA: Si no es un número, lanzar error antes de ir a la DB
+    if (isNaN(idSucursal) || idSucursal <= 0) {
+      const error: any = new Error(`El parámetro id_sucursal ('${rawId}') no es un número válido.`);
+      error.status = 400;
+      throw error;
+    }
+
+    const resumen = await productService.getResumenProductos(idSucursal);
+    
+    const responseBody: ApiResponse<ResumenProductos> = {
+      status: 200,
+      message: "Resumen de productos recuperado exitosamente.",
+      info: resumen,
+    };
+    res.status(200).json(responseBody);
+  } catch (error) {
+    next(error);
+  }
+}
 
   // GET /api/products/:id
   async getProductById(
@@ -59,7 +89,7 @@ export class ProductController {
   ): Promise<void> {
     try {
       // **IMPORTANTE**: Aquí iría el middleware de validación (ej. con Joi/Zod)
-      const newId = await productService.createDetalleProducto(req.body);
+      const newId = await productService.createDetalleProducto(parseInt(req.params.id_sucursal ?? "0"), req.body);
       res.status(201).json({
         message: "Product created successfully",
         id: newId,

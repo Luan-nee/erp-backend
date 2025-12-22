@@ -20,7 +20,7 @@ app.use(cors(corsOptions));
 app.use(express.json()); // Permite a Express parsear cuerpos JSON
 
 // Rutas API
-app.use("/api/products", productRoutes);
+app.use("/api/productos", productRoutes);
 app.use("/api/categorias", categoriaRoutes);
 app.use("/api/marcas", marcaRoutes);
 
@@ -28,7 +28,7 @@ app.use("/api/marcas", marcaRoutes);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   // Asegúrate de que tu DB esté inicializada con una tabla 'products'
-  console.log(`Open http://localhost:${PORT}/api/products`);
+  console.log(`Open http://localhost:${PORT}`);
 });
 
 /**

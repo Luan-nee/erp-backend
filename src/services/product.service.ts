@@ -3,7 +3,8 @@ import {
   DetallesProductoCreate,
   ProductoCreate,
   ProductoSelect,
-  ProductoSelectById
+  ProductoSelectById,
+  ResumenProductos
 } from "../models/producto.model";
 import { ProductosRepository } from "../repositories/productos.repository";
 import SucursalesRepository from "../repositories/sucursales.repository";
@@ -18,24 +19,39 @@ export class ProductService {
 
   // obtienen datos de los productos según la sucursal.
   async getDetallesProductos(idSucursal: number): Promise<ProductoSelect[] | null> {
-    // Podríamos añadir lógica de negocio aquí, ej: aplicar descuentos
-    const sucursalExists = await SucursalesRepository.SucursalExists(idSucursal);
+    // 1. Validar primero
+    if (isNaN(idSucursal)) {
+      const error: any = new Error(`El ID de sucursal proporcionado no es un número válido.`);
+      error.status = 400;
+      throw error;
+    }
 
+    const sucursalExists = await SucursalesRepository.SucursalExists(idSucursal);
     if (!sucursalExists){
       const error: any = new Error(`No se encontró una sucursal con ID=${idSucursal}.`);
       error.status = 404;
       throw error;
     }
 
-    const products = await productRepository.findAll(idSucursal);
+    return await productRepository.findAll(idSucursal);
+  }
 
-    if (!products){
-      const error: any = new Error(`la sucursal con ID=${idSucursal} o no tiene productos.`);
-      error.status = 404;
+  async getResumenProductos(idSucursal: number): Promise<ResumenProductos | null> {
+    // 1. Validar primero SIEMPRE
+    if (isNaN(idSucursal) || idSucursal <= 0) {
+      const error: any = new Error(`El ID de sucursal proporcionado no es válido.`);
+      error.status = 400;
       throw error;
     }
 
-    return products;
+    const sucursalExists = await SucursalesRepository.SucursalExists(idSucursal);
+    if (!sucursalExists){
+      const error: any = new Error(`No se encontró una sucursal con ID=${idSucursal}.`);
+      error.status = 404;
+      throw error;
+    }
+    
+    return await productRepository.getResumenProductos(idSucursal);
   }
 
   async getProductById(
@@ -54,13 +70,14 @@ export class ProductService {
   }
 
   async createDetalleProducto(
+    id_producto: number, // id del producto al que se le van a agregar los detalles
     productData: DetallesProductoCreate
   ): Promise<number> {
-    const productoExists = await ProductosRepository.ProductoExists(productData.producto_id);
+    const productoExists = await ProductosRepository.ProductoExists(id_producto);
     const sucursalExists = await SucursalesRepository.SucursalExists(productData.sucursal_id);
 
     if (!productoExists) {
-      const error: any = new Error(`No se encontró el producto con ID=${productData.producto_id}.`);
+      const error: any = new Error(`No se encontró el producto con ID=${id_producto}.`);
       error.status = 404;
       throw error;
     }else if (!sucursalExists) {
@@ -96,17 +113,4 @@ export class ProductService {
     const id = await productRepository.createProducto(productData);
     return id;
   }
-
-  // async updateProducto(
-  //   idProduct: number,
-  //   productData: ProductoCreate
-  // ): Promise<void> {
-  //   const productoExists = await ProductosRepository.ProductoExists(idProduct);
-  //   if (!productoExists) {
-  //     const error: any = new Error(`No se encontró el producto con ID=${idProduct}.`);
-  //     error.status = 404;
-  //     throw error;
-  //   }
-  //   await productRepository.updateProducto(idProduct, productData);
-  // }
 }

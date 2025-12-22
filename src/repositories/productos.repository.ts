@@ -1,6 +1,6 @@
 // src/repositories/product.repository.ts
 import { db } from "../config/db.config";
-import { ProductoSelect, DetallesProductoCreate, ProductoCreate, ProductoSelectById, ProductoUpdate, DetalleProductoUpdate } from "../models/producto.model";
+import { ResumenProductos, ProductoSelect, DetallesProductoCreate, ProductoCreate, ProductoSelectById, ProductoUpdate, DetalleProductoUpdate } from "../models/producto.model";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 
 export class ProductosRepository {
@@ -79,10 +79,27 @@ export class ProductosRepository {
     return rows[0] as ProductoSelectById;
   }
 
+  async getResumenProductos(idSucursal: number): Promise<ResumenProductos | null> {
+    const [rows] = await db.query<RowDataPacket[]>(
+      `
+        SELECT 
+          COUNT(*) AS total_productos,
+          SUM(CASE WHEN esta_inhabilitado = FALSE THEN 1 ELSE 0 END) AS activos,
+          SUM(CASE WHEN esta_inhabilitado = TRUE THEN 1 ELSE 0 END) AS inhabilitados
+        FROM detalles_producto 
+        WHERE sucursal_id = ?;
+      `,
+      [idSucursal]
+    );
+
+    if (rows.length === 0) return null;
+    return rows[0] as ResumenProductos;
+  }
+
   async createDetalleProducto(detallesProducto: DetallesProductoCreate): Promise<number> {
     const [result] = await db.execute<ResultSetHeader>(
-      `INSERT INTO detalles_producto (porcentaje_ganancia, stock, stock_minimo, esta_inhabilitado, producto_id, sucursal_id) VALUES (?, ?, ?, ?, ?, ?);`,
-      [detallesProducto.porcentaje_ganancia, detallesProducto.stock, detallesProducto.stock_minimo, detallesProducto.esta_inhabilitado, detallesProducto.producto_id, detallesProducto.sucursal_id]
+      `INSERT INTO detalles_producto (porcentaje_ganancia, stock, stock_minimo, producto_id, sucursal_id) VALUES (?, ?, ?, ?, ?);`,
+      [detallesProducto.porcentaje_ganancia, detallesProducto.stock, detallesProducto.stock_minimo, detallesProducto.producto_id, detallesProducto.sucursal_id]
     );
     // Retorna el ID del producto insertado
     return result.insertId;

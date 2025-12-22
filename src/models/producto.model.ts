@@ -26,8 +26,13 @@ export type ProductoSelectById = {
   fecha_actualizacion: Date;
 }
 
+export type ResumenProductos = {
+  total_productos: number;
+  activos: number;
+  inhabilitados: number;
+}
+
 export type ProductoCreate = {
-  id: number;
   sku: string;
   nombre: string;
   descripcion: string;
@@ -38,11 +43,9 @@ export type ProductoCreate = {
 } 
 
 export type DetallesProductoCreate = {
-  id: number;
   porcentaje_ganancia: number;
   stock: number;
   stock_minimo: number;
-  esta_inhabilitado: boolean;
   producto_id: number;
   sucursal_id: number;
 }
