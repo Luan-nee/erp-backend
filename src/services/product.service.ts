@@ -9,7 +9,7 @@ import {
 import { ProductosRepository } from "../repositories/productos.repository";
 import SucursalesRepository from "../repositories/sucursales.repository";
 import { CategoriasRepository } from "../repositories/categorias.repository";
-import { ColoresRepository } from "../repositories/colores.repository";
+import ColoresRepository from "../repositories/colores.repository";
 import { MarcasRepository } from "../repositories/marcas.repository";
 
 // Instanciamos el repositorio para usarlo
@@ -93,7 +93,7 @@ export class ProductService {
   async createProducto(productData: ProductoCreate): Promise<number> {
     // Podríamos validar datos o aplicar transformaciones aquí
     const categoriaExists = await CategoriasRepository.CategoriaExists(productData.categoria_id);
-    const colorExists = await ColoresRepository.ColorExists(productData.color_id);
+    const colorExists = await ColoresRepository.colorExists(productData.color_id);
     const marcaExists = await MarcasRepository.MarcaExists(productData.marca_id);
 
     if (!categoriaExists) {

@@ -2,7 +2,7 @@ import { db } from "../config/db.config";
 import type { Color } from "../models/color.model";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 
-export class ColoresRepository {
+export default class ColoresRepository {
   async findAll(): Promise<Color[]> {
     const [rows] = await db.query<RowDataPacket[]>("SELECT * FROM `colores`;");
     // El casting es necesario porque 'rows' es un array genérico de RowDataPacket
@@ -21,16 +21,7 @@ export class ColoresRepository {
     return rows[0] as Color;
   }
 
-  async create(color: Color): Promise<number> {
-    const [result] = await db.execute<ResultSetHeader>(
-      "INSERT INTO colores (nombre, valor) VALUES (?, ?)",
-      [color.nombre, color.valor]
-    );
-    // Retorna el ID del producto insertado
-    return result.insertId;
-  }
-
-  static async ColorExists(idColor: number): Promise<boolean> {
+  static async colorExists(idColor: number): Promise<boolean> {
     const [rows] = await db.query<RowDataPacket[]>(
       `SELECT id FROM colores WHERE id = ? LIMIT 1;`,
       [idColor]
