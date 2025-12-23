@@ -3,6 +3,14 @@ import type { Color } from "../models/color.model";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 
 export default class ColoresRepository {
+  async select(): Promise<Color[]> {
+    const [rows] = await db.query<RowDataPacket[]>(
+      "SELECT id, nombre, valor FROM `colores`;"
+    );
+    // El casting es necesario porque 'rows' es un array genérico de RowDataPacket
+    return rows as Color[];
+  }
+
   async findAll(): Promise<Color[]> {
     const [rows] = await db.query<RowDataPacket[]>("SELECT * FROM `colores`;");
     // El casting es necesario porque 'rows' es un array genérico de RowDataPacket

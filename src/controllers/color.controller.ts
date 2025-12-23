@@ -6,6 +6,20 @@ import { ColorService } from "../services/color.service";
 const colorService = new ColorService();
 
 export default class ColorController {
+  async select(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const colors = await colorService.select();
+      const responseBody: ApiResponse<Color[]> = {
+        status: 200,
+        message: "Colores obtenidos exitosamente.",
+        info: colors,
+      };
+      res.status(200).json(responseBody);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async getAllColors(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const colors = await colorService.getAllColors();

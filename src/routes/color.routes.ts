@@ -5,6 +5,7 @@ const router = Router();
 const colorController = new ColorController();
 
 router.get('/', colorController.getAllColors);
+router.get('/select', colorController.select);
 router.get('/:id', colorController.getColorById);
 
 export default router;

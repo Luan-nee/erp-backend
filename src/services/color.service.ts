@@ -3,6 +3,16 @@ import ColoresRepository from "../repositories/colores.repository";
 const coloresRepository = new ColoresRepository();
 
 export class ColorService {
+  async select() {
+    const colores = await coloresRepository.select();
+    if (colores.length === 0) {
+      const error: any = new Error("No se encontraron colores.");
+      error.status = 404;
+      throw error;
+    }
+    return colores;
+  }
+
   async getAllColors() {
     return coloresRepository.findAll();
   }
