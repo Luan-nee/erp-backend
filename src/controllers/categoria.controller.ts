@@ -6,6 +6,21 @@ import { CategoriaService } from "../services/categoria.service";
 const categoriaService = new CategoriaService();
 
 export class CategoriaController {
+
+  async select(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const categorias = await categoriaService.select();
+      const responseBody: ApiResponse<Categoria[] | null> = {
+        status: 200,
+        message: "Lista de categorías recuperada exitosamente.",
+        info: categorias,
+      };
+      res.status(200).json(responseBody);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async getCategorias(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const categorias = await categoriaService.getCategorias();

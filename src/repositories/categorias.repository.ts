@@ -3,6 +3,15 @@ import type { Categoria, CategoriaSelect, ResumenCategoria, CategoriaUpdate, Cat
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 
 export class CategoriasRepository {
+  async select(): Promise<Categoria[] | null> {
+    const [rows] = await db.query<RowDataPacket[]>(
+      "SELECT id, nombre, descripcion FROM `categorias`;"
+    );
+    if (rows.length === 0) {
+      return null;
+    }
+    return rows as Categoria[];
+  }
   // consulta para obtener todas las categorías junto con la cantidad 
   // de productos que están haciendo uso de cada categoría
   async findAll(): Promise<CategoriaSelect[] | null> {

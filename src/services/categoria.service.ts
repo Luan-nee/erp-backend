@@ -4,6 +4,17 @@ import { CategoriasRepository } from "../repositories/categorias.repository";
 const categoriaRepository = new CategoriasRepository();
 
 export class CategoriaService {
+
+  async select(): Promise<Categoria[] | null> {
+    const categorias = await categoriaRepository.select();
+    if (!categorias) {
+      const error: any = new Error(`No hay categorias.`);
+      error.status = 204;
+      throw error;
+    }
+    return categorias;
+  }
+
   async getCategorias(): Promise<CategoriaSelect[] | null> {
     const categorias = await categoriaRepository.findAll();
 

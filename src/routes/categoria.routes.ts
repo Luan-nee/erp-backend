@@ -5,6 +5,7 @@ const router = Router();
 const categoriaController = new CategoriaController();
 
 router.get('/', categoriaController.getCategorias);
+router.get('/select', categoriaController.select);
 router.get('/resumen', categoriaController.getResumenCategorias);
 router.get('/:id', categoriaController.getCategoriaById);
 router.post('/', categoriaController.createCategoria);
