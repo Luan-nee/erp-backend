@@ -98,6 +98,6 @@ BEGIN
     COMMIT;
     
     -- Devolver información del registro
-    SELECT v_producto_id AS nuevo_producto_id, v_nuevo_sku AS sku_generado;
+    SELECT v_producto_id AS nuevo_producto_id;
 END //
 DELIMITER ;
