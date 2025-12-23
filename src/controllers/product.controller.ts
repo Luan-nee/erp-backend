@@ -92,14 +92,11 @@ export class ProductController {
 
       const responseBody: ApiResponse<number> = {
         status: 200,
-        message: "Producto Creado exitosamente.",
+        message: "Producto Creadooo exitosamente.",
         info: newId,
       };
 
-      res.status(201).json({
-        message: "Product created successfully",
-        id: newId,
-      });
+      res.status(201).json(responseBody);
     } catch (error) {
       next(error);
     }

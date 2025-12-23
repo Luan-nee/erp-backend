@@ -97,12 +97,13 @@ export class ProductosRepository {
   }
 
   async createProducto(producto: ProductCreateMain): Promise<number> {
-    const [result] = await db.execute<ResultSetHeader>(
+    const [result] = await db.execute<any[]>(
       `CALL sp_registrar_producto_global(?,?,?,?,?,?,?,?,?);`,
       [producto.nombre, producto.descripcion, producto.precio_compra, producto.color_id, producto.categoria_id, producto.marca_id, producto.porcentaje_ganancia, producto.stock, producto.stock_minimo]
     );
     // Retorna el ID del producto insertado
-    return result.insertId;
+    const nuevoId = result[0][0].nuevo_producto_id;
+    return nuevoId;
   }
 
   async updateProducto(idProducto: number, producto: ProductoUpdate): Promise<number> {
