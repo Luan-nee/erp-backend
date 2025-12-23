@@ -76,7 +76,6 @@ export class ProductService {
     const categoriaExists = await CategoriasRepository.CategoriaExists(productData.categoria_id);
     const colorExists = await ColoresRepository.colorExists(productData.color_id);
     const marcaExists = await MarcasRepository.MarcaExists(productData.marca_id);
-    const sucursalExists = await SucursalesRepository.SucursalExists(productData.categoria_id);
 
     if (!categoriaExists) {
       const error: any = new Error(`No se encontró la categoría con ID=${productData.categoria_id}.`);
@@ -88,10 +87,6 @@ export class ProductService {
       throw error;
     } else if (!marcaExists) {
       const error: any = new Error(`No se encontró la marca con ID=${productData.marca_id}.`);
-      error.status = 404;
-      throw error;
-    }else if (!sucursalExists) {
-      const error: any = new Error(`No se encontró la sucursal con ID=${productData.categoria_id}`);
       error.status = 404;
       throw error;
     }
