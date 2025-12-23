@@ -65,3 +65,21 @@ export type DetalleProductoUpdate = {
   esta_inhabilitado: boolean;
   // fecha_actualizacion: Date; // Esto se actualizará automáticamente en la base de datos
 }
+
+export type ProductMoreInfo = {
+  // propiededes de la tabla productos
+  sku: string;
+  nombre: string;
+  descripcion: string;
+  // path_foto: string; // Se omite temporalmente
+  precio_compra: number;
+  categoria_id: number;
+  color_id: number;
+  marca_id: number;
+
+  // propiedades de la tabla detalles_producto
+  porcentaje_ganancia: number;
+  stock: number;
+  stock_minimo: number;
+  esta_inhabilitado: boolean;
+}
