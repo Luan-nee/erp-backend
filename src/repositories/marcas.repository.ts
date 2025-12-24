@@ -4,6 +4,16 @@ import type { Categoria, CategoriaSelect, ResumenCategoria, CategoriaUpdate, Cat
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 
 export class MarcasRepository {
+  async select(): Promise<Marca[] | null>{
+    const [rows] =  await db.query<RowDataPacket[]>(
+      "SELECT id, nombre, descripcion FROM `marcas`;"
+    );
+    if (rows.length === 0){
+      return null;
+    }
+    return rows as Marca[];
+  }
+
   // consulta para obtener todas las marcas junto con la cantidad 
   // de productos que están haciendo uso de cada marca
   async findAll(): Promise<MarcaSelect[] | null> {

@@ -6,7 +6,20 @@ import { MarcaService } from "../services/marca.service";
 const marcaService = new MarcaService();
 
 export class MarcaController {
-  
+  async select(req: Request, res: Response, next: NextFunction): Promise<void>{
+    try {
+      const marcas = await marcaService.select();
+      const responseBody: ApiResponse<Marca[]> = {
+        status: 200,
+        message: "Lista de marcas recuperada exitosamente.",
+        info: marcas,
+      };
+      res.status(200).json(responseBody);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async getMarcas(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const marcas = await marcaService.getMarcas();

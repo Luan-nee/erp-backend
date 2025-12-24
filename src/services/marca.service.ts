@@ -11,6 +11,16 @@ import { MarcasRepository } from "../repositories/marcas.repository";
 const marcaRepository = new MarcasRepository();
 
 export class MarcaService {
+  async select(): Promise<Marca[] | null>{
+    const marcas = await marcaRepository.select();
+    if (!marcas){
+      const error: any = new Error(`No hay marcas registradas.`);
+      error.status = 204;
+      throw error;
+    }
+    return marcas;
+  }
+
   async getMarcas(): Promise<MarcaSelect[] | null> {
     const marcas = await marcaRepository.findAll();
 
