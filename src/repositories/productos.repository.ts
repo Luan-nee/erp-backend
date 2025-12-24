@@ -42,7 +42,7 @@ export class ProductosRepository {
     return rows as ProductoSelect[];
   }
 
-  async findById(idProduct: number, idSucursal: number): Promise<ProductoSelectById | null> {
+  async findById(idProducto: number, idSucursal: number): Promise<ProductoSelectById | null> {
     // El "id" hace referencia al ID del producto que está almacenado dentro de la tabla "productos"
     // y el "idSucursal" hace referencia al ID de la sucursal dentro de la tabla "detalles_producto"
 
@@ -54,9 +54,9 @@ export class ProductosRepository {
           p.nombre,
           p.descripcion,
           p.precio_compra,
-          p.categoria_id,
-          p.color_id,
-          p.marca_id,
+          cate.nombre as 'categoria',
+          col.nombre as 'color',
+          mar.nombre as 'marca',
           p.fecha_creacion,
           dp.stock,
           dp.stock_minimo,
@@ -65,11 +65,11 @@ export class ProductosRepository {
           dp.fecha_actualizacion
         FROM
           productos AS p
-        JOIN
-          detalles_producto AS dp ON p.id = dp.producto_id
-        WHERE dp.sucursal_id = ? AND p.id = ?;  
+        JOIN	
+          detalles_producto AS dp JOIN colores AS col JOIN marcas AS mar JOIN categorias AS cate ON p.id = dp.producto_id AND col.id = p.color_id AND mar.id = p.marca_id AND cate.id = p.categoria_id
+        WHERE dp.sucursal_id = ? AND p.id = ?;
       `,
-      [idSucursal, idProduct]
+      [idSucursal, idProducto]
     );
 
     if (rows.length === 0) {

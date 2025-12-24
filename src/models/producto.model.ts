@@ -15,9 +15,9 @@ export type ProductoSelectById = {
   nombre: string;
   descripcion: string;
   precio_compra: number;
-  categoria_id: number;
-  color_id: number;
-  marca_id: number;
+  categoria: string;
+  color: string;
+  marca: string;
   fecha_creacion: Date;
   stock: number;
   stock_minimo: number;

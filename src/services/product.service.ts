@@ -60,10 +60,19 @@ export class ProductService {
     idProduct: number,
     idSucursal: number
   ): Promise<ProductoSelectById | null> {
-    const ProductoExists = await ProductosRepository.ProductoExists(idProduct);
+    const productoExists = await ProductosRepository.ProductoExists(idProduct);
+    const sucursalExists = await SucursalesRepository.SucursalExists(idSucursal);
 
-    if (!ProductoExists) {
-      throw new Error(`Producto con la ID=${idProduct} No encontrado.`);
+    if (!sucursalExists) {
+      const error: any = new Error(`No se encontró la sucursal con ID=${idSucursal}.`);
+      error.status = 404;
+      throw error;
+    }
+
+    if (!productoExists) {
+      const error: any = new Error(`No se encontró el producto con ID=${idProduct}.`);
+      error.status = 404;
+      throw error;
     }
 
     const product = await productRepository.findById(idProduct, idSucursal);
