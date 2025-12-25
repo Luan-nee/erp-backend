@@ -26,6 +26,19 @@ export type ProductoSelectById = {
   fecha_actualizacion: Date;
 }
 
+export type ProductoUpdate = {
+  nombre: string; // t-productos
+  descripcion: string; // t-productos
+  precio_compra: number; // t-productos
+  categoria_id: number; // t-productos
+  color_id: number; // t-productos
+  marca_id: number; // t-productos
+  stock: number; // t-detalles_productos
+  stock_minimo: number; // t-detalles_productos
+  porcentaje_ganancia: number; // t-detalles_productos
+  esta_inhabilitado: boolean; // t-detalles_productos
+}
+
 export type ResumenProductos = {
   total_productos: number;
   activos: number;
@@ -48,23 +61,6 @@ export type DetallesProductoCreate = {
 }
 
 export type ProductCreateMain = ProductoCreate & DetallesProductoCreate;
-
-export type ProductoUpdate = {
-  nombre: string;
-  descripcion: string;
-  precio_compra: number;
-  categoria_id: number;
-  color_id: number;
-  marca_id: number;
-}
-
-export type DetalleProductoUpdate = {
-  porcentaje_ganancia: number;
-  stock: number;
-  stock_minimo: number;
-  esta_inhabilitado: boolean;
-  // fecha_actualizacion: Date; // Esto se actualizará automáticamente en la base de datos
-}
 
 export type ProductMoreInfo = {
   // propiededes de la tabla productos

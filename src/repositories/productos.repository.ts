@@ -1,6 +1,6 @@
 // src/repositories/product.repository.ts
 import { db } from "../config/db.config";
-import { ProductCreateMain, ResumenProductos, ProductoSelect, DetallesProductoCreate, ProductoCreate, ProductoSelectById, ProductoUpdate, DetalleProductoUpdate } from "../models/producto.model";
+import { ProductCreateMain, ResumenProductos, ProductoSelect, DetallesProductoCreate, ProductoCreate, ProductoSelectById, ProductoUpdate } from "../models/producto.model";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 
 export class ProductosRepository {
@@ -106,20 +106,11 @@ export class ProductosRepository {
     return nuevoId;
   }
 
-  async updateProducto(idProducto: number, producto: ProductoUpdate): Promise<number> {
-    const [result] = await db.execute<ResultSetHeader>(
-      `UPDATE productos SET nombre = ?, descripcion = ?, precio_compra = ?, categoria_id = ?, color_id = ?, marca_id = ? WHERE id = ?;`,
-      [producto.nombre, producto.descripcion, producto.precio_compra, producto.categoria_id, producto.color_id, producto.marca_id, idProducto]
+  async updateProducto(idProducto: number, idSucursal: number, producto: ProductoUpdate): Promise<void> {
+    await db.execute<ResultSetHeader>(
+      `CALL sp_actualizar_producto_completo(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [idProducto, idSucursal, producto.nombre, producto.descripcion, producto.precio_compra, producto.categoria_id, producto.color_id, producto.marca_id, producto.stock, producto.stock_minimo, producto.porcentaje_ganancia, producto.esta_inhabilitado]
     );
-    return result.affectedRows;
-  }
-
-  async updateDetalleProducto(idDetalleProducto: number, idSucursal: number, detalleProducto: DetalleProductoUpdate): Promise<number> {
-    const [result] = await db.execute<ResultSetHeader>(
-      `UPDATE detalles_producto SET porcentaje_ganancia = ?, stock = ?, stock_minimo = ?, esta_inhabilitado = ? WHERE producto_id = ? AND sucursal_id = ?;`,
-      [detalleProducto.porcentaje_ganancia, detalleProducto.stock, detalleProducto.stock_minimo, detalleProducto.esta_inhabilitado, idDetalleProducto, idSucursal]
-    );
-    return result.affectedRows;
   }
 
   async deleteProducto(idProducto: number): Promise<number> {

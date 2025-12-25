@@ -101,3 +101,50 @@ BEGIN
     SELECT v_producto_id AS nuevo_producto_id;
 END //
 DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE sp_actualizar_producto_completo(
+    IN p_producto_id INT, -- ID del producto a actualizar
+    IN p_sucursal_id INT,
+    IN p_nombre VARCHAR(255),
+    IN p_descripcion TEXT,
+    IN p_precio_compra DECIMAL(12,2),
+    IN p_categoria INT,
+    IN p_color INT,
+    IN p_marca INT,
+    IN p_stock INT,
+    IN p_stock_minimo INT,
+    IN p_porcentaje_ganancia DECIMAL(5,4),
+    IN p_esta_inhabilitado BOOLEAN
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error al actualizar el producto y sus detalles';
+    END;
+
+    START TRANSACTION;
+
+    UPDATE productos 
+    SET 
+        nombre = p_nombre,
+        descripcion = p_descripcion,
+        precio_compra = p_precio_compra,
+        categoria_id = p_categoria,
+        color_id = p_color,
+        marca_id = p_marca
+    WHERE id = p_producto_id;
+    
+    UPDATE detalles_producto
+    SET 
+        stock = p_stock,
+        stock_minimo = p_stock_minimo,
+        porcentaje_ganancia = p_porcentaje_ganancia,
+        esta_inhabilitado = p_esta_inhabilitado,
+        fecha_actualizacion = CURRENT_TIMESTAMP
+    WHERE producto_id = p_producto_id AND sucursal_id = p_sucursal_id;
+
+    COMMIT;
+END //
+DELIMITER ;

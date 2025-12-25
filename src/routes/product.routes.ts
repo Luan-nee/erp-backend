@@ -12,6 +12,8 @@ router.get('/resumen/:id_sucursal', productController.getResumenProductos);
 router.get('/:id_sucursal', productController.getProducts);
 router.get('/:id_sucursal/:id_producto', productController.getProductById);
 
+router.put('/:id_sucursal/:id_producto', productController.actualizarProducto);
+
 // 3. Otros métodos
 router.post('/', productController.crearProducto);
 

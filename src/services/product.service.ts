@@ -5,7 +5,8 @@ import {
   ProductoSelect,
   ProductoSelectById,
   ResumenProductos,
-  ProductCreateMain
+  ProductCreateMain,
+  ProductoUpdate
 } from "../models/producto.model";
 import { ProductosRepository } from "../repositories/productos.repository";
 import SucursalesRepository from "../repositories/sucursales.repository";
@@ -102,5 +103,25 @@ export class ProductService {
 
     const id = await productRepository.createProducto(productData);
     return id;
+  }
+
+  async updateProducto(
+    idProduct: number,
+    idSucursal: number,
+    updateData: ProductoUpdate
+  ): Promise<void> {
+    const productoExists = await ProductosRepository.ProductoExists(idProduct);
+    const sucursalExists = await SucursalesRepository.SucursalExists(idSucursal);
+    if (!sucursalExists) {
+      const error: any = new Error(`No se encontró la sucursal con ID=${idSucursal}.`);
+      error.status = 404;
+      throw error;
+    }
+    if (!productoExists) {
+      const error: any = new Error(`No se encontró el producto con ID=${idProduct}.`);
+      error.status = 404;
+      throw error;
+    }
+    await productRepository.updateProducto(idProduct, idSucursal, updateData);
   }
 }

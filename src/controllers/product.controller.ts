@@ -101,4 +101,24 @@ export class ProductController {
       next(error);
     }
   }
+
+  async actualizarProducto(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const idSucursal = parseInt(req.params.id_sucursal ?? "0");
+      const idProducto = parseInt(req.params.id_producto ?? "0");
+      await productService.updateProducto(idProducto, idSucursal, req.body);
+      const responseBody: ApiResponse<number> = {
+        status: 200,
+        message: "Producto actualizado exitosamente.",
+        info: null,
+      };
+      res.status(200).json(responseBody);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
