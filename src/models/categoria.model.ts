@@ -1,3 +1,8 @@
+export type simpleCategoria = {
+  id: number;
+  nombre: string;
+}
+
 export type Categoria = {
   id: number;
   nombre: string;

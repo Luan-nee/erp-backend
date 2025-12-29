@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { ApiResponse } from "../models/api-response.model";
-import type { Categoria, CategoriaCreate, CategoriaSelect, ResumenCategoria } from "../models/categoria.model";
+import type { Categoria, CategoriaCreate, CategoriaSelect, ResumenCategoria, simpleCategoria } from "../models/categoria.model";
 import { CategoriaService } from "../services/categoria.service";
 
 const categoriaService = new CategoriaService();
@@ -103,6 +103,20 @@ export class CategoriaController {
         status: 200,
         message: `Categoría con ID ${id} eliminada exitosamente.`,
         info: null,
+      };
+      res.status(200).json(responseBody);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async simpleSelect(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const categorias = await categoriaService.simpleSelect();
+      const responseBody: ApiResponse<simpleCategoria[] | null> = {
+        status: 200,
+        message: "Lista simple de categorías recuperada exitosamente.",
+        info: categorias,
       };
       res.status(200).json(responseBody);
     } catch (error) {

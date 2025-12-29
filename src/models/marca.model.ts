@@ -1,3 +1,8 @@
+export type simpleMarca = {
+  id: number;
+  nombre: string;
+}
+
 export type Marca = {
   id: number;
   nombre: string;
