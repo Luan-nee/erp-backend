@@ -4,6 +4,8 @@ import ColorController from '../controllers/color.controller';
 const router = Router();
 const colorController = new ColorController();
 
+router.get('/simpleSelect', colorController.simpleSelect);
+
 router.get('/', colorController.getAllColors);
 router.get('/select', colorController.select);
 router.get('/:id', colorController.getColorById);
