@@ -129,4 +129,34 @@ export class ProductosRepository {
     );
     return result.affectedRows;
   }
+
+  async dataform(idProducto: number, idSucursal: number): Promise<ProductoSelectById | null> {
+    const [rows] = await db.query<RowDataPacket[]>(
+      `
+        SELECT
+          p.nombre,
+          p.descripcion,
+          p.precio_compra,
+          cate.id as 'categoria_id',
+          col.id as 'color_id',
+          mar.id as 'marca_id',
+          dp.stock,
+          dp.stock_minimo,
+          dp.porcentaje_ganancia,
+          dp.esta_inhabilitado,
+        FROM
+          productos AS p
+        JOIN	
+          detalles_producto AS dp JOIN colores AS col JOIN marcas AS mar JOIN categorias AS cate ON p.id = dp.producto_id AND col.id = p.color_id AND mar.id = p.marca_id AND cate.id = p.categoria_id
+        WHERE dp.sucursal_id = ? AND p.id = ?;
+      `,
+      [idSucursal, idProducto]
+    );
+
+    if (rows.length === 0) {
+      return null;
+    }
+    // El casting es necesario porque 'rows' es un array genérico de RowDataPacket
+    return rows[0] as ProductoSelectById;
+  }
 }

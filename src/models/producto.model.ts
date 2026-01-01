@@ -39,6 +39,19 @@ export type ProductoUpdate = {
   esta_inhabilitado: boolean; // t-detalles_productos
 }
 
+export type ProductoData = {
+  nombre: string; // t-productos
+  descripcion: string; // t-productos
+  precio_compra: number; // t-productos
+  categoria_id: number; // t-productos
+  color_id: number; // t-productos
+  marca_id: number; // t-productos
+  stock: number; // t-detalles_productos
+  stock_minimo: number; // t-detalles_productos
+  porcentaje_ganancia: number; // t-detalles_productos
+  esta_inhabilitado: boolean; // t-detalles_productos
+}
+
 export type ResumenProductos = {
   total_productos: number;
   activos: number;
