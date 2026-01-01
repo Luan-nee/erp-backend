@@ -1,4 +1,5 @@
 import ColoresRepository from "../repositories/colores.repository";
+import type { simpleColor } from "../models/color.model";
 
 const coloresRepository = new ColoresRepository();
 
@@ -26,5 +27,15 @@ export class ColorService {
     }
 
     return coloresRepository.findById(id);
+  }
+
+  async simpleSelect(): Promise<simpleColor[]> {
+    const colores = await coloresRepository.simpleSelect();
+    if (colores.length === 0) {
+      const error: any = new Error("No se encontraron colores.");
+      error.status = 404;
+      throw error;
+    }
+    return colores;
   }
 }

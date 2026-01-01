@@ -1,5 +1,5 @@
 import { db } from "../config/db.config";
-import type { Color } from "../models/color.model";
+import type { Color, simpleColor } from "../models/color.model";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 
 export default class ColoresRepository {
@@ -27,6 +27,13 @@ export default class ColoresRepository {
       return null;
     }
     return rows[0] as Color;
+  }
+
+  async simpleSelect(): Promise<simpleColor[]> {
+    const [rows] = await db.query<RowDataPacket[]>(
+      "SELECT id, nombre FROM `colores`;"
+    );
+    return rows as simpleColor[];
   }
 
   static async colorExists(idColor: number): Promise<boolean> {

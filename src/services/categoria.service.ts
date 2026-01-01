@@ -1,4 +1,4 @@
-import type { Categoria, CategoriaCreate, CategoriaSelect, CategoriaUpdate, ResumenCategoria } from "../models/categoria.model";
+import type { Categoria, CategoriaCreate, CategoriaSelect, CategoriaUpdate, ResumenCategoria, simpleCategoria } from "../models/categoria.model";
 import { CategoriasRepository } from "../repositories/categorias.repository";
 
 const categoriaRepository = new CategoriasRepository();
@@ -75,5 +75,15 @@ export class CategoriaService {
       throw error;
     }
     await categoriaRepository.delete(id);
+  }
+
+  async simpleSelect(): Promise<simpleCategoria[] | null> {
+    const categorias = await categoriaRepository.simpleSelect();
+    if (!categorias) {
+      const error: any = new Error(`No hay categorias.`);
+      error.status = 204;
+      throw error;
+    }
+    return categorias;
   }
 }

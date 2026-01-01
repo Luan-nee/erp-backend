@@ -1,5 +1,5 @@
 import { db } from "../config/db.config";
-import type { Categoria, CategoriaSelect, ResumenCategoria, CategoriaUpdate, CategoriaCreate } from "../models/categoria.model";
+import type { Categoria, CategoriaSelect, ResumenCategoria, CategoriaUpdate, CategoriaCreate, simpleCategoria } from "../models/categoria.model";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 
 export class CategoriasRepository {
@@ -92,5 +92,15 @@ export class CategoriasRepository {
       [idCategoria]
     );
     return rows.length > 0;
+  }
+
+  async simpleSelect(): Promise<simpleCategoria[] | null> {
+    const [rows] = await db.query<RowDataPacket[]>(
+      "SELECT id, nombre FROM `categorias`;"
+    );
+    if (rows.length === 0) {
+      return null;
+    }
+    return rows as simpleCategoria[];
   }
 }

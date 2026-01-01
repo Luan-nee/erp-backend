@@ -4,6 +4,8 @@ import { CategoriaController } from '../controllers/categoria.controller';
 const router = Router();
 const categoriaController = new CategoriaController();
 
+router.get('/simpleSelect', categoriaController.simpleSelect);
+
 router.get('/', categoriaController.getCategorias);
 router.get('/select', categoriaController.select);
 router.get('/resumen', categoriaController.getResumenCategorias);
