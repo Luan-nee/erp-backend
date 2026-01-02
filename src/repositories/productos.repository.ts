@@ -1,6 +1,6 @@
 // src/repositories/product.repository.ts
 import { db } from "../config/db.config";
-import { ProductCreateMain, ResumenProductos, ProductoSelect, DetallesProductoCreate, ProductoCreate, ProductoSelectById, ProductoUpdate } from "../models/producto.model";
+import { ProductCreateMain, ResumenProductos, ProductoSelect, DetallesProductoCreate, ProductoCreate, ProductoSelectById, ProductoUpdate, DataProducto } from "../models/producto.model";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 
 export class ProductosRepository {
@@ -130,7 +130,7 @@ export class ProductosRepository {
     return result.affectedRows;
   }
 
-  async dataform(idProducto: number, idSucursal: number): Promise<ProductoSelectById | null> {
+  async dataProducto(idProducto: number, idSucursal: number): Promise<DataProducto | null> {
     const [rows] = await db.query<RowDataPacket[]>(
       `
         SELECT
@@ -143,7 +143,7 @@ export class ProductosRepository {
           dp.stock,
           dp.stock_minimo,
           dp.porcentaje_ganancia,
-          dp.esta_inhabilitado,
+          dp.esta_inhabilitado
         FROM
           productos AS p
         JOIN	
@@ -157,6 +157,6 @@ export class ProductosRepository {
       return null;
     }
     // El casting es necesario porque 'rows' es un array genérico de RowDataPacket
-    return rows[0] as ProductoSelectById;
+    return rows[0] as DataProducto;
   }
 }

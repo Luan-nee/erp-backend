@@ -7,6 +7,8 @@ const productController = new ProductController();
 
 // 1. Rutas específicas PRIMERO
 router.get('/resumen/:id_sucursal', productController.getResumenProductos);
+// http://localhost:3000/api/productos/dataProducto/:id_sucursal/:id_producto
+router.get('/dataProducto/:id_sucursal/:id_producto', productController.getDataProducto);
 
 // 2. Rutas con parámetros después
 router.get('/:id_sucursal', productController.getProducts);

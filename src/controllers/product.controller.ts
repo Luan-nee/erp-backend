@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { ProductService } from "../services/product.service";
-import { ProductoSelect, ProductoSelectById, ResumenProductos } from "../models/producto.model";
+import { DataProducto, ProductoSelect, ProductoSelectById, ResumenProductos } from "../models/producto.model";
 import { ApiResponse } from "../models/api-response.model";
 
 const productService = new ProductService();
@@ -115,6 +115,26 @@ export class ProductController {
         status: 200,
         message: "Producto actualizado exitosamente.",
         info: null,
+      };
+      res.status(200).json(responseBody);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getDataProducto(
+    req: Request,
+    res: Response<ApiResponse<DataProducto>>,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const idSucursal = parseInt(req.params.id_sucursal ?? "0");
+      const idProducto = parseInt(req.params.id_producto ?? "0");
+      const productData = await productService.dataProducto(idProducto, idSucursal);
+      const responseBody: ApiResponse<DataProducto> = {
+        status: 200,
+        message: "Datos del producto recuperados exitosamente.",
+        info: productData,
       };
       res.status(200).json(responseBody);
     } catch (error) {
