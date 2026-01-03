@@ -189,37 +189,6 @@ let connection: mysql.Connection | null = null;
       `❌ Error al insertar los datos de métodos de pago en la base de datos.`
     );
 
-    const insertData_permisosPath = path.join(
-      projectRoot,
-      "sql",
-      "data",
-      "permisos.sql"
-    );
-    const insertData_PermisosSQL = fs.readFileSync(
-      insertData_permisosPath,
-      "utf-8"
-    );
-    readSqlFile(
-      insertData_PermisosSQL,
-      connection,
-      `✅ Insertando permisos en la tabla '${config.database}'.'permisos' exitosamente.`,
-      `❌ Error al insertar los datos de permisos en la base de datos.`
-    );
-
-    const insertData_rolesPath = path.join(
-      projectRoot,
-      "sql",
-      "data",
-      "roles.sql"
-    );
-    const insertData_RolesSQL = fs.readFileSync(insertData_rolesPath, "utf-8");
-    readSqlFile(
-      insertData_RolesSQL,
-      connection,
-      `✅ Insertando roles en la tabla '${config.database}'.'roles' exitosamente.`,
-      `❌ Error al insertar los datos de roles en la base de datos.`
-    );
-
     const insertData_sucursalesPath = path.join(
       projectRoot,
       "sql",
@@ -288,23 +257,6 @@ let connection: mysql.Connection | null = null;
       `❌ Error al insertar los datos de tipos de impuestos en la base de datos.`
     );
 
-    const insertData_roles_permisosPath = path.join(
-      projectRoot,
-      "sql",
-      "data",
-      "roles_permisos.sql"
-    );
-    const insertData_RolesPermisosSQL = fs.readFileSync(
-      insertData_roles_permisosPath,
-      "utf-8"
-    );
-    readSqlFile(
-      insertData_RolesPermisosSQL,
-      connection,
-      `✅ Insertando roles y permisos en la tabla '${config.database}'.'roles_permisos' exitosamente.`,
-      `❌ Error al insertar los datos de roles y permisos en la base de datos.`
-    );
-
     const insertData_ProductosPath = path.join(
       projectRoot,
       "sql",
@@ -339,6 +291,90 @@ let connection: mysql.Connection | null = null;
       connection,
       `✅ Insertando detalles de productos en la tabla '${config.database}'.'detalles_producto' exitosamente.`,
       `❌ Error al insertar los datos de detalles de productos en la base de datos.`
+    );
+
+    const insertData_usuariosPath = path.join(
+      projectRoot,
+      "sql",
+      "data",
+      "usuarios.sql"
+    );
+    const insertData_UsuariosSQL = fs.readFileSync(
+      insertData_usuariosPath,
+      "utf-8"
+    );
+    readSqlFile(
+      //#3
+      insertData_UsuariosSQL,
+      connection,
+      `✅ Insertando usuarios en la tabla '${config.database}'.'usuarios' exitosamente.`,
+      `❌ Error al insertar los datos de usuarios en la base de datos.`
+    );
+
+    const insertData_rolesPath = path.join(
+      projectRoot,
+      "sql",
+      "data",
+      "roles.sql"
+    );
+    const insertData_RolesSQL = fs.readFileSync(insertData_rolesPath, "utf-8");
+    readSqlFile(
+      insertData_RolesSQL,
+      connection,
+      `✅ Insertando roles en la tabla '${config.database}'.'roles' exitosamente.`,
+      `❌ Error al insertar los datos de roles en la base de datos.`
+    );
+
+    const insertData_permisosPath = path.join(
+      projectRoot,
+      "sql",
+      "data",
+      "permisos.sql"
+    );
+    const insertData_PermisosSQL = fs.readFileSync(
+      insertData_permisosPath,
+      "utf-8"
+    );
+    readSqlFile(
+      insertData_PermisosSQL,
+      connection,
+      `✅ Insertando permisos en la tabla '${config.database}'.'permisos' exitosamente.`,
+      `❌ Error al insertar los datos de permisos en la base de datos.`
+    );
+
+    const insertData_roles_permisosPath = path.join(
+      projectRoot,
+      "sql",
+      "data",
+      "roles_permisos.sql"
+    );
+    const insertData_RolesPermisosSQL = fs.readFileSync(
+      insertData_roles_permisosPath,
+      "utf-8"
+    );
+    readSqlFile(
+      insertData_RolesPermisosSQL,
+      connection,
+      `✅ Insertando roles y permisos en la tabla '${config.database}'.'roles_permisos' exitosamente.`,
+      `❌ Error al insertar los datos de roles y permisos en la base de datos.`
+    );
+
+    const insertData_cuentasUsuarioPath = path.join(
+      projectRoot,
+      "sql",
+      "data",
+      "cuentas_usuario.sql"
+    );
+    const insertData_CuentasUsuarioSQL = fs.readFileSync(
+      insertData_cuentasUsuarioPath,
+      "utf-8"
+    );
+    readSqlFile(
+      //#4
+      insertData_CuentasUsuarioSQL,
+      connection,
+      `✅ Insertando cuentas de usuario en la tabla '${config.database}'.'cuentas_usuario' exitosamente.`,
+      `❌ Error al insertar los datos de cuentas de usuario en la base de datos.`
     );
 
   } catch (error) {

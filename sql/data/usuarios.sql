@@ -18,15 +18,3 @@ INSERT INTO `usuarios` (`nombres`, `apellidos`, `dni`, `estaActivo`, `celular`, 
 INSERT INTO `usuarios` (`nombres`, `apellidos`, `dni`, `estaActivo`, `celular`, `hora_inicio_jornada`, `hora_fin_jornada`, `sueldo`, `sucursal_id`) VALUES
 ('Roberto', 'Díaz Castro', '78901234G', true, '600777888', '08:30:00', '16:30:00', 1450.00, 3),
 ('Ana Belén', 'Molina Ortiz', '89012345H', false, '600888999', '12:00:00', '20:00:00', 1700.25, 3);
-
--- sigue el patrón
-INSERT INTO `cuentas_usuario` (usuario, clave, eliminable, rol_id, usuario_id) VALUES 
-('luan', 'luan123', FALSE, 1, 1),
-('erick', 'erick123', FALSE, 1, 2),
-('christian', 'christian123', FALSE, 1, 3)
-('juan', 'juan123', TRUE, 2, 4),
-('maria', 'maria123', TRUE, 3, 5),
-('elena', 'elena123', TRUE, 2, 6),
-('ricardo', 'ricardo123', TRUE, 3, 7),
-('roberto', 'roberto123', TRUE, 2, 8),
-('ana', 'ana123', TRUE, 3, 9);
