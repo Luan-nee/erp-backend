@@ -1,5 +1,6 @@
 
 export type Colaborador = {
+  id: number;
   nombres: string;
   apellidos: string;
   rol: string; // admin, vendedor, cajero.

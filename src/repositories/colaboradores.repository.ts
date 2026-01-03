@@ -7,6 +7,7 @@ export default class ColaboradoresRepository {
     const [rows] = await db.query<RowDataPacket[]>(
       `
       select 
+        u.id as 'id',
         u.nombres as 'nombres', 
         u.apellidos as 'apellidos', 
         rol.nombre as 'rol',
