@@ -1,5 +1,5 @@
 import { db } from "../config/db.config";
-import type { Colaborador } from "../models/colaboradores.model";
+import type { Colaborador, resumenColaboradores } from "../models/colaboradores.model";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 
 export default class ColaboradoresRepository {
@@ -25,5 +25,21 @@ export default class ColaboradoresRepository {
       return null;
     }
     return rows as Colaborador[];
+  }
+
+  async resumenColaboradores(): Promise<resumenColaboradores | null> {
+    const [rows] = await db.query<RowDataPacket[]>(
+      `
+      SELECT 
+        COUNT(*) AS total_colaboradores,
+        SUM(CASE WHEN estaActivo = 1 THEN 1 ELSE 0 END) AS activos,
+        SUM(CASE WHEN estaActivo = 0 THEN 1 ELSE 0 END) AS inactivos
+      FROM usuarios;
+      `
+    );
+    if (rows.length === 0) {
+      return null;
+    }
+    return rows[0] as resumenColaboradores;
   }
 }

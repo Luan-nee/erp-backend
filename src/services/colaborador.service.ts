@@ -1,4 +1,4 @@
-import type { Colaborador } from "../models/colaboradores.model";
+import type { Colaborador, resumenColaboradores } from "../models/colaboradores.model";
 import ColaboradoresRepository from "../repositories/colaboradores.repository";
   
 const colaboradoresRepository = new ColaboradoresRepository();
@@ -13,5 +13,15 @@ export default class ColaboradorService {
       throw error;
     }
     return colaboradores;
+  }
+
+  async resumenColaboradores(): Promise<resumenColaboradores | null> {
+    const resumen = await colaboradoresRepository.resumenColaboradores();
+    if (!resumen) {
+      const error: any = new Error(`No se pudo obtener el resumen de colaboradores.`);
+      error.status = 500;
+      throw error;
+    }
+    return resumen;
   }
 }

@@ -7,3 +7,9 @@ export type Colaborador = {
   celular: string;
   lugarTrabajo: string;
 }
+
+export type resumenColaboradores = {
+  totalColaboradores: number;
+  activos: number;
+  inactivos: number;
+}
