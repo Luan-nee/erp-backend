@@ -32,9 +32,9 @@ export default class ColaboradoresRepository {
     const [rows] = await db.query<RowDataPacket[]>(
       `
       SELECT 
-        COUNT(*) AS total_colaboradores,
-        SUM(CASE WHEN estaActivo = 1 THEN 1 ELSE 0 END) AS activos,
-        SUM(CASE WHEN estaActivo = 0 THEN 1 ELSE 0 END) AS inactivos
+          COUNT(*) AS total_colaboradores,
+          SUM(estaActivo = 1) AS activos,
+          SUM(estaActivo = 0) AS inactivos
       FROM usuarios;
       `
     );

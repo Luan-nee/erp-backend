@@ -10,7 +10,7 @@ export type Colaborador = {
 }
 
 export type resumenColaboradores = {
-  totalColaboradores: number;
+  total_colaboradores: number;
   activos: number;
   inactivos: number;
 }
