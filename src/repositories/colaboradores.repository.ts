@@ -2,7 +2,7 @@ import { db } from "../config/db.config";
 import type { Colaborador } from "../models/colaboradores.model";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 
-export class ColaboradoresRepository {
+export default class ColaboradoresRepository {
   async select(): Promise<Colaborador[] | null> {
     const [rows] = await db.query<RowDataPacket[]>(
       `
