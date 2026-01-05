@@ -6,20 +6,24 @@ export default class ColaboradoresRepository {
   async select(): Promise<Colaborador[] | null> {
     const [rows] = await db.query<RowDataPacket[]>(
       `
-      select 
-        u.id as 'id',
-        u.nombres as 'nombres', 
-        u.apellidos as 'apellidos', 
-        rol.nombre as 'rol',
-        u.estaActivo as 'estaActivo',
-        u.celular as 'celular',
-        suc.direccion as 'lugarTrabajo'
-      from 
-        usuarios as u join 
-        cuentas_usuario as cu join 
-        roles as rol join 
-        sucursales as suc
-      ON (u.sucursal_id = suc.id AND cu.usuario_id = u.id AND  cu.rol_id = rol.id);
+      SELECT 
+        u.id AS 'id',
+        u.nombres AS 'nombres', 
+        u.apellidos AS 'apellidos', 
+        -- Si el rol es nulo (porque no tiene cuenta), devuelve "sin definir"
+        IFNULL(rol.nombre, 'Sin definir') AS 'rol',
+        u.estaActivo AS 'estaActivo',
+        u.celular AS 'celular',
+        suc.direccion AS 'lugarTrabajo',
+        CASE WHEN cu.id IS NOT NULL THEN TRUE ELSE FALSE END AS 'tieneCuenta'
+      FROM 
+        usuarios AS u
+      INNER JOIN 
+        sucursales AS suc ON u.sucursal_id = suc.id
+      LEFT JOIN 
+        cuentas_usuario AS cu ON cu.usuario_id = u.id
+      LEFT JOIN 
+        roles AS rol ON cu.rol_id = rol.id;
       `
     );
     if (rows.length === 0) {

@@ -7,6 +7,7 @@ export type Colaborador = {
   estaActivo: boolean;
   celular: string;
   lugarTrabajo: string;
+  tieneCuenta: boolean;
 }
 
 export type resumenColaboradores = {
