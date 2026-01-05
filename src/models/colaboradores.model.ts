@@ -17,7 +17,7 @@ export type resumenColaboradores = {
   sin_cuenta: number;
 }
 
-export type DetallesColaborador = Colaborador & {
+export type DetallesColaborador = {
   id: number;
   nombres: string;
   apellidos: string;
