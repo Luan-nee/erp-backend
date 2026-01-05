@@ -1,5 +1,5 @@
 import { db } from "../config/db.config";
-import type { Colaborador, resumenColaboradores, DetallesColaborador, RegistraCredencialesColaborador } from "../models/colaboradores.model";
+import type { Colaborador, resumenColaboradores, DetallesColaborador, RegistraCredencialesColaborador, DetallesCredencialesColaborador } from "../models/colaboradores.model";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 
 export default class ColaboradoresRepository {
@@ -122,5 +122,32 @@ export default class ColaboradoresRepository {
       [usuario, clave, rol_id, usuario_id]
     );
     return result.insertId;
+  }
+
+  async detallesCredenciales(usuarioId: number): Promise<DetallesCredencialesColaborador | null> {
+    const [rows] = await db.query<RowDataPacket[]>(
+      `
+      SELECT 
+        cu.usuario AS 'usuario',
+        cu.clave AS 'clave',
+        cu.rol_id AS 'rol_id',
+        r.nombre AS 'rol_nombre',
+        u.nombres AS 'usuario_nombres',
+        u.apellidos AS 'usuario_apellidos'
+      FROM
+        cuentas_usuario AS cu
+      INNER JOIN
+        usuarios AS u ON cu.usuario_id = u.id
+      LEFT JOIN
+        roles AS r ON cu.rol_id = r.id
+      WHERE
+        cu.usuario_id = ?;
+      `,
+      [usuarioId]
+    );
+    if (rows.length === 0) {
+      return null;
+    }
+    return rows[0] as DetallesCredencialesColaborador;
   }
 }

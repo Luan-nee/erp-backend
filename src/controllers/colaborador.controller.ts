@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { ApiResponse } from "../models/api-response.model";
-import type { Colaborador, resumenColaboradores, DetallesColaborador, RegistraCredencialesColaborador } from "../models/colaboradores.model";
+import type { Colaborador, resumenColaboradores, DetallesColaborador, RegistraCredencialesColaborador, DetallesCredencialesColaborador } from "../models/colaboradores.model";
 import ColaboradorService from "../services/colaborador.service";
 
 const colaboradorService = new ColaboradorService();
@@ -78,6 +78,21 @@ export default class ColaboradorController {
         info: insertId,
       };
       res.status(201).json(responseBody);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async detallesCredenciales(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const usuarioId = Number(req.params.id_colaborador);
+      const detalles = await colaboradorService.detallesCredenciales(usuarioId);
+      const responseBody: ApiResponse<DetallesCredencialesColaborador | null> = {
+        status: 200,
+        message: "Detalles de credenciales obtenidos exitosamente.",
+        info: detalles,
+      };
+      res.status(200).json(responseBody);
     } catch (error) {
       next(error);
     }

@@ -41,3 +41,13 @@ export type RegistraCredencialesColaborador = {
   rol_id: number;
   usuario_id: number;
 }
+
+export type DetallesCredencialesColaborador = {
+  usuario: string;
+  clave: string;
+  rol_id: number;
+  rol_nombre: number,
+  usuario_id: number;
+  usuario_nombres: string;
+  usuario_apellidos: string;
+}

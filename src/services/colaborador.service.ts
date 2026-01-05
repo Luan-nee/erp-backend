@@ -1,4 +1,4 @@
-import type { Colaborador, resumenColaboradores, DetallesColaborador, RegistraCredencialesColaborador } from "../models/colaboradores.model";
+import type { Colaborador, resumenColaboradores, DetallesColaborador, RegistraCredencialesColaborador, DetallesCredencialesColaborador } from "../models/colaboradores.model";
 import ColaboradoresRepository from "../repositories/colaboradores.repository";
   
 const colaboradoresRepository = new ColaboradoresRepository();
@@ -61,5 +61,15 @@ export default class ColaboradorService {
 
     const insertId = await colaboradoresRepository.registrarCredenciales(payload);
     return insertId;
+  }
+
+  async detallesCredenciales(usuarioId: number): Promise<DetallesCredencialesColaborador | null> {
+    const detalles = await colaboradoresRepository.detallesCredenciales(usuarioId);
+    if (!detalles) {
+      const error: any = new Error(`No se encontraron credenciales para el colaborador con ID ${usuarioId}.`);
+      error.status = 404;
+      throw error;
+    }
+    return detalles;
   }
 }
