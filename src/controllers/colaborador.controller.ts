@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { ApiResponse } from "../models/api-response.model";
-import type { Colaborador, resumenColaboradores, DetallesColaborador } from "../models/colaboradores.model";
+import type { Colaborador, resumenColaboradores, DetallesColaborador, RegistraCredencialesColaborador } from "../models/colaboradores.model";
 import ColaboradorService from "../services/colaborador.service";
 
 const colaboradorService = new ColaboradorService();
@@ -46,6 +46,38 @@ export default class ColaboradorController {
         info: detalles,
       };
       res.status(200).json(responseBody);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async registrarCredenciales(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const usuario_id = Number(req.params.id_colaborador);
+      const usuario = (req.body as RegistraCredencialesColaborador)?.usuario;
+      const clave = (req.body as RegistraCredencialesColaborador)?.clave;
+      const rol_id = Number((req.body as RegistraCredencialesColaborador)?.rol_id);
+
+      if (!usuario || !clave || Number.isNaN(rol_id)) {
+        const error: any = new Error("Faltan datos obligatorios: usuario, clave o rol_id.");
+        error.status = 400;
+        throw error;
+      }
+
+      const payload: RegistraCredencialesColaborador = {
+        usuario,
+        clave,
+        rol_id,
+        usuario_id,
+      } as RegistraCredencialesColaborador;
+
+      const insertId = await colaboradorService.registrarCredenciales(payload);
+      const responseBody: ApiResponse<number> = {
+        status: 201,
+        message: "Credenciales registradas exitosamente.",
+        info: insertId,
+      };
+      res.status(201).json(responseBody);
     } catch (error) {
       next(error);
     }

@@ -34,3 +34,10 @@ export type DetallesColaborador = {
   tieneCuenta: boolean; 
   rol: string; // admin, vendedor, cajero, sin definir
 }
+
+export type RegistraCredencialesColaborador = {
+  usuario: string;
+  clave: string;
+  rol_id: number;
+  usuario_id: number;
+}

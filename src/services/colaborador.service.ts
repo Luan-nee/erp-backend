@@ -1,4 +1,4 @@
-import type { Colaborador, resumenColaboradores, DetallesColaborador } from "../models/colaboradores.model";
+import type { Colaborador, resumenColaboradores, DetallesColaborador, RegistraCredencialesColaborador } from "../models/colaboradores.model";
 import ColaboradoresRepository from "../repositories/colaboradores.repository";
   
 const colaboradoresRepository = new ColaboradoresRepository();
@@ -33,5 +33,33 @@ export default class ColaboradorService {
       throw error;
     }
     return detalles;
+  }
+
+  async registrarCredenciales(payload: RegistraCredencialesColaborador): Promise<number> {
+    const { usuario_id, usuario } = payload;
+
+    const existeUsuario = await colaboradoresRepository.usuarioExiste(usuario_id);
+    if (!existeUsuario) {
+      const error: any = new Error(`El colaborador con ID ${usuario_id} no existe.`);
+      error.status = 404;
+      throw error;
+    }
+
+    const yaTieneCuenta = await colaboradoresRepository.cuentaUsuarioExiste(usuario_id);
+    if (yaTieneCuenta) {
+      const error: any = new Error(`El colaborador con ID ${usuario_id} ya tiene credenciales registradas.`);
+      error.status = 409;
+      throw error;
+    }
+
+    const nombreUsuarioOcupado = await colaboradoresRepository.usuarioNombreExiste(usuario);
+    if (nombreUsuarioOcupado) {
+      const error: any = new Error(`El nombre de usuario '${usuario}' ya está en uso.`);
+      error.status = 409;
+      throw error;
+    }
+
+    const insertId = await colaboradoresRepository.registrarCredenciales(payload);
+    return insertId;
   }
 }

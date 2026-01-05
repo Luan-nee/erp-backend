@@ -1,5 +1,5 @@
 import { db } from "../config/db.config";
-import type { Colaborador, resumenColaboradores, DetallesColaborador } from "../models/colaboradores.model";
+import type { Colaborador, resumenColaboradores, DetallesColaborador, RegistraCredencialesColaborador } from "../models/colaboradores.model";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 
 export default class ColaboradoresRepository {
@@ -89,5 +89,38 @@ export default class ColaboradoresRepository {
       return null;
     }
     return rows[0] as DetallesColaborador;
+  }
+
+  async usuarioExiste(id: number): Promise<boolean> {
+    const [rows] = await db.query<RowDataPacket[]>(
+      `SELECT id FROM usuarios WHERE id = ? LIMIT 1;`,
+      [id]
+    );
+    return rows.length > 0;
+  }
+
+  async cuentaUsuarioExiste(usuarioId: number): Promise<boolean> {
+    const [rows] = await db.query<RowDataPacket[]>(
+      `SELECT id FROM cuentas_usuario WHERE usuario_id = ? LIMIT 1;`,
+      [usuarioId]
+    );
+    return rows.length > 0;
+  }
+
+  async usuarioNombreExiste(usuario: string): Promise<boolean> {
+    const [rows] = await db.query<RowDataPacket[]>(
+      `SELECT id FROM cuentas_usuario WHERE usuario = ? LIMIT 1;`,
+      [usuario]
+    );
+    return rows.length > 0;
+  }
+
+  async registrarCredenciales(payload: RegistraCredencialesColaborador): Promise<number> {
+    const { usuario, clave, rol_id, usuario_id } = payload;
+    const [result] = await db.execute<ResultSetHeader>(
+      `INSERT INTO cuentas_usuario (usuario, clave, rol_id, usuario_id) VALUES (?, ?, ?, ?);`,
+      [usuario, clave, rol_id, usuario_id]
+    );
+    return result.insertId;
   }
 }
