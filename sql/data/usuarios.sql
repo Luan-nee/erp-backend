@@ -18,3 +18,11 @@ INSERT INTO `usuarios` (`nombres`, `apellidos`, `dni`, `estaActivo`, `celular`, 
 INSERT INTO `usuarios` (`nombres`, `apellidos`, `dni`, `estaActivo`, `celular`, `hora_inicio_jornada`, `hora_fin_jornada`, `sueldo`, `sucursal_id`) VALUES
 ('Roberto', 'Díaz Castro', '78901234G', true, '600777888', '08:30:00', '16:30:00', 1450.00, 3),
 ('Ana Belén', 'Molina Ortiz', '89012345H', false, '600888999', '12:00:00', '20:00:00', 1700.25, 3);
+
+-- EMPLEADOS SIN CUENTA DE ACCESO (prueba) en Sucursal ID: 3 (activo)
+INSERT INTO `usuarios` (`nombres`, `apellidos`, `dni`, `estaActivo`, `celular`, `hora_inicio_jornada`, `hora_fin_jornada`, `sueldo`, `sucursal_id`) VALUES
+('Maria Julia', 'Salazar Choque', '12345678', true, '784512960', '12:00:00', '20:00:00', 1700.25, 3);
+
+-- EMPLEADOS SIN CUENTA DE ACCESO (prueba) en Sucursal ID: 3 (inactivo)
+INSERT INTO `usuarios` (`nombres`, `apellidos`, `dni`, `estaActivo`, `celular`, `hora_inicio_jornada`, `hora_fin_jornada`, `sueldo`, `sucursal_id`) VALUES
+('Jose Antonio', 'Racua Quispe', '12345679', false, '784512961', '12:00:00', '20:00:00', 1700.25, 3);
