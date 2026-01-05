@@ -1,4 +1,4 @@
-import type { Colaborador, resumenColaboradores, DetallesColaborador, RegistraCredencialesColaborador, DetallesCredencialesColaborador } from "../models/colaboradores.model";
+import type { Colaborador, resumenColaboradores, DetallesColaborador, RegistraCredencialesColaborador, DetallesCredencialesColaborador, RegistrarColaborador } from "../models/colaboradores.model";
 import ColaboradoresRepository from "../repositories/colaboradores.repository";
   
 const colaboradoresRepository = new ColaboradoresRepository();
@@ -71,5 +71,18 @@ export default class ColaboradorService {
       throw error;
     }
     return detalles;
+  }
+
+  async crearColaborador(payload: RegistrarColaborador): Promise<number> {
+    const { nombres, apellidos, dni, id_sucursal } = payload;
+
+    if (!nombres || !apellidos || !dni || !id_sucursal) {
+      const error: any = new Error("Faltan datos obligatorios: nombres, apellidos, dni o id_sucursal.");
+      error.status = 400;
+      throw error;
+    }
+
+    const insertId = await colaboradoresRepository.crearColaborador(payload);
+    return insertId;
   }
 }

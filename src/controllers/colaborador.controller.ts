@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { ApiResponse } from "../models/api-response.model";
-import type { Colaborador, resumenColaboradores, DetallesColaborador, RegistraCredencialesColaborador, DetallesCredencialesColaborador } from "../models/colaboradores.model";
+import type { Colaborador, resumenColaboradores, DetallesColaborador, RegistraCredencialesColaborador, DetallesCredencialesColaborador, RegistrarColaborador } from "../models/colaboradores.model";
 import ColaboradorService from "../services/colaborador.service";
 
 const colaboradorService = new ColaboradorService();
@@ -86,6 +86,11 @@ export default class ColaboradorController {
   async detallesCredenciales(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const usuarioId = Number(req.params.id_colaborador);
+      if (Number.isNaN(usuarioId)) {
+        const error: any = new Error("El ID del colaborador debe ser un número válido.");
+        error.status = 400;
+        throw error;
+      }
       const detalles = await colaboradorService.detallesCredenciales(usuarioId);
       const responseBody: ApiResponse<DetallesCredencialesColaborador | null> = {
         status: 200,
@@ -93,6 +98,21 @@ export default class ColaboradorController {
         info: detalles,
       };
       res.status(200).json(responseBody);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async crearColaborador(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const payload: RegistrarColaborador = req.body as RegistrarColaborador;
+      const insertId = await colaboradorService.crearColaborador(payload);
+      const responseBody: ApiResponse<number> = {
+        status: 201,
+        message: "Colaborador registrado exitosamente.",
+        info: insertId,
+      };
+      res.status(201).json(responseBody);
     } catch (error) {
       next(error);
     }

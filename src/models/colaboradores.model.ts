@@ -50,3 +50,15 @@ export type DetallesCredencialesColaborador = {
   usuario_nombres: string;
   usuario_apellidos: string;
 }
+
+export type RegistrarColaborador = {
+  nombres: string;
+  apellidos: string;
+  dni: string;
+  estaActivo: boolean;
+  celular: string;
+  hora_inicio_jornada: string;
+  hora_fin_jornada: string;
+  sueldo: number;
+  id_sucursal: number;
+}

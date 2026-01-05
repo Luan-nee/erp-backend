@@ -5,6 +5,7 @@ const router = Router();
 const colaboradorController = new ColaboradorController();
 
 router.get('/resumen', colaboradorController.resumenColaboradores);
+router.post('/', colaboradorController.crearColaborador);
 router.post('/:id_colaborador/credenciales', colaboradorController.registrarCredenciales);
 router.get('/:id_colaborador/detallesCredenciales', colaboradorController.detallesCredenciales);
 router.get('/:id_colaborador', colaboradorController.detallesColaborador);

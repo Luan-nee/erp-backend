@@ -1,5 +1,5 @@
 import { db } from "../config/db.config";
-import type { Colaborador, resumenColaboradores, DetallesColaborador, RegistraCredencialesColaborador, DetallesCredencialesColaborador } from "../models/colaboradores.model";
+import type { Colaborador, resumenColaboradores, DetallesColaborador, RegistraCredencialesColaborador, DetallesCredencialesColaborador, RegistrarColaborador } from "../models/colaboradores.model";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 
 export default class ColaboradoresRepository {
@@ -149,5 +149,14 @@ export default class ColaboradoresRepository {
       return null;
     }
     return rows[0] as DetallesCredencialesColaborador;
+  }
+
+  async crearColaborador(payload: RegistrarColaborador): Promise<number> {
+    const { nombres, apellidos, dni, estaActivo, celular, hora_inicio_jornada, hora_fin_jornada, sueldo, id_sucursal } = payload;
+    const [result] = await db.execute<ResultSetHeader>(
+      `INSERT INTO usuarios (nombres, apellidos, dni, estaActivo, celular, hora_inicio_jornada, hora_fin_jornada, sueldo, sucursal_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+      [nombres, apellidos, dni, estaActivo, celular, hora_inicio_jornada, hora_fin_jornada, sueldo, id_sucursal]
+    );
+    return result.insertId;
   }
 }
