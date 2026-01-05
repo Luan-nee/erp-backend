@@ -46,8 +46,7 @@ export type DetallesCredencialesColaborador = {
   usuario: string;
   clave: string;
   rol_id: number;
-  rol_nombre: number,
-  usuario_id: number;
+  rol_nombre: string;
   usuario_nombres: string;
   usuario_apellidos: string;
 }
