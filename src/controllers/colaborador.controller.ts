@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { ApiResponse } from "../models/api-response.model";
-import type { Colaborador, resumenColaboradores } from "../models/colaboradores.model";
+import type { Colaborador, resumenColaboradores, DetallesColaborador } from "../models/colaboradores.model";
 import ColaboradorService from "../services/colaborador.service";
 
 const colaboradorService = new ColaboradorService();
@@ -32,6 +32,21 @@ export default class ColaboradorController {
       res.status(200).json(responseBody);
     }
     catch (error) {
+      next(error);
+    }
+  }
+
+  async detallesColaborador(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const id = Number(req.params.id_colaborador);
+      const detalles = await colaboradorService.detallesColaborador(id);
+      const responseBody: ApiResponse<DetallesColaborador | null> = {
+        status: 200,
+        message: "Detalles del colaborador recuperados exitosamente.",
+        info: detalles,
+      };
+      res.status(200).json(responseBody);
+    } catch (error) {
       next(error);
     }
   }

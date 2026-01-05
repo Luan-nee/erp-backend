@@ -1,4 +1,4 @@
-import type { Colaborador, resumenColaboradores } from "../models/colaboradores.model";
+import type { Colaborador, resumenColaboradores, DetallesColaborador } from "../models/colaboradores.model";
 import ColaboradoresRepository from "../repositories/colaboradores.repository";
   
 const colaboradoresRepository = new ColaboradoresRepository();
@@ -23,5 +23,15 @@ export default class ColaboradorService {
       throw error;
     }
     return resumen;
+  }
+
+  async detallesColaborador(id: number): Promise<DetallesColaborador | null> {
+    const detalles = await colaboradoresRepository.detallesColaborador(id);
+    if (!detalles) {
+      const error: any = new Error(`Colaborador con ID ${id} no encontrado.`);
+      error.status = 404;
+      throw error;
+    }
+    return detalles;
   }
 }

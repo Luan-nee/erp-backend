@@ -1,5 +1,5 @@
 import { db } from "../config/db.config";
-import type { Colaborador, resumenColaboradores } from "../models/colaboradores.model";
+import type { Colaborador, resumenColaboradores, DetallesColaborador } from "../models/colaboradores.model";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 
 export default class ColaboradoresRepository {
@@ -51,5 +51,43 @@ export default class ColaboradoresRepository {
       return null;
     }
     return rows[0] as resumenColaboradores;
+  }
+
+  async detallesColaborador(id: number): Promise<DetallesColaborador | null> {
+    const [rows] = await db.query<RowDataPacket[]>(
+      `
+      SELECT 
+        u.id AS 'id',
+        u.nombres AS 'nombres',
+        u.apellidos AS 'apellidos',
+        u.dni AS 'dni',
+        u.estaActivo AS 'estaActivo',
+        u.celular AS 'celular',
+        u.hora_inicio_jornada AS 'hora_inicio_jornada',
+        u.hora_fin_jornada AS 'hora_fin_jornada',
+        u.sueldo AS 'sueldo',
+        u.sucursal_id AS 'id_sucursal',
+        suc.direccion AS 'lugarTrabajo',
+        u.fecha_contratacion AS 'fecha_contratacion',
+        u.fecha_actualizacion AS 'fecha_actualizacion',
+        CASE WHEN cu.id IS NOT NULL THEN TRUE ELSE FALSE END AS 'tieneCuenta',
+        IFNULL(rol.nombre, 'Sin definir') AS 'rol'
+      FROM
+        usuarios AS u
+      LEFT JOIN 
+        cuentas_usuario AS cu ON cu.usuario_id = u.id
+      LEFT JOIN
+        sucursales AS suc ON u.sucursal_id = suc.id 
+      LEFT JOIN 
+        roles AS rol ON cu.rol_id = rol.id
+      WHERE
+        u.id = ?;
+      `,
+      [id]
+    );
+    if (rows.length === 0) {
+      return null;
+    }
+    return rows[0] as DetallesColaborador;
   }
 }
