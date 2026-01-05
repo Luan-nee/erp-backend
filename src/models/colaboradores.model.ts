@@ -14,4 +14,5 @@ export type resumenColaboradores = {
   total_colaboradores: number;
   activos: number;
   inactivos: number;
+  sin_cuenta: number;
 }

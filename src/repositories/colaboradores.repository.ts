@@ -36,10 +36,15 @@ export default class ColaboradoresRepository {
     const [rows] = await db.query<RowDataPacket[]>(
       `
       SELECT 
-          COUNT(*) AS total_colaboradores,
-          SUM(estaActivo = 1) AS activos,
-          SUM(estaActivo = 0) AS inactivos
-      FROM usuarios;
+          COUNT(u.id) AS total_colaboradores,
+          SUM(u.estaActivo = 1) AS activos,
+          SUM(u.estaActivo = 0) AS inactivos,
+          -- Contamos las filas donde el ID de la cuenta es NULL
+          SUM(cu.id IS NULL) AS sin_cuenta
+      FROM 
+          usuarios AS u
+      LEFT JOIN 
+          cuentas_usuario AS cu ON u.id = cu.usuario_id;
       `
     );
     if (rows.length === 0) {
